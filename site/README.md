@@ -1,23 +1,34 @@
 # Registry web UI
 
-A self-contained static site that browses this pack registry. It scans every pack's
-`metadata.hcl`, `variables.hcl`, and `README.md`, and renders a searchable catalog with a
-per-pack detail view (variables table + rendered readme + copy-paste run command).
+An [Astro](https://astro.build) static site that browses this pack registry. At build
+time it scans every pack's `metadata.hcl`, `variables.hcl`, and `README.md`
+(`src/lib/packs.js`) and generates a searchable catalog plus a static page per pack
+(variables table + rendered readme + copy-paste run command).
 
-## Build locally
+## Develop
 
 ```sh
-node site/build.mjs          # writes site/dist/index.html (zero dependencies)
-cd site/dist && python3 -m http.server 8099   # then open http://127.0.0.1:8099
+cd site
+npm install
+npm run dev       # http://localhost:4321/nomad-packs/
 ```
 
-Open `site/dist/index.html` directly too — all pack data is inlined; only the Markdown
-renderer (`marked`) loads from a CDN, and there's a plain-text fallback if it's blocked.
+## Build
+
+```sh
+cd site
+npm run build     # outputs site/dist/ (static)
+npm run preview   # serve the build locally
+```
+
+Config lives in `astro.config.mjs` — `base: /nomad-packs` for the GitHub Pages project
+subpath. Adding or editing a pack under `../packs/` is automatically picked up on the next
+build; no code change needed here.
 
 ## Deploy
 
-`.github/workflows/pages.yml` rebuilds and publishes to **GitHub Pages** on every push to
-`master` that touches `packs/**` or `site/**`. It needs Pages set to the **GitHub Actions**
-source once (repo Settings → Pages → Build and deployment → Source: GitHub Actions).
+`.github/workflows/pages.yml` runs `npm ci && npm run build` and publishes `site/dist` to
+**GitHub Pages** on every push to `master` touching `packs/**` or `site/**`.
 
-The published URL is `https://nomploy.github.io/nomad-packs/`.
+One-time: repo Settings → Pages → Source = **GitHub Actions**. Published at
+`https://nomploy.github.io/nomad-packs/`.

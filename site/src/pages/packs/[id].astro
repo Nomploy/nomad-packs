@@ -1,0 +1,84 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getPacks } from "../../lib/packs.js";
+
+export function getStaticPaths() {
+  return getPacks().map((p) => ({ params: { id: p.id }, props: { pack: p } }));
+}
+
+const { pack } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const runCmd = `nomad-pack run ${pack.id} --registry nomploy`;
+---
+
+<Base title={`${pack.name} — Nomploy Nomad Packs`} description={pack.description}>
+  <p class="crumb"><a href={base}>← All packs</a></p>
+
+  <div class="head">
+    <h1>{pack.name} <span class="ver">v{pack.version || "?"}</span></h1>
+    <span class="cat">{pack.category}</span>
+  </div>
+  <p class="desc">{pack.description}</p>
+
+  <div class="addcmd">
+    <div class="cmd" id="runcmd">{runCmd}</div>
+    <button class="copy" data-copy="#runcmd">Copy</button>
+  </div>
+  <p class="links">
+    <a href={pack.sourceUrl} target="_blank" rel="noopener">Source ↗</a>
+    {pack.appUrl && <a href={pack.appUrl} target="_blank" rel="noopener">Project ↗</a>}
+  </p>
+
+  {
+    pack.variables.length > 0 && (
+      <>
+        <div class="section-title">Variables</div>
+        <table class="vartable">
+          <thead>
+            <tr><th>Name</th><th>Default</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            {pack.variables.map((v) => (
+              <tr>
+                <td class="mono">{v.name}</td>
+                <td class="mono">{v.default || "—"}</td>
+                <td>{v.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </>
+    )
+  }
+
+  {
+    pack.readmeHtml && (
+      <>
+        <div class="section-title">Readme</div>
+        <div class="md" set:html={pack.readmeHtml} />
+      </>
+    )
+  }
+</Base>
+
+<style>
+  .crumb { margin: 16px 0 0; font-size: 13px; }
+  .head { display: flex; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+  .head h1 { margin: 0; font-size: 26px; letter-spacing: -.02em; }
+  .desc { color: var(--muted); margin: 6px 0 16px; }
+  .links { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; margin: 8px 0 0; }
+</style>
+
+<script>
+  document.querySelectorAll(".copy").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const el = document.querySelector(btn.dataset.copy);
+      try {
+        await navigator.clipboard.writeText(el.textContent);
+        const o = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = o), 1200);
+      } catch {}
+    });
+  });
+</script>
