@@ -69,6 +69,8 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
   .chip.on .c { opacity: .85; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; padding: 20px 0 8px; }
   .pcard { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); transition: transform .08s ease, border-color .12s ease; color: inherit; display: flex; flex-direction: column; }
+  /* the author display:flex above beats the UA [hidden] rule, so filtering needs this */
+  .pcard[hidden] { display: none !important; }
   .pcard:hover { transform: translateY(-2px); border-color: var(--accent); text-decoration: none; }
   .phead { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
   .pmeta { min-width: 0; }
