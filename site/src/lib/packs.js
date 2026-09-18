@@ -18,13 +18,17 @@ const CATEGORIES = {
   postgres: "Databases", mariadb: "Databases", redis: "Databases", clickhouse: "Databases",
   seaweedfs: "Object storage",
   rabbitmq: "Messaging", nats: "Messaging",
-  monitoring: "Observability", loki: "Observability", grafana: "Observability",
+  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability",
   keycloak: "Identity", vaultwarden: "Identity",
-  gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools",
+  gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools",
   n8n: "Automation",
-  metabase: "Analytics",
+  metabase: "Analytics", umami: "Analytics",
   "uptime-kuma": "Apps", nginx: "Apps",
   fleet: "Device management",
+  memcached: "Databases",
+  meilisearch: "Search",
+  ntfy: "Notifications",
+  backup: "Backup",
 };
 
 const readIf = (p) => (existsSync(p) ? readFileSync(p, "utf8") : "");

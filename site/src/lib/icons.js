@@ -25,6 +25,9 @@ const BRAND = {
   metabase: "metabase",
   vaultwarden: "vaultwarden",
   "uptime-kuma": "uptimekuma",
+  meilisearch: "meilisearch",
+  umami: "umami",
+  ntfy: "ntfy",
 };
 
 export const CATEGORY_COLORS = {
@@ -38,6 +41,9 @@ export const CATEGORY_COLORS = {
   Analytics: "#509EE3",
   Apps: "#0EA5E9",
   "Device management": "#0891B2",
+  Search: "#14B8A6",
+  Notifications: "#EAB308",
+  Backup: "#D97706",
   Other: "#64748B",
 };
 
