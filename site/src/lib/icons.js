@@ -30,6 +30,7 @@ const BRAND = {
   ntfy: "ntfy",
   excalidraw: "excalidraw",
   "code-server": "coder",
+  plausible: "plausibleanalytics",
 };
 
 export const CATEGORY_COLORS = {
