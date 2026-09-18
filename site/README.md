@@ -39,8 +39,9 @@ The build also emits static JSON so other tools (e.g. the nomploy panel) can off
 "available packs" search without cloning or parsing the registry:
 
 - **`/api/packs.json`** — index of every pack: `id`, `name`, `description`, `version`,
-  `category`, `sourceUrl`, `appUrl`, `runCommand`, and `variables` (readme bodies omitted to
-  keep it small). One fetch is enough to power client-side search.
+  `category`, `sourceUrl`, `appUrl`, `runCommand`, `variables`, and `icon` (either
+  `{kind:"brand",slug,hex,title}` for a simple-icons glyph or `{kind:"monogram",text,color}`)
+  — readme bodies omitted to keep it small. One fetch powers client-side search.
 - **`/api/packs/<id>.json`** — full detail for one pack, adding `readme` (raw markdown) and
   `readmeHtml` (rendered).
 

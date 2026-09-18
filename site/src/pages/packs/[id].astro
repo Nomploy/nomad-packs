@@ -15,8 +15,15 @@ const runCmd = `nomad-pack run ${pack.id} --registry nomploy`;
   <p class="crumb"><a href={base}>← All packs</a></p>
 
   <div class="head">
-    <h1>{pack.name} <span class="ver">v{pack.version || "?"}</span></h1>
-    <span class="cat">{pack.category}</span>
+    {pack.icon.kind === "brand" ? (
+      <div class="logo logo-lg" style={`color:${pack.icon.hex}`} set:html={pack.iconSvg} />
+    ) : (
+      <div class="logo logo-lg mono" style={`background:${pack.icon.color}`}>{pack.icon.text}</div>
+    )}
+    <div>
+      <h1>{pack.name} <span class="ver">v{pack.version || "?"}</span></h1>
+      <span class="cat">{pack.category}</span>
+    </div>
   </div>
   <p class="desc">{pack.description}</p>
 
