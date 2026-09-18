@@ -80,7 +80,10 @@ export function getPacks() {
         sourceUrl: meta.sourceUrl || `${REPO_URL}/tree/main/packs/${d}`,
         appUrl: meta.appUrl,
         category: CATEGORIES[d] || "Other",
+        registry: REGISTRY_URL,
+        runCommand: `nomad-pack run ${d} --registry nomploy`,
         variables: parseVariables(readIf(join(dir, "variables.hcl"))),
+        readme,
         readmeHtml: readme ? marked.parse(readme) : "",
       };
     })
