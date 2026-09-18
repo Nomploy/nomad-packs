@@ -28,6 +28,8 @@ const BRAND = {
   meilisearch: "meilisearch",
   umami: "umami",
   ntfy: "ntfy",
+  excalidraw: "excalidraw",
+  "code-server": "coder",
 };
 
 export const CATEGORY_COLORS = {
