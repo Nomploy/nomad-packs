@@ -1,0 +1,104 @@
+---
+import Base from "../layouts/Base.astro";
+import { getPacks, getCategories, REGISTRY_URL } from "../lib/packs.js";
+
+const packs = getPacks();
+const categories = getCategories();
+const base = import.meta.env.BASE_URL;
+const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
+---
+
+<Base>
+  <p class="tag">Batteries-included infrastructure for Nomad — one command to add, one to run.</p>
+
+  <div class="addcmd">
+    <div class="cmd" id="addcmd">{addCmd}</div>
+    <button class="copy" data-copy="#addcmd">Copy</button>
+  </div>
+
+  <div class="controls">
+    <input id="q" type="search" placeholder="Search packs…" autocomplete="off" />
+    <div class="chips" id="chips">
+      <span class="chip on" data-cat="">All</span>
+      {categories.map((c) => <span class="chip" data-cat={c}>{c}</span>)}
+    </div>
+  </div>
+
+  <div class="grid" id="grid">
+    {
+      packs.map((p) => (
+        <a
+          class="pcard"
+          href={`${base}packs/${p.id}/`}
+          data-name={p.name.toLowerCase()}
+          data-desc={(p.description || "").toLowerCase()}
+          data-cat={p.category}
+        >
+          <div class="cat">{p.category}</div>
+          <h3>{p.name} <span class="ver">v{p.version || "?"}</span></h3>
+          <p>{p.description}</p>
+        </a>
+      ))
+    }
+  </div>
+  <div class="empty" id="empty" hidden>No packs match.</div>
+  <p class="count">{packs.length} packs</p>
+</Base>
+
+<style>
+  .tag { color: var(--muted); margin: 8px 0 20px; }
+  .controls { position: sticky; top: 0; background: var(--bg); padding: 14px 0; z-index: 5; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border); }
+  #q { flex: 1; min-width: 220px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font-size: 15px; }
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { background: var(--chip); border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 5px 11px; font-size: 13px; cursor: pointer; user-select: none; }
+  .chip.on { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; padding: 20px 0 8px; }
+  .pcard { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); transition: transform .08s ease, border-color .12s ease; color: inherit; }
+  .pcard:hover { transform: translateY(-2px); border-color: var(--accent); text-decoration: none; }
+  .pcard h3 { margin: 4px 0 6px; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+  .pcard p { margin: 0; color: var(--muted); font-size: 13.5px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .empty { color: var(--muted); padding: 40px 0; text-align: center; }
+  .count { color: var(--muted); font-size: 13px; }
+</style>
+
+<script>
+  const q = document.getElementById("q");
+  const chips = document.getElementById("chips");
+  const cards = [...document.querySelectorAll(".pcard")];
+  const empty = document.getElementById("empty");
+  let activeCat = "";
+
+  function apply() {
+    const term = q.value.trim().toLowerCase();
+    let shown = 0;
+    for (const c of cards) {
+      const okCat = !activeCat || c.dataset.cat === activeCat;
+      const okText = !term || c.dataset.name.includes(term) || c.dataset.desc.includes(term);
+      const show = okCat && okText;
+      c.hidden = !show;
+      if (show) shown++;
+    }
+    empty.hidden = shown > 0;
+  }
+
+  q.addEventListener("input", apply);
+  chips.addEventListener("click", (e) => {
+    const chip = e.target.closest(".chip");
+    if (!chip) return;
+    activeCat = chip.dataset.cat;
+    chips.querySelectorAll(".chip").forEach((c) => c.classList.toggle("on", c === chip));
+    apply();
+  });
+
+  document.querySelectorAll(".copy").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const el = document.querySelector(btn.dataset.copy);
+      try {
+        await navigator.clipboard.writeText(el.textContent);
+        const o = btn.textContent;
+        btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = o), 1200);
+      } catch {}
+    });
+  });
+</script>
