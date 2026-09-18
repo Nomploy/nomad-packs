@@ -4,6 +4,7 @@ import { getPacks, getCategories, REGISTRY_URL } from "../lib/packs.js";
 
 const packs = getPacks();
 const categories = getCategories();
+const counts = Object.fromEntries(categories.map((c) => [c, packs.filter((p) => p.category === c).length]));
 const base = import.meta.env.BASE_URL;
 const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
 ---
@@ -17,10 +18,12 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
   </div>
 
   <div class="controls">
-    <input id="q" type="search" placeholder="Search packs…" autocomplete="off" />
+    <input id="q" type="search" placeholder="Search packs…  ( / )" autocomplete="off" />
     <div class="chips" id="chips">
-      <span class="chip on" data-cat="">All</span>
-      {categories.map((c) => <span class="chip" data-cat={c}>{c}</span>)}
+      <span class="chip on" data-cat="">All <span class="c">{packs.length}</span></span>
+      {categories.map((c) => (
+        <span class="chip" data-cat={c}>{c} <span class="c">{counts[c]}</span></span>
+      ))}
     </div>
   </div>
 
@@ -34,15 +37,25 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
           data-desc={(p.description || "").toLowerCase()}
           data-cat={p.category}
         >
-          <div class="cat">{p.category}</div>
-          <h3>{p.name} <span class="ver">v{p.version || "?"}</span></h3>
+          <div class="phead">
+            {p.icon.kind === "brand" ? (
+              <div class="logo" style={`color:${p.icon.hex}`} set:html={p.iconSvg} />
+            ) : (
+              <div class="logo mono" style={`background:${p.icon.color}`}>{p.icon.text}</div>
+            )}
+            <div class="pmeta">
+              <div class="cat">{p.category}</div>
+              <h3>{p.name} <span class="ver">v{p.version || "?"}</span></h3>
+            </div>
+          </div>
           <p>{p.description}</p>
+          <div class="foot">{p.variables.length} variables →</div>
         </a>
       ))
     }
   </div>
   <div class="empty" id="empty" hidden>No packs match.</div>
-  <p class="count">{packs.length} packs</p>
+  <p class="count" id="count">{packs.length} packs</p>
 </Base>
 
 <style>
@@ -50,13 +63,18 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
   .controls { position: sticky; top: 0; background: var(--bg); padding: 14px 0; z-index: 5; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border); }
   #q { flex: 1; min-width: 220px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font-size: 15px; }
   .chips { display: flex; gap: 6px; flex-wrap: wrap; }
-  .chip { background: var(--chip); border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 5px 11px; font-size: 13px; cursor: pointer; user-select: none; }
+  .chip { background: var(--chip); border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 5px 11px; font-size: 13px; cursor: pointer; user-select: none; display: inline-flex; align-items: center; gap: 6px; }
+  .chip .c { font-size: 11px; opacity: .7; }
   .chip.on { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+  .chip.on .c { opacity: .85; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; padding: 20px 0 8px; }
-  .pcard { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); transition: transform .08s ease, border-color .12s ease; color: inherit; }
+  .pcard { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); transition: transform .08s ease, border-color .12s ease; color: inherit; display: flex; flex-direction: column; }
   .pcard:hover { transform: translateY(-2px); border-color: var(--accent); text-decoration: none; }
-  .pcard h3 { margin: 4px 0 6px; font-size: 17px; display: flex; align-items: center; gap: 8px; }
-  .pcard p { margin: 0; color: var(--muted); font-size: 13.5px; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .phead { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }
+  .pmeta { min-width: 0; }
+  .pcard h3 { margin: 2px 0 0; font-size: 17px; display: flex; align-items: center; gap: 8px; }
+  .pcard p { margin: 0; color: var(--muted); font-size: 13.5px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .foot { margin-top: 12px; color: var(--muted); font-size: 12px; }
   .empty { color: var(--muted); padding: 40px 0; text-align: center; }
   .count { color: var(--muted); font-size: 13px; }
 </style>
@@ -66,6 +84,8 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
   const chips = document.getElementById("chips");
   const cards = [...document.querySelectorAll(".pcard")];
   const empty = document.getElementById("empty");
+  const count = document.getElementById("count");
+  const total = cards.length;
   let activeCat = "";
 
   function apply() {
@@ -79,6 +99,7 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
       if (show) shown++;
     }
     empty.hidden = shown > 0;
+    count.textContent = shown === total ? `${total} packs` : `${shown} of ${total} packs`;
   }
 
   q.addEventListener("input", apply);
@@ -90,8 +111,15 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
     apply();
   });
 
+  // "/" focuses search; Escape clears it.
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "/" && document.activeElement !== q) { e.preventDefault(); q.focus(); }
+    else if (e.key === "Escape" && document.activeElement === q) { q.value = ""; apply(); q.blur(); }
+  });
+
   document.querySelectorAll(".copy").forEach((btn) => {
-    btn.addEventListener("click", async () => {
+    btn.addEventListener("click", async (e) => {
+      e.preventDefault();
       const el = document.querySelector(btn.dataset.copy);
       try {
         await navigator.clipboard.writeText(el.textContent);

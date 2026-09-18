@@ -7,7 +7,8 @@ export function getStaticPaths() {
 }
 
 export function GET({ props }) {
-  return new Response(JSON.stringify(props.pack), {
+  const { iconSvg, ...pack } = props.pack;
+  return new Response(JSON.stringify(pack), {
     headers: {
       "content-type": "application/json; charset=utf-8",
       "access-control-allow-origin": "*",

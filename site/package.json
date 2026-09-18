@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "astro": "^4.16.18",
-    "marked": "^12.0.2"
+    "marked": "^12.0.2",
+    "simple-icons": "^13.21.0"
   }
 }

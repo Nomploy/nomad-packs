@@ -5,7 +5,7 @@
 import { getPacks, REGISTRY_URL, REPO_URL } from "../../lib/packs.js";
 
 export function GET() {
-  const packs = getPacks().map(({ readme, readmeHtml, ...rest }) => rest);
+  const packs = getPacks().map(({ readme, readmeHtml, iconSvg, ...rest }) => rest);
   const body = {
     registry: REGISTRY_URL,
     repo: REPO_URL,

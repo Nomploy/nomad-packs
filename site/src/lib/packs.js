@@ -4,6 +4,7 @@ import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { marked } from "marked";
+import { resolveIcon } from "./icons.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PACKS_DIR = join(HERE, "..", "..", "..", "packs");
@@ -72,17 +73,22 @@ export function getPacks() {
       const dir = join(PACKS_DIR, d);
       const meta = parseMetadata(readIf(join(dir, "metadata.hcl")));
       const readme = readIf(join(dir, "README.md"));
+      const name = meta.name || d;
+      const category = CATEGORIES[d] || "Other";
+      const icon = resolveIcon(d, name, category);
       return {
         id: d,
-        name: meta.name || d,
+        name,
         description: meta.description,
         version: meta.version,
         sourceUrl: meta.sourceUrl || `${REPO_URL}/tree/main/packs/${d}`,
         appUrl: meta.appUrl,
-        category: CATEGORIES[d] || "Other",
+        category,
         registry: REGISTRY_URL,
         runCommand: `nomad-pack run ${d} --registry nomploy`,
         variables: parseVariables(readIf(join(dir, "variables.hcl"))),
+        icon: icon.compact,
+        iconSvg: icon.svg,
         readme,
         readmeHtml: readme ? marked.parse(readme) : "",
       };
