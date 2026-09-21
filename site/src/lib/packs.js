@@ -18,7 +18,7 @@ const CATEGORIES = {
   postgres: "Databases", mariadb: "Databases", redis: "Databases", clickhouse: "Databases",
   seaweedfs: "Object storage",
   rabbitmq: "Messaging", nats: "Messaging",
-  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability",
+  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability",
   keycloak: "Identity", vaultwarden: "Identity",
   gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools",
   n8n: "Automation",

@@ -38,6 +38,7 @@ const BRAND = {
   ollama: "ollama",
   ferretdb: "ferretdb",
   victoriametrics: "victoriametrics",
+  jaeger: "jaeger",
 };
 
 export const CATEGORY_COLORS = {
