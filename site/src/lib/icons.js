@@ -35,6 +35,7 @@ const BRAND = {
   whoami: "traefikproxy",
   ghost: "ghost",
   homepage: "homepage",
+  ollama: "ollama",
 };
 
 export const CATEGORY_COLORS = {
@@ -52,6 +53,7 @@ export const CATEGORY_COLORS = {
   Notifications: "#EAB308",
   Backup: "#D97706",
   Networking: "#06B6D4",
+  AI: "#6366F1",
   Other: "#64748B",
 };
 
