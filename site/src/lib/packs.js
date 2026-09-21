@@ -23,7 +23,7 @@ const CATEGORIES = {
   gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools",
   n8n: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics",
-  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps",
+  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps",
   fleet: "Device management",
   memcached: "Databases",
   meilisearch: "Search",

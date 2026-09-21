@@ -33,6 +33,7 @@ const BRAND = {
   plausible: "plausibleanalytics",
   cloudflared: "cloudflare",
   whoami: "traefikproxy",
+  ghost: "ghost",
 };
 
 export const CATEGORY_COLORS = {
