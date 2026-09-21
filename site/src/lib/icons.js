@@ -36,6 +36,7 @@ const BRAND = {
   ghost: "ghost",
   homepage: "homepage",
   ollama: "ollama",
+  ferretdb: "ferretdb",
 };
 
 export const CATEGORY_COLORS = {
@@ -54,6 +55,7 @@ export const CATEGORY_COLORS = {
   Backup: "#D97706",
   Networking: "#06B6D4",
   AI: "#6366F1",
+  Secrets: "#9333EA",
   Other: "#64748B",
 };
 

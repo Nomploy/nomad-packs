@@ -26,11 +26,12 @@ const CATEGORIES = {
   "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps",
   fleet: "Device management",
   ollama: "AI",
-  memcached: "Databases",
+  memcached: "Databases", ferretdb: "Databases",
   meilisearch: "Search",
   ntfy: "Notifications", gotify: "Notifications",
   backup: "Backup",
   cloudflared: "Networking", whoami: "Networking",
+  openbao: "Secrets",
 };
 
 const readIf = (p) => (existsSync(p) ? readFileSync(p, "utf8") : "");
