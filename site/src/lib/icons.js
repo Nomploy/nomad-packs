@@ -31,6 +31,8 @@ const BRAND = {
   excalidraw: "excalidraw",
   "code-server": "coder",
   plausible: "plausibleanalytics",
+  cloudflared: "cloudflare",
+  whoami: "traefikproxy",
 };
 
 export const CATEGORY_COLORS = {
@@ -47,6 +49,7 @@ export const CATEGORY_COLORS = {
   Search: "#14B8A6",
   Notifications: "#EAB308",
   Backup: "#D97706",
+  Networking: "#06B6D4",
   Other: "#64748B",
 };
 

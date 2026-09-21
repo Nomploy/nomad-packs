@@ -20,7 +20,7 @@ const CATEGORIES = {
   rabbitmq: "Messaging", nats: "Messaging",
   monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability",
   keycloak: "Identity", vaultwarden: "Identity",
-  gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools",
+  gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools",
   n8n: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics",
   "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps",
@@ -29,6 +29,7 @@ const CATEGORIES = {
   meilisearch: "Search",
   ntfy: "Notifications",
   backup: "Backup",
+  cloudflared: "Networking", whoami: "Networking",
 };
 
 const readIf = (p) => (existsSync(p) ? readFileSync(p, "utf8") : "");
