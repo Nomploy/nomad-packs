@@ -37,6 +37,7 @@ const BRAND = {
   homepage: "homepage",
   ollama: "ollama",
   ferretdb: "ferretdb",
+  victoriametrics: "victoriametrics",
 };
 
 export const CATEGORY_COLORS = {
