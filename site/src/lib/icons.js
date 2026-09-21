@@ -34,6 +34,7 @@ const BRAND = {
   cloudflared: "cloudflare",
   whoami: "traefikproxy",
   ghost: "ghost",
+  homepage: "homepage",
 };
 
 export const CATEGORY_COLORS = {
