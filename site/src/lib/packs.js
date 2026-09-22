@@ -17,7 +17,7 @@ export { REPO_URL };
 const CATEGORIES = {
   postgres: "Databases", mariadb: "Databases", redis: "Databases", clickhouse: "Databases",
   seaweedfs: "Object storage",
-  rabbitmq: "Messaging", nats: "Messaging",
+  rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging",
   monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability",
   keycloak: "Identity", vaultwarden: "Identity",
   gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools",
@@ -26,8 +26,8 @@ const CATEGORIES = {
   "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps",
   fleet: "Device management",
   ollama: "AI", qdrant: "AI", "open-webui": "AI",
-  memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases",
-  meilisearch: "Search",
+  memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases",
+  meilisearch: "Search", typesense: "Search",
   ntfy: "Notifications", gotify: "Notifications",
   backup: "Backup",
   cloudflared: "Networking", whoami: "Networking",
@@ -94,6 +94,7 @@ const GITHUB_REPO = {
   docmost: "docmost/docmost", directus: "directus/directus", pocketbase: "pocketbase/pocketbase",
   redisinsight: "RedisInsight/RedisInsight",
   qdrant: "qdrant/qdrant", "open-webui": "open-webui/open-webui", timescaledb: "timescale/timescaledb",
+  typesense: "typesense/typesense", surrealdb: "surrealdb/surrealdb", mosquitto: "eclipse/mosquitto",
 };
 
 function formatStars(n) {
