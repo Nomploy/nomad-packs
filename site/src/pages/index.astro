@@ -10,12 +10,23 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
 ---
 
 <Base>
-  <p class="tag">Batteries-included infrastructure for Nomad — one command to add, one to run.</p>
-
-  <div class="addcmd">
-    <div class="cmd" id="addcmd">{addCmd}</div>
-    <button class="copy" data-copy="#addcmd">Copy</button>
-  </div>
+  <section class="hero">
+    <h1>Batteries-included infrastructure for Nomad</h1>
+    <p class="lede">
+      Curated, one-click <a href="https://developer.hashicorp.com/nomad/tools/nomad-pack" target="_blank" rel="noopener">Nomad Pack</a>
+      recipes — databases, observability, dev tools, and apps that come up with sensible
+      defaults. One command to add the registry, one to run any pack.
+    </p>
+    <div class="stats">
+      <span class="stat"><b>{packs.length}</b> packs</span>
+      <span class="stat"><b>{categories.length}</b> categories</span>
+      <span class="stat">Apache-2.0 · self-hosted</span>
+    </div>
+    <div class="addcmd">
+      <div class="cmd" id="addcmd">{addCmd}</div>
+      <button class="copy" data-copy="#addcmd">Copy</button>
+    </div>
+  </section>
 
   <div class="controls">
     <input id="q" type="search" placeholder="Search packs…  ( / )" autocomplete="off" />
@@ -74,7 +85,17 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
 </Base>
 
 <style>
-  .tag { color: var(--muted); margin: 8px 0 20px; }
+  .hero { padding: 20px 22px 22px; margin: 12px 0 6px; border: 1px solid var(--border); border-radius: 16px; background:
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, var(--card)) 0%, var(--card) 60%); position: relative; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--brand-grad); }
+  .hero h1 { margin: 4px 0 8px; font-size: 30px; line-height: 1.12; letter-spacing: -.03em;
+    background: var(--brand-grad); -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-block; }
+  .lede { color: var(--muted); margin: 0 0 14px; max-width: 720px; font-size: 15px; }
+  .lede a { color: var(--accent); }
+  .stats { display: flex; gap: 8px 18px; flex-wrap: wrap; margin: 0 0 16px; font-size: 13px; color: var(--muted); }
+  .stat b { color: var(--text); font-size: 15px; }
+  .stat + .stat { padding-left: 18px; border-left: 1px solid var(--border); }
+  @media (max-width: 560px) { .hero h1 { font-size: 24px; } .stat + .stat { padding-left: 0; border-left: 0; } }
   .controls { position: sticky; top: 0; background: var(--bg); padding: 14px 0; z-index: 5; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border); }
   #q { flex: 1; min-width: 220px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font-size: 15px; }
   .sortwrap { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; }
