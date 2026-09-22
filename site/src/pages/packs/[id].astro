@@ -9,9 +9,23 @@ export async function getStaticPaths() {
 const { pack } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const runCmd = `nomad-pack run ${pack.id} --registry nomploy`;
+
+const site = Astro.site ?? new URL("https://packs.nomploy.com");
+const jsonld = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: pack.name,
+  description: pack.description,
+  applicationCategory: `${pack.category} · Nomad Pack`,
+  operatingSystem: "HashiCorp Nomad",
+  softwareVersion: pack.version,
+  url: new URL(`packs/${pack.id}/`, site).href,
+  ...(pack.repo ? { codeRepository: `https://github.com/${pack.repo}` } : {}),
+  offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+};
 ---
 
-<Base title={`${pack.name} — Nomploy Nomad Packs`} description={pack.description}>
+<Base title={`${pack.name} — Nomploy Nomad Packs`} description={pack.description} jsonld={jsonld}>
   <p class="crumb"><a href={base}>← All packs</a></p>
 
   <div class="head">
