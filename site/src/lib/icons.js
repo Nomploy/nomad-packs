@@ -48,6 +48,7 @@ const BRAND = {
   "node-red": "nodered",
   influxdb: "influxdb",
   neo4j: "neo4j",
+  couchdb: "apachecouchdb",
 };
 
 export const CATEGORY_COLORS = {
