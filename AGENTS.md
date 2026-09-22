@@ -3,6 +3,19 @@
 This guide is for agents and humans adding a pack to this registry. Follow it and your
 pack will pass `scripts/lint-packs.mjs` and the CI render/validate step.
 
+## Quick start (scaffold)
+
+For a standard single-service, host-networked pack, scaffold the six files:
+
+```sh
+node scripts/new-pack.mjs <id> --name "Name" --image "org/img:tag" --port 8080 [--volume /data] [--app-url URL]
+```
+
+It prints the three site-map lines to add (`site/src/lib/packs.js` CATEGORIES + GITHUB_REPO,
+`site/src/lib/icons.js` BRAND). Then fill in the README/description, run
+`node scripts/lint-packs.mjs`, and validate. For all-in-one packs (bundled DB/redis, a chown
+init, config-from-vars) start from the scaffold and add tasks by hand per the patterns below.
+
 ## Principles
 
 - **Batteries-included, one-click.** A pack should come up with sensible defaults and no
