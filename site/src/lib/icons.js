@@ -21,6 +21,7 @@ const BRAND = {
   "redis-exporter": "prometheus",
   "mysqld-exporter": "prometheus",
   syncthing: "syncthing",
+  jellyfin: "jellyfin",
   nginx: "nginx",
   gitea: "gitea",
   keycloak: "keycloak",
