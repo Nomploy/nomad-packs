@@ -2,8 +2,8 @@
 import Base from "../layouts/Base.astro";
 import { getPacks, getCategories, REGISTRY_URL } from "../lib/packs.js";
 
-const packs = getPacks();
-const categories = getCategories();
+const packs = await getPacks();
+const categories = await getCategories();
 const counts = Object.fromEntries(categories.map((c) => [c, packs.filter((p) => p.category === c).length]));
 const base = import.meta.env.BASE_URL;
 const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
@@ -49,7 +49,11 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
             </div>
           </div>
           <p>{p.description}</p>
-          <div class="foot">{p.variables.length} variables →</div>
+          <div class="foot">
+            <span>{p.variables.length} variables</span>
+            {p.starsLabel && <span class="stars" title={`${p.stars.toLocaleString()} GitHub stars`}>★ {p.starsLabel}</span>}
+            <span class="arrow">→</span>
+          </div>
         </a>
       ))
     }
@@ -76,7 +80,9 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
   .pmeta { min-width: 0; }
   .pcard h3 { margin: 2px 0 0; font-size: 17px; display: flex; align-items: center; gap: 8px; }
   .pcard p { margin: 0; color: var(--muted); font-size: 13.5px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-  .foot { margin-top: 12px; color: var(--muted); font-size: 12px; }
+  .foot { margin-top: 12px; color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 10px; }
+  .foot .stars { color: #e3b341; font-weight: 600; }
+  .foot .arrow { margin-left: auto; }
   .empty { color: var(--muted); padding: 40px 0; text-align: center; }
   .count { color: var(--muted); font-size: 13px; }
 </style>

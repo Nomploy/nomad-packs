@@ -2,12 +2,12 @@
 // Includes the full variable list plus the readme as raw markdown and rendered HTML.
 import { getPacks } from "../../../lib/packs.js";
 
-export function getStaticPaths() {
-  return getPacks().map((pack) => ({ params: { id: pack.id }, props: { pack } }));
+export async function getStaticPaths() {
+  return (await getPacks()).map((pack) => ({ params: { id: pack.id }, props: { pack } }));
 }
 
 export function GET({ props }) {
-  const { iconSvg, ...pack } = props.pack;
+  const { iconSvg, starsLabel, ...pack } = props.pack;
   return new Response(JSON.stringify(pack), {
     headers: {
       "content-type": "application/json; charset=utf-8",

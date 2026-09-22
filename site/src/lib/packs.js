@@ -71,10 +71,62 @@ function parseVariables(hcl) {
   });
 }
 
+// Upstream GitHub repo (owner/repo) per pack, for the star badge. Omit where the
+// project isn't primarily on GitHub. A wrong/missing repo just hides the badge.
+const GITHUB_REPO = {
+  clickhouse: "ClickHouse/ClickHouse", mariadb: "MariaDB/server", redis: "redis/redis",
+  seaweedfs: "seaweedfs/seaweedfs", rabbitmq: "rabbitmq/rabbitmq-server", nats: "nats-io/nats-server",
+  grafana: "grafana/grafana", loki: "grafana/loki", monitoring: "prometheus/prometheus",
+  keycloak: "keycloak/keycloak", vaultwarden: "dani-garcia/vaultwarden",
+  gitea: "go-gitea/gitea", zot: "project-zot/zot", adminer: "vrana/adminer",
+  n8n: "n8n-io/n8n", metabase: "metabase/metabase", "uptime-kuma": "louislam/uptime-kuma",
+  fleet: "fleetdm/fleet", backup: "restic/restic", meilisearch: "meilisearch/meilisearch",
+  umami: "umami-software/umami", ntfy: "binwiederhier/ntfy", dozzle: "amir20/dozzle",
+  "it-tools": "CorentinTh/it-tools", memcached: "memcached/memcached", "code-server": "coder/code-server",
+  excalidraw: "excalidraw/excalidraw", cyberchef: "gchq/CyberChef", plausible: "plausible/analytics",
+  "stirling-pdf": "Stirling-Tools/Stirling-PDF", mailpit: "axllent/mailpit",
+  cloudflared: "cloudflare/cloudflared", whoami: "traefik/whoami", gotify: "gotify/server",
+  homepage: "gethomepage/homepage", ollama: "ollama/ollama", vikunja: "go-vikunja/vikunja",
+  ferretdb: "FerretDB/FerretDB", openbao: "openbao/openbao", miniflux: "miniflux/v2",
+  alertmanager: "prometheus/alertmanager", victoriametrics: "VictoriaMetrics/VictoriaMetrics",
+  jaeger: "jaegertracing/jaeger", gatus: "TwiN/gatus", pushgateway: "prometheus/pushgateway",
+  pgadmin: "pgadmin-org/pgadmin4", "victoria-logs": "VictoriaMetrics/VictoriaLogs",
+  docmost: "docmost/docmost", directus: "directus/directus", pocketbase: "pocketbase/pocketbase",
+  redisinsight: "RedisInsight/RedisInsight",
+};
+
+function formatStars(n) {
+  if (n >= 1000000) return (n / 1000000).toFixed(1).replace(/\.0$/, "") + "M";
+  if (n >= 1000) return (n / 1000).toFixed(1).replace(/\.0$/, "") + "k";
+  return String(n);
+}
+
+// Fetch a repo's star count at build time. Returns null on any failure so the
+// build never breaks (badge is simply omitted). Uses GITHUB_TOKEN when present.
+async function fetchStars(repo) {
+  try {
+    const headers = {
+      "Accept": "application/vnd.github+json",
+      "User-Agent": "nomploy-nomad-packs-site",
+    };
+    const token = process.env.GITHUB_TOKEN;
+    if (token) headers.Authorization = `Bearer ${token}`;
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), 8000);
+    const res = await fetch(`https://api.github.com/repos/${repo}`, { headers, signal: ctrl.signal });
+    clearTimeout(t);
+    if (!res.ok) return null;
+    const data = await res.json();
+    return typeof data.stargazers_count === "number" ? data.stargazers_count : null;
+  } catch {
+    return null;
+  }
+}
+
 let cache;
-export function getPacks() {
+export async function getPacks() {
   if (cache) return cache;
-  cache = readdirSync(PACKS_DIR)
+  const packs = readdirSync(PACKS_DIR)
     .filter((d) => statSync(join(PACKS_DIR, d)).isDirectory())
     .map((d) => {
       const dir = join(PACKS_DIR, d);
@@ -93,6 +145,9 @@ export function getPacks() {
         category,
         registry: REGISTRY_URL,
         runCommand: `nomad-pack run ${d} --registry nomploy`,
+        repo: GITHUB_REPO[d] || null,
+        stars: null,
+        starsLabel: null,
         variables: parseVariables(readIf(join(dir, "variables.hcl"))),
         icon: icon.compact,
         iconSvg: icon.svg,
@@ -101,9 +156,22 @@ export function getPacks() {
       };
     })
     .sort((a, b) => a.name.localeCompare(b.name));
+
+  // Fetch stars in parallel for packs with a known repo (best-effort).
+  await Promise.all(
+    packs.filter((p) => p.repo).map(async (p) => {
+      const stars = await fetchStars(p.repo);
+      if (stars != null) {
+        p.stars = stars;
+        p.starsLabel = formatStars(stars);
+      }
+    })
+  );
+
+  cache = packs;
   return cache;
 }
 
-export function getCategories() {
-  return [...new Set(getPacks().map((p) => p.category))].sort();
+export async function getCategories() {
+  return [...new Set((await getPacks()).map((p) => p.category))].sort();
 }

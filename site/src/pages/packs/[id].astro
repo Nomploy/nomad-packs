@@ -2,8 +2,8 @@
 import Base from "../../layouts/Base.astro";
 import { getPacks } from "../../lib/packs.js";
 
-export function getStaticPaths() {
-  return getPacks().map((p) => ({ params: { id: p.id }, props: { pack: p } }));
+export async function getStaticPaths() {
+  return (await getPacks()).map((p) => ({ params: { id: p.id }, props: { pack: p } }));
 }
 
 const { pack } = Astro.props;
@@ -34,6 +34,11 @@ const runCmd = `nomad-pack run ${pack.id} --registry nomploy`;
   <p class="links">
     <a href={pack.sourceUrl} target="_blank" rel="noopener">Source ↗</a>
     {pack.appUrl && <a href={pack.appUrl} target="_blank" rel="noopener">Project ↗</a>}
+    {pack.repo && (
+      <a class="stars" href={`https://github.com/${pack.repo}`} target="_blank" rel="noopener" title={pack.stars != null ? `${pack.stars.toLocaleString()} GitHub stars` : "GitHub repository"}>
+        ★ {pack.starsLabel || "GitHub"}
+      </a>
+    )}
   </p>
 
   {
@@ -74,6 +79,7 @@ const runCmd = `nomad-pack run ${pack.id} --registry nomploy`;
   .head h1 { margin: 0; font-size: 26px; letter-spacing: -.02em; }
   .desc { color: var(--muted); margin: 6px 0 16px; }
   .links { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; margin: 8px 0 0; }
+  .links .stars { color: #e3b341; font-weight: 600; }
 </style>
 
 <script>

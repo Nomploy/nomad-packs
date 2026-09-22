@@ -4,8 +4,8 @@
 // /api/packs/<id>.json for a pack's full detail.
 import { getPacks, REGISTRY_URL, REPO_URL } from "../../lib/packs.js";
 
-export function GET() {
-  const packs = getPacks().map(({ readme, readmeHtml, iconSvg, ...rest }) => rest);
+export async function GET() {
+  const packs = (await getPacks()).map(({ readme, readmeHtml, iconSvg, starsLabel, ...rest }) => rest);
   const body = {
     registry: REGISTRY_URL,
     repo: REPO_URL,
