@@ -43,6 +43,8 @@ const BRAND = {
   directus: "directus",
   pocketbase: "pocketbase",
   timescaledb: "timescale",
+  surrealdb: "surrealdb",
+  mosquitto: "eclipsemosquitto",
 };
 
 export const CATEGORY_COLORS = {
