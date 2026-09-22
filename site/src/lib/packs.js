@@ -25,8 +25,8 @@ const CATEGORIES = {
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics",
   "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps",
   fleet: "Device management",
-  ollama: "AI",
-  memcached: "Databases", ferretdb: "Databases",
+  ollama: "AI", qdrant: "AI", "open-webui": "AI",
+  memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases",
   meilisearch: "Search",
   ntfy: "Notifications", gotify: "Notifications",
   backup: "Backup",
@@ -93,6 +93,7 @@ const GITHUB_REPO = {
   pgadmin: "pgadmin-org/pgadmin4", "victoria-logs": "VictoriaMetrics/VictoriaLogs",
   docmost: "docmost/docmost", directus: "directus/directus", pocketbase: "pocketbase/pocketbase",
   redisinsight: "RedisInsight/RedisInsight",
+  qdrant: "qdrant/qdrant", "open-webui": "open-webui/open-webui", timescaledb: "timescale/timescaledb",
 };
 
 function formatStars(n) {

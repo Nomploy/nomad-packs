@@ -42,6 +42,7 @@ const BRAND = {
   "victoria-logs": "victoriametrics",
   directus: "directus",
   pocketbase: "pocketbase",
+  timescaledb: "timescale",
 };
 
 export const CATEGORY_COLORS = {
