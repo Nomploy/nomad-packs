@@ -30,6 +30,7 @@ const BRAND = {
   cockroachdb: "cockroachlabs",
   caddy: "caddy",
   audiobookshelf: "audiobookshelf",
+  rustdesk: "rustdesk",
   nginx: "nginx",
   gitea: "gitea",
   keycloak: "keycloak",
