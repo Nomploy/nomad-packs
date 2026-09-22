@@ -39,6 +39,7 @@ const BRAND = {
   ferretdb: "ferretdb",
   victoriametrics: "victoriametrics",
   jaeger: "jaeger",
+  "victoria-logs": "victoriametrics",
 };
 
 export const CATEGORY_COLORS = {
