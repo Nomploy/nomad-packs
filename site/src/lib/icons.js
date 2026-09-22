@@ -20,6 +20,7 @@ const BRAND = {
   "postgres-exporter": "prometheus",
   "redis-exporter": "prometheus",
   "mysqld-exporter": "prometheus",
+  syncthing: "syncthing",
   nginx: "nginx",
   gitea: "gitea",
   keycloak: "keycloak",
