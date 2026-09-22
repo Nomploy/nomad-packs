@@ -10,6 +10,11 @@ const { pack } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const runCmd = `nomad-pack run ${pack.id} --registry nomploy`;
 
+// A ready-to-edit HCL var file: every variable, its description as a comment, and its default.
+const valuesHcl =
+  pack.variables.map((v) => `# ${v.description}\n${v.name} = ${v.default || "\"\""}`).join("\n\n") + "\n";
+const valuesRun = `nomad-pack run ${pack.id} -f values.hcl --registry nomploy`;
+
 const site = Astro.site ?? new URL("https://packs.nomploy.com");
 const jsonld = {
   "@context": "https://schema.org",
@@ -58,21 +63,44 @@ const jsonld = {
   {
     pack.variables.length > 0 && (
       <>
-        <div class="section-title">Variables</div>
+        <div class="vtop">
+          <div class="section-title" style="margin:0">Variables <span class="vcount">{pack.variables.length}</span></div>
+          <input id="vfilter" type="search" placeholder="Filter variables…" autocomplete="off" />
+          <details class="valbox">
+            <summary>values.hcl</summary>
+            <div class="valinner">
+              <p class="valhint">Save as <code>values.hcl</code>, edit, then run:</p>
+              <div class="addcmd">
+                <div class="cmd" id="valuesrun">{valuesRun}</div>
+                <button class="copy" data-copy="#valuesrun">Copy</button>
+              </div>
+              <div class="addcmd">
+                <pre class="valpre" id="valueshcl">{valuesHcl}</pre>
+                <button class="copy" data-copy="#valueshcl">Copy file</button>
+              </div>
+            </div>
+          </details>
+        </div>
         <table class="vartable">
           <thead>
-            <tr><th>Name</th><th>Default</th><th>Description</th></tr>
+            <tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr>
           </thead>
-          <tbody>
+          <tbody id="vbody">
             {pack.variables.map((v) => (
-              <tr>
-                <td class="mono">{v.name}</td>
-                <td class="mono">{v.default || "—"}</td>
+              <tr class="vrow" data-name={v.name} data-desc={(v.description || "").toLowerCase()}>
+                <td class="vname">
+                  <span class="mono">{v.name}</span>
+                  {v.placeholder && <span class="vtag set" title="Placeholder default — set this before production">set me</span>}
+                  {v.sensitive && !v.placeholder && <span class="vtag sec" title="Sensitive value">key</span>}
+                </td>
+                <td><span class={`vkind k-${v.kind}`} title={v.type || v.kind}>{v.kind}</span></td>
+                <td>{v.default ? <pre class="def">{v.default}</pre> : <span class="mut">—</span>}</td>
                 <td>{v.description}</td>
               </tr>
             ))}
           </tbody>
         </table>
+        <p class="vempty" id="vempty" hidden>No variables match.</p>
       </>
     )
   }
@@ -94,6 +122,33 @@ const jsonld = {
   .desc { color: var(--muted); margin: 6px 0 16px; }
   .links { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; margin: 8px 0 0; }
   .links .stars { color: #e3b341; font-weight: 600; }
+
+  .vtop { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 28px 0 8px; }
+  .vcount { font-size: 12px; font-weight: 600; color: var(--muted); background: var(--chip); border-radius: 999px; padding: 1px 8px; margin-left: 4px; }
+  #vfilter { flex: 1; min-width: 180px; padding: 8px 11px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font-size: 14px; }
+  .valbox { font-size: 13px; }
+  .valbox > summary { cursor: pointer; color: var(--accent); font-weight: 600; list-style: none; padding: 8px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); user-select: none; }
+  .valbox > summary::-webkit-details-marker { display: none; }
+  .valbox[open] > summary { border-color: var(--accent); }
+  .valinner { margin-top: 10px; }
+  .valhint { color: var(--muted); margin: 0 0 8px; }
+  .valpre { flex: 1; min-width: 260px; margin: 0; background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-size: 12.5px; line-height: 1.5; overflow: auto; max-height: 340px; white-space: pre; font-family: ui-monospace, monospace; }
+
+  .vname { white-space: nowrap; }
+  .vtag { display: inline-block; margin-left: 8px; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; border-radius: 5px; padding: 1px 6px; vertical-align: middle; }
+  .vtag.set { background: #f59e0b22; color: #b45309; border: 1px solid #f59e0b55; }
+  .vtag.sec { background: var(--chip); color: var(--muted); }
+  :root[data-theme="dark"] .vtag.set { color: #fbbf24; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .vtag.set { color: #fbbf24; } }
+  .vkind { display: inline-block; font-size: 11px; font-weight: 600; border-radius: 6px; padding: 2px 8px; background: var(--chip); color: var(--muted); font-family: ui-monospace, monospace; }
+  .k-string { color: #0d9488; } .k-number { color: #7c3aed; } .k-bool { color: #d97706; }
+  .k-list, .k-set, .k-tuple { color: #0ea5e9; } .k-object, .k-map { color: #db2777; }
+  :root[data-theme="dark"] .k-string { color: #2dd4bf; } :root[data-theme="dark"] .k-number { color: #a78bfa; }
+  :root[data-theme="dark"] .k-bool { color: #fbbf24; } :root[data-theme="dark"] .k-list, :root[data-theme="dark"] .k-set, :root[data-theme="dark"] .k-tuple { color: #38bdf8; }
+  :root[data-theme="dark"] .k-object, :root[data-theme="dark"] .k-map { color: #f472b6; }
+  .def { margin: 0; font-family: ui-monospace, monospace; font-size: 12.5px; white-space: pre-wrap; word-break: break-word; max-height: 200px; overflow: auto; max-width: 340px; }
+  .mut { color: var(--muted); }
+  .vempty { color: var(--muted); padding: 20px 0; }
 </style>
 
 <script>
@@ -108,4 +163,21 @@ const jsonld = {
       } catch {}
     });
   });
+
+  // Filter the variables table by name/description.
+  const vf = document.getElementById("vfilter");
+  if (vf) {
+    const rows = [...document.querySelectorAll(".vrow")];
+    const vempty = document.getElementById("vempty");
+    vf.addEventListener("input", () => {
+      const t = vf.value.trim().toLowerCase();
+      let shown = 0;
+      for (const r of rows) {
+        const ok = !t || r.dataset.name.includes(t) || r.dataset.desc.includes(t);
+        r.hidden = !ok;
+        if (ok) shown++;
+      }
+      if (vempty) vempty.hidden = shown > 0;
+    });
+  }
 </script>

@@ -53,6 +53,41 @@ function parseMetadata(hcl) {
   };
 }
 
+// Capture a bracket-balanced substring of `text` starting at its first char
+// (an opener), honoring string literals so braces inside strings don't count.
+function sliceBalanced(text, open, close) {
+  let depth = 0, inStr = false, q = "";
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inStr) {
+      if (c === "\\") { i++; continue; }
+      if (c === q) inStr = false;
+      continue;
+    }
+    if (c === '"' || c === "'") { inStr = true; q = c; continue; }
+    else if (c === open) depth++;
+    else if (c === close && --depth === 0) return text.slice(0, i + 1);
+  }
+  return text;
+}
+
+// Extract the full RHS value of an assignment: single line, heredoc, object, or list.
+function extractValue(rest) {
+  rest = rest.replace(/^[ \t]+/, "");
+  const hd = rest.match(/^<<-?\s*"?(\w+)"?[ \t]*\n/);
+  if (hd) {
+    const after = rest.slice(hd[0].length);
+    const endM = after.match(new RegExp("^[ \\t]*" + hd[1] + "[ \\t]*$", "m"));
+    if (endM) return rest.slice(0, hd[0].length + endM.index + endM[0].length);
+  }
+  if (rest[0] === "{") return sliceBalanced(rest, "{", "}");
+  if (rest[0] === "[") return sliceBalanced(rest, "[", "]");
+  const nl = rest.indexOf("\n");
+  return (nl === -1 ? rest : rest.slice(0, nl)).trim();
+}
+
+const KINDS = /^(string|number|bool|list|map|object|set|tuple|any)/;
+
 function parseVariables(hcl) {
   const re = /variable\s+"([^"]+)"\s*\{/g;
   const starts = [];
@@ -61,13 +96,28 @@ function parseVariables(hcl) {
   return starts.map((s, i) => {
     const end = i + 1 < starts.length ? starts[i + 1].at : hcl.length;
     const body = hcl.slice(s.bodyAt, end);
-    const typeM = body.match(/type\s*=\s*(.+)/);
-    let type = typeM ? typeM[1].trim() : "";
-    if (/^object\(|^list\(|^\{/.test(type)) type = type.replace(/\s+/g, " ").slice(0, 40) + (type.length > 40 ? "…" : "");
-    const defM = body.match(/default\s*=\s*(.+)/);
-    let def = defM ? defM[1].trim() : "";
-    if (/[\{\[]\s*$/.test(def)) def = def + " … }";
-    return { name: s.name, description: firstString(body, "description"), type, default: def };
+
+    const tIdx = body.search(/(^|\n)[ \t]*type[ \t]*=/);
+    let type = "", kind = "string";
+    if (tIdx !== -1) {
+      const rest = body.slice(body.indexOf("=", tIdx) + 1).replace(/^[ \t]+/, "");
+      const km = rest.match(KINDS);
+      kind = km ? km[1] : "string";
+      const p = rest.indexOf("(");
+      const nl = rest.indexOf("\n");
+      type = p !== -1 && (nl === -1 || p < nl)
+        ? (km ? km[0] : "") + sliceBalanced(rest.slice(p), "(", ")").replace(/\s+/g, " ")
+        : (nl === -1 ? rest : rest.slice(0, nl)).trim();
+    }
+
+    const dIdx = body.search(/(^|\n)[ \t]*default[ \t]*=/);
+    let def = "";
+    if (dIdx !== -1) def = extractValue(body.slice(body.indexOf("=", dIdx) + 1));
+
+    const placeholder = /change|replace|your[-_]|generate|example\.com/i.test(def);
+    const sensitive = /(password|secret|token|htpasswd|api[_-]?key|_key\b)/i.test(s.name);
+
+    return { name: s.name, description: firstString(body, "description"), type, kind, default: def, placeholder, sensitive };
   });
 }
 
