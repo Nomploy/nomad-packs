@@ -124,8 +124,8 @@ function parseVariables(hcl) {
 // Extract quick facts from a rendered-ish job template: exposed static ports (with
 // their variable defaults resolved), named-volume mount targets, and the task count.
 function parseFacts(tpl, variables) {
-  if (!tpl) return { ports: [], volumes: [], tasks: 0 };
   const defs = Object.fromEntries(variables.map((v) => [v.name, (v.default || "").replace(/^"|"$/g, "")]));
+  if (!tpl) return { ports: [], volumes: [], tasks: 0, image: defs.image || "" };
   const resolve = (raw) => {
     raw = raw.trim().replace(/,$/, "").trim();
     const vm = raw.match(/\[\[\s*var\s+"([^"]+)"/);
@@ -146,7 +146,59 @@ function parseFacts(tpl, variables) {
     if (tm && !volumes.includes(tm[1])) volumes.push(tm[1]);
   }
   const tasks = (tpl.match(/task\s+"[^"]+"\s*\{/g) || []).length;
-  return { ports, volumes, tasks };
+  return { ports, volumes, tasks, image: defs.image || "" };
+}
+
+// "Pairs with" relationships. Listed one-directionally; buildRelated() makes them
+// symmetric, drops unknown ids, and caps each list. Referencing a pack that pairs
+// naturally (a DB + its exporter/admin UI, an app + its companion) makes the catalog
+// navigable.
+const RELATED = {
+  monitoring: ["grafana", "loki", "alertmanager", "blackbox-exporter", "postgres-exporter", "redis-exporter", "mysqld-exporter", "pushgateway"],
+  grafana: ["loki", "victoriametrics", "influxdb"],
+  loki: ["grafana", "victoria-logs", "seaweedfs"],
+  alertmanager: ["ntfy", "gotify"],
+  "postgres-exporter": ["postgres"],
+  "redis-exporter": ["redis", "valkey", "dragonfly"],
+  "mysqld-exporter": ["mariadb"],
+  victoriametrics: ["victoria-logs", "grafana"],
+  backup: ["rest-server", "seaweedfs", "postgres", "mariadb"],
+  ollama: ["open-webui", "qdrant", "weaviate"],
+  qdrant: ["weaviate", "open-webui"],
+  jellyfin: ["navidrome", "photoprism"],
+  navidrome: ["syncthing"],
+  photoprism: ["syncthing"],
+  filebrowser: ["syncthing"],
+  postgres: ["pgadmin", "adminer"],
+  mariadb: ["adminer"],
+  redis: ["redisinsight", "valkey"],
+  valkey: ["redisinsight", "dragonfly"],
+  adminer: ["clickhouse"],
+  keycloak: ["authentik"],
+  mosquitto: ["emqx", "node-red"],
+  emqx: ["nats"],
+  ntfy: ["gotify", "uptime-kuma", "gatus"],
+  "uptime-kuma": ["gatus"],
+  vaultwarden: ["openbao"],
+  gitea: ["zot", "verdaccio"],
+  n8n: ["node-red"],
+  meilisearch: ["typesense"],
+  docmost: ["wikijs", "hedgedoc", "trilium"],
+  wikijs: ["hedgedoc"],
+  nocodb: ["directus", "grist"],
+};
+
+function buildRelated(allIds) {
+  const idset = new Set(allIds);
+  const adj = {};
+  const add = (a, b) => {
+    if (a === b) return;
+    (adj[a] ??= new Set()).add(b);
+  };
+  for (const [a, list] of Object.entries(RELATED)) for (const b of list) { add(a, b); add(b, a); }
+  const out = {};
+  for (const id of allIds) out[id] = [...(adj[id] ?? [])].filter((x) => idset.has(x)).sort().slice(0, 8);
+  return out;
 }
 
 // Upstream GitHub repo (owner/repo) per pack, for the star badge. Omit where the
@@ -243,6 +295,7 @@ export async function getPacks() {
         starsLabel: null,
         variables,
         facts,
+        related: [],
         icon: icon.compact,
         iconSvg: icon.svg,
         readme,
@@ -250,6 +303,11 @@ export async function getPacks() {
       };
     })
     .sort((a, b) => a.name.localeCompare(b.name));
+
+  // Attach symmetric "pairs with" relationships now that every id is known.
+  const rel = buildRelated(packs.map((p) => p.id));
+  const nameOf = Object.fromEntries(packs.map((p) => [p.id, p.name]));
+  for (const p of packs) p.related = rel[p.id].map((id) => ({ id, name: nameOf[id] }));
 
   // Fetch stars in parallel for packs with a known repo (best-effort).
   await Promise.all(

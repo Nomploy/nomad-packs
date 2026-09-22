@@ -74,6 +74,20 @@ const jsonld = {
             <span class="fk">{pack.facts.volumes.length}</span> {pack.facts.volumes.length === 1 ? "volume" : "volumes"}
           </span>
         )}
+        {pack.facts.image && (
+          <span class="fact img" title="container image"><span class="mut">image</span> {pack.facts.image}</span>
+        )}
+      </div>
+    )
+  }
+
+  {
+    pack.related && pack.related.length > 0 && (
+      <div class="related">
+        <span class="rlabel">Pairs with</span>
+        {pack.related.map((r) => (
+          <a class="rchip" href={`${base}packs/${r.id}/`}>{r.name}</a>
+        ))}
       </div>
     )
   }
@@ -144,7 +158,14 @@ const jsonld = {
   .facts { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 0; }
   .fact { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); background: var(--chip); border: 1px solid var(--border); border-radius: 8px; padding: 4px 10px; }
   .fact.port { font-family: ui-monospace, monospace; }
+  .fact.img { font-family: ui-monospace, monospace; }
   .fact .fk { font-weight: 700; color: var(--text); font-family: ui-monospace, monospace; }
+  .fact .mut { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 10.5px; letter-spacing: .04em; }
+
+  .related { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 14px 0 0; }
+  .rlabel { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .rchip { font-size: 13px; color: var(--accent); background: var(--chip); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; }
+  .rchip:hover { border-color: var(--accent); text-decoration: none; }
 
   .vtop { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 28px 0 8px; }
   .vcount { font-size: 12px; font-weight: 600; color: var(--muted); background: var(--chip); border-radius: 999px; padding: 1px 8px; margin-left: 4px; }
