@@ -28,6 +28,7 @@ const BRAND = {
   adguardhome: "adguard",
   verdaccio: "verdaccio",
   cockroachdb: "cockroachlabs",
+  caddy: "caddy",
   nginx: "nginx",
   gitea: "gitea",
   keycloak: "keycloak",
