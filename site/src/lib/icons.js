@@ -45,6 +45,9 @@ const BRAND = {
   timescaledb: "timescale",
   surrealdb: "surrealdb",
   mosquitto: "eclipsemosquitto",
+  "node-red": "nodered",
+  influxdb: "influxdb",
+  neo4j: "neo4j",
 };
 
 export const CATEGORY_COLORS = {
