@@ -19,6 +19,15 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
 
   <div class="controls">
     <input id="q" type="search" placeholder="Search packs…  ( / )" autocomplete="off" />
+    <label class="sortwrap">
+      <span>Sort</span>
+      <select id="sort">
+        <option value="name">Name (A–Z)</option>
+        <option value="stars">Stars</option>
+        <option value="category">Category</option>
+        <option value="vars">Variables</option>
+      </select>
+    </label>
     <div class="chips" id="chips">
       <span class="chip on" data-cat="">All <span class="c">{packs.length}</span></span>
       {categories.map((c) => (
@@ -36,6 +45,8 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
           data-name={p.name.toLowerCase()}
           data-desc={(p.description || "").toLowerCase()}
           data-cat={p.category}
+          data-stars={p.stars ?? -1}
+          data-vars={p.variables.length}
         >
           <div class="phead">
             {p.icon.kind === "brand" ? (
@@ -66,6 +77,8 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
   .tag { color: var(--muted); margin: 8px 0 20px; }
   .controls { position: sticky; top: 0; background: var(--bg); padding: 14px 0; z-index: 5; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border); }
   #q { flex: 1; min-width: 220px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font-size: 15px; }
+  .sortwrap { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 13px; }
+  .sortwrap select { padding: 9px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font-size: 14px; cursor: pointer; }
   .chips { display: flex; gap: 6px; flex-wrap: wrap; }
   .chip { background: var(--chip); border: 1px solid var(--border); color: var(--muted); border-radius: 999px; padding: 5px 11px; font-size: 13px; cursor: pointer; user-select: none; display: inline-flex; align-items: center; gap: 6px; }
   .chip .c { font-size: 11px; opacity: .7; }
@@ -90,11 +103,26 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
 <script>
   const q = document.getElementById("q");
   const chips = document.getElementById("chips");
+  const grid = document.getElementById("grid");
+  const sortSel = document.getElementById("sort");
   const cards = [...document.querySelectorAll(".pcard")];
   const empty = document.getElementById("empty");
   const count = document.getElementById("count");
   const total = cards.length;
   let activeCat = "";
+
+  const byName = (a, b) => a.dataset.name.localeCompare(b.dataset.name);
+  const comparators = {
+    name: byName,
+    stars: (a, b) => (+b.dataset.stars - +a.dataset.stars) || byName(a, b),
+    vars: (a, b) => (+b.dataset.vars - +a.dataset.vars) || byName(a, b),
+    category: (a, b) => a.dataset.cat.localeCompare(b.dataset.cat) || byName(a, b),
+  };
+
+  function sortCards() {
+    const cmp = comparators[sortSel.value] || byName;
+    [...cards].sort(cmp).forEach((c) => grid.appendChild(c));
+  }
 
   function apply() {
     const term = q.value.trim().toLowerCase();
@@ -111,6 +139,7 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
   }
 
   q.addEventListener("input", apply);
+  sortSel.addEventListener("change", sortCards);
   chips.addEventListener("click", (e) => {
     const chip = e.target.closest(".chip");
     if (!chip) return;
@@ -124,6 +153,8 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
     if (e.key === "/" && document.activeElement !== q) { e.preventDefault(); q.focus(); }
     else if (e.key === "Escape" && document.activeElement === q) { q.value = ""; apply(); q.blur(); }
   });
+
+  sortCards();
 
   document.querySelectorAll(".copy").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
