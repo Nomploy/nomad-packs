@@ -18,7 +18,7 @@ const CATEGORIES = {
   postgres: "Databases", mariadb: "Databases", redis: "Databases", clickhouse: "Databases",
   seaweedfs: "Object storage",
   rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging",
-  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability",
+  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability",
   keycloak: "Identity", vaultwarden: "Identity", authentik: "Identity",
   gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools",
   n8n: "Automation", "node-red": "Automation",
@@ -99,6 +99,7 @@ const GITHUB_REPO = {
   valkey: "valkey-io/valkey", couchdb: "apache/couchdb", dragonfly: "dragonflydb/dragonfly",
   authentik: "goauthentik/authentik", actual: "actualbudget/actual",
   glance: "glanceapp/glance", "blackbox-exporter": "prometheus/blackbox_exporter",
+  "postgres-exporter": "prometheus-community/postgres_exporter", "redis-exporter": "oliver006/redis_exporter", "mysqld-exporter": "prometheus/mysqld_exporter",
 };
 
 function formatStars(n) {
