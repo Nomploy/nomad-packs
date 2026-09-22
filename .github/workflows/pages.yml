@@ -40,11 +40,6 @@ jobs:
         run: npm run build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Optional Plausible analytics. Set repo variable PLAUSIBLE_DOMAIN
-          # (Settings → Secrets and variables → Actions → Variables) to enable;
-          # PLAUSIBLE_SRC overrides the script URL for a self-hosted instance.
-          PLAUSIBLE_DOMAIN: ${{ vars.PLAUSIBLE_DOMAIN }}
-          PLAUSIBLE_SRC: ${{ vars.PLAUSIBLE_SRC }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
