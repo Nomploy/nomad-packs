@@ -10,6 +10,8 @@ observability packs, so these fill the gaps nomploy users hit.
 **Browse the catalog:** https://packs.nomploy.com/ ·
 **JSON API:** [`/api/packs.json`](https://packs.nomploy.com/api/packs.json)
 
+[![Nomploy Nomad Packs catalog](site/docs/screenshot.png)](https://packs.nomploy.com/)
+
 ## Use it
 
 ```bash
@@ -63,6 +65,14 @@ scripts/validate-packs.sh       # render + `nomad job validate` each pack
 
 CI runs both on every PR touching `packs/**`, and publishes the site + JSON API to GitHub
 Pages on merge to `master`.
+
+## Dependency updates
+
+[`renovate.json`](renovate.json) configures [Renovate](https://docs.renovatebot.com) to track
+the container image tags in each pack's `variables.hcl` (a custom manager matches the `*image`
+variable defaults as Docker deps). It bumps version-pinned tags (e.g. `postgres:16-alpine`,
+`typesense:27.1`) via PRs; images left on `:latest` aren't version-bumped. Enable the Renovate
+GitHub App on the repo for it to run.
 
 ## License
 
