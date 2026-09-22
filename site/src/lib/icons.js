@@ -49,6 +49,8 @@ const BRAND = {
   influxdb: "influxdb",
   neo4j: "neo4j",
   couchdb: "apachecouchdb",
+  authentik: "authentik",
+  actual: "actualbudget",
 };
 
 export const CATEGORY_COLORS = {
