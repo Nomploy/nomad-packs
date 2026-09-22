@@ -7,8 +7,8 @@ batteries-included infrastructure for a Nomad cluster.
 The HashiCorp community registry doesn't carry container-registry, storage, or
 observability packs, so these fill the gaps nomploy users hit.
 
-**Browse the catalog:** https://nomploy.github.io/nomad-packs/ ·
-**JSON API:** [`/api/packs.json`](https://nomploy.github.io/nomad-packs/api/packs.json)
+**Browse the catalog:** https://packs.nomploy.com/ ·
+**JSON API:** [`/api/packs.json`](https://packs.nomploy.com/api/packs.json)
 
 ## Use it
 
@@ -35,7 +35,7 @@ pack (e.g. `zot`) and this repo as the custom registry — then Deploy.
 | Apps | `nginx`, `uptime-kuma` |
 | Device management | `fleet` |
 
-The [live catalog](https://nomploy.github.io/nomad-packs/) is always current — it's
+The [live catalog](https://packs.nomploy.com/) is always current — it's
 generated straight from these directories.
 
 ## Layout
