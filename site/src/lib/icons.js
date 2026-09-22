@@ -40,6 +40,8 @@ const BRAND = {
   victoriametrics: "victoriametrics",
   jaeger: "jaeger",
   "victoria-logs": "victoriametrics",
+  directus: "directus",
+  pocketbase: "pocketbase",
 };
 
 export const CATEGORY_COLORS = {
