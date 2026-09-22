@@ -26,7 +26,7 @@ const CATEGORIES = {
   "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps",
   fleet: "Device management",
   ollama: "AI", qdrant: "AI", "open-webui": "AI",
-  memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases",
+  memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases",
   meilisearch: "Search", typesense: "Search",
   ntfy: "Notifications", gotify: "Notifications",
   backup: "Backup",
@@ -96,6 +96,7 @@ const GITHUB_REPO = {
   qdrant: "qdrant/qdrant", "open-webui": "open-webui/open-webui", timescaledb: "timescale/timescaledb",
   typesense: "typesense/typesense", surrealdb: "surrealdb/surrealdb", mosquitto: "eclipse/mosquitto",
   "node-red": "node-red/node-red", influxdb: "influxdata/influxdb", neo4j: "neo4j/neo4j",
+  valkey: "valkey-io/valkey", couchdb: "apache/couchdb", dragonfly: "dragonflydb/dragonfly",
 };
 
 function formatStars(n) {
