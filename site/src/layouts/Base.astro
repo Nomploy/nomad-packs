@@ -47,8 +47,8 @@ const graph = jsonld ? [siteLd, jsonld] : [siteLd];
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <meta name="theme-color" content="#0e1116" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E" />
+    <meta name="theme-color" content="#14B8A6" />
+    <link rel="icon" type="image/svg+xml" href={`${base}nomploy-icon.svg`} />
     <Fragment set:html={`<script type="application/ld+json">${JSON.stringify(graph).replace(/</g, "\\u003c")}</script>`} />
 
     <!-- Privacy-friendly analytics by Plausible (self-hosted) -->
@@ -69,7 +69,20 @@ const graph = jsonld ? [siteLd, jsonld] : [siteLd];
   <body>
     <div class="wrap">
       <header>
-        <a class="home" href={base}><span class="logo-mark">📦</span> Nomploy Nomad Packs</a>
+        <a class="home" href={base}>
+          <svg class="logo-mark" width="30" height="30" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="nglogo" x1="40" y1="24" x2="472" y2="488" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#2DD4BF"/>
+                <stop offset="0.55" stop-color="#14B8A6"/>
+                <stop offset="1" stop-color="#0EA5E9"/>
+              </linearGradient>
+            </defs>
+            <rect width="512" height="512" rx="116" fill="url(#nglogo)"/>
+            <path fill="#ffffff" d="M140 140 H196 V372 H140 Z M316 140 H372 V372 H316 Z M140 140 H240 L372 372 H272 Z"/>
+          </svg>
+          Nomploy Nomad Packs
+        </a>
         <button id="theme-toggle" class="icon-btn" title="Toggle theme" aria-label="Toggle theme">
           <span class="t-dark">🌙</span><span class="t-light">☀️</span>
         </button>
@@ -97,24 +110,27 @@ const graph = jsonld ? [siteLd, jsonld] : [siteLd];
 
 <style is:global>
   :root {
-    --bg: #f6f7f9; --card: #fff; --text: #1c2024; --muted: #5b6570; --border: #e2e6ea;
-    --accent: #2f6feb; --accent-fg: #fff; --chip: #eef1f4; --code-bg: #f0f2f5;
-    --tile-bg: #ffffff; --tile-border: #e2e6ea;
-    --shadow: 0 1px 2px rgba(0,0,0,.06), 0 4px 12px rgba(0,0,0,.05);
+    --bg: #f5f8f8; --card: #fff; --text: #17201f; --muted: #5a6b68; --border: #dde6e4;
+    --accent: #0d9488; --accent-fg: #fff; --chip: #e7efed; --code-bg: #eef3f2;
+    --tile-bg: #ffffff; --tile-border: #dde6e4;
+    --brand-grad: linear-gradient(135deg, #2DD4BF 0%, #14B8A6 55%, #0EA5E9 100%);
+    --shadow: 0 1px 2px rgba(15,118,110,.08), 0 4px 12px rgba(15,118,110,.06);
   }
   /* dark theme vars, shared by system-dark and the manual toggle */
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #0e1116; --card: #171b21; --text: #e6e9ee; --muted: #9aa4b0; --border: #252b33;
-      --accent: #5b8cff; --accent-fg: #0e1116; --chip: #1e242c; --code-bg: #11151a;
-      --tile-bg: #e9edf2; --tile-border: #cdd4dd;
+      --bg: #0b1211; --card: #121a19; --text: #e6efec; --muted: #93a5a1; --border: #223230;
+      --accent: #2dd4bf; --accent-fg: #06231f; --chip: #172422; --code-bg: #0d1615;
+      --tile-bg: #e9f0ef; --tile-border: #cdd8d6;
+      --brand-grad: linear-gradient(135deg, #2DD4BF 0%, #14B8A6 55%, #0EA5E9 100%);
       --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.35);
     }
   }
   :root[data-theme="dark"] {
-    --bg: #0e1116; --card: #171b21; --text: #e6e9ee; --muted: #9aa4b0; --border: #252b33;
-    --accent: #5b8cff; --accent-fg: #0e1116; --chip: #1e242c; --code-bg: #11151a;
-    --tile-bg: #e9edf2; --tile-border: #cdd4dd;
+    --bg: #0b1211; --card: #121a19; --text: #e6efec; --muted: #93a5a1; --border: #223230;
+    --accent: #2dd4bf; --accent-fg: #06231f; --chip: #172422; --code-bg: #0d1615;
+    --tile-bg: #e9f0ef; --tile-border: #cdd8d6;
+    --brand-grad: linear-gradient(135deg, #2DD4BF 0%, #14B8A6 55%, #0EA5E9 100%);
     --shadow: 0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.35);
   }
   * { box-sizing: border-box; }
@@ -124,8 +140,9 @@ const graph = jsonld ? [siteLd, jsonld] : [siteLd];
   code, kbd, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
   .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
   header { padding: 28px 0 4px; display: flex; align-items: center; gap: 12px; }
-  .home { font-size: 22px; font-weight: 700; letter-spacing: -.02em; color: var(--text); display: inline-flex; align-items: center; gap: 8px; }
+  .home { font-size: 22px; font-weight: 700; letter-spacing: -.02em; color: var(--text); display: inline-flex; align-items: center; gap: 10px; }
   .home:hover { text-decoration: none; }
+  .logo-mark { display: block; border-radius: 8px; flex: 0 0 auto; box-shadow: 0 2px 6px rgba(13,148,136,.35); }
   .icon-btn { margin-left: auto; background: var(--card); border: 1px solid var(--border); color: var(--text); border-radius: 9px; width: 38px; height: 38px; font-size: 17px; cursor: pointer; line-height: 1; }
   .icon-btn:hover { border-color: var(--accent); }
   .t-light { display: none; } .t-dark { display: inline; }
@@ -135,7 +152,8 @@ const graph = jsonld ? [siteLd, jsonld] : [siteLd];
 
   .addcmd { display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; }
   .cmd { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; font-size: 13px; overflow: auto; white-space: nowrap; flex: 1; min-width: 260px; font-family: ui-monospace, monospace; }
-  .copy { background: var(--accent); color: var(--accent-fg); border: 0; border-radius: 8px; padding: 0 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .copy { background: var(--brand-grad); color: #fff; border: 0; border-radius: 8px; padding: 0 14px; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .copy:hover { filter: brightness(1.05); }
   .copy:active { transform: translateY(1px); }
 
   .ver { font-size: 11px; font-weight: 600; color: var(--muted); background: var(--chip); border-radius: 6px; padding: 2px 6px; }
