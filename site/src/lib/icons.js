@@ -29,6 +29,7 @@ const BRAND = {
   verdaccio: "verdaccio",
   cockroachdb: "cockroachlabs",
   caddy: "caddy",
+  audiobookshelf: "audiobookshelf",
   nginx: "nginx",
   gitea: "gitea",
   keycloak: "keycloak",

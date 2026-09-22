@@ -23,10 +23,10 @@ const CATEGORIES = {
   gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools", filebrowser: "Dev tools", verdaccio: "Dev tools",
   n8n: "Automation", "node-red": "Automation", changedetection: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics",
-  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps",
+  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps",
   fleet: "Device management",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI",
-  memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases",
+  memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases",
   meilisearch: "Search", typesense: "Search",
   ntfy: "Notifications", gotify: "Notifications",
   backup: "Backup", "rest-server": "Backup",
@@ -237,6 +237,7 @@ const GITHUB_REPO = {
   adguardhome: "AdguardTeam/AdGuardHome", verdaccio: "verdaccio/verdaccio", cockroachdb: "cockroachdb/cockroach",
   weaviate: "weaviate/weaviate", changedetection: "dgtlmoon/changedetection.io", emqx: "emqx/emqx",
   planka: "plankanban/planka", beszel: "henrygd/beszel", caddy: "caddyserver/caddy",
+  memos: "usememos/memos", questdb: "questdb/questdb", jellyseerr: "fallenbagel/jellyseerr", linkwarden: "linkwarden/linkwarden", audiobookshelf: "advplyr/audiobookshelf",
 };
 
 function formatStars(n) {
