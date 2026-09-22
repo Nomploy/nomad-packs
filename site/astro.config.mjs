@@ -1,8 +1,8 @@
 import { defineConfig } from "astro/config";
 
-// Project site under https://nomploy.github.io/nomad-packs/
+// Served at the custom domain root: https://packs.nomploy.com/
 export default defineConfig({
-  site: "https://nomploy.github.io",
-  base: "/nomad-packs",
+  site: "https://packs.nomploy.com",
+  base: "/",
   trailingSlash: "always",
 });

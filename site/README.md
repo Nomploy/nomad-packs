@@ -31,7 +31,7 @@ build; no code change needed here.
 **GitHub Pages** on every push to `master` touching `packs/**` or `site/**`.
 
 One-time: repo Settings → Pages → Source = **GitHub Actions**. Published at
-`https://nomploy.github.io/nomad-packs/`.
+`https://packs.nomploy.com/`.
 
 ## JSON API
 
@@ -49,8 +49,8 @@ Both are plain static files served by GitHub Pages (which sends `Access-Control-
 so they're fetchable from the browser or server-side:
 
 ```
-https://nomploy.github.io/nomad-packs/api/packs.json
-https://nomploy.github.io/nomad-packs/api/packs/redis.json
+https://packs.nomploy.com/api/packs.json
+https://packs.nomploy.com/api/packs/redis.json
 ```
 
 The data comes straight from `src/lib/packs.js`, so adding a pack updates the API on the
