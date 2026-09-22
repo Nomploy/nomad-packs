@@ -63,19 +63,8 @@ next deploy with no extra work.
 per pack). `src/pages/sitemap.xml.js` generates `/sitemap.xml` (home + every pack page) and
 `public/robots.txt` points crawlers at it.
 
-## Analytics (optional Plausible)
+## Analytics (Plausible)
 
-Off by default — no tracking script is emitted unless you enable it. Set a build-time env
-var to turn it on:
-
-| Env var | Purpose |
-| --- | --- |
-| `PLAUSIBLE_DOMAIN` | The Plausible `data-domain` (e.g. `packs.nomploy.com`). Enables the snippet. |
-| `PLAUSIBLE_SRC` | Script URL. Defaults to `https://plausible.io/js/script.js`; point it at your self-hosted instance (the [`plausible`](../packs/plausible) pack), e.g. `https://analytics.example.com/js/script.js`. |
-
-In CI these come from repo **Variables** (Settings → Secrets and variables → Actions →
-Variables), wired in `.github/workflows/pages.yml`. Locally:
-
-```sh
-PLAUSIBLE_DOMAIN=packs.nomploy.com npm run build
-```
+Privacy-friendly analytics via a **self-hosted [Plausible](../packs/plausible)** instance at
+`plausible.pipoline.com`. The tracking snippet is hardcoded in `src/layouts/Base.astro`
+(`<head>`); to change instances or remove tracking, edit that block.

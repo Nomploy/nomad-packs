@@ -11,11 +11,6 @@ const site = Astro.site ?? new URL("https://packs.nomploy.com");
 const canonical = new URL(Astro.url.pathname, site).href;
 const ogImage = new URL("og.png", site).href;
 
-// Configurable Plausible analytics — only injected when PLAUSIBLE_DOMAIN is set
-// at build time (CI repo variable / env). No tracking otherwise.
-const plausibleDomain = process.env.PLAUSIBLE_DOMAIN || "";
-const plausibleSrc = process.env.PLAUSIBLE_SRC || "https://plausible.io/js/script.js";
-
 // Site-level structured data, always emitted; pages can add their own via `jsonld`.
 const siteLd = {
   "@context": "https://schema.org",
@@ -55,9 +50,14 @@ const graph = jsonld ? [siteLd, jsonld] : [siteLd];
     <meta name="theme-color" content="#0e1116" />
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%A6%3C/text%3E%3C/svg%3E" />
     <Fragment set:html={`<script type="application/ld+json">${JSON.stringify(graph).replace(/</g, "\\u003c")}</script>`} />
-    {plausibleDomain && (
-      <script is:inline defer data-domain={plausibleDomain} src={plausibleSrc}></script>
-    )}
+
+    <!-- Privacy-friendly analytics by Plausible (self-hosted) -->
+    <script is:inline async src="https://plausible.pipoline.com/js/pa-DnxNyLwv20JL0f51e7E34.js"></script>
+    <script is:inline>
+      window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+      plausible.init()
+    </script>
+
     <script is:inline>
       // Apply the saved theme before paint to avoid a flash.
       try {
