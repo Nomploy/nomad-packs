@@ -18,12 +18,12 @@ const CATEGORIES = {
   postgres: "Databases", mariadb: "Databases", redis: "Databases", clickhouse: "Databases",
   seaweedfs: "Object storage",
   rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging",
-  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability",
+  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability",
   keycloak: "Identity", vaultwarden: "Identity", authentik: "Identity",
   gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools",
   n8n: "Automation", "node-red": "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics",
-  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps",
+  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps",
   fleet: "Device management",
   ollama: "AI", qdrant: "AI", "open-webui": "AI",
   memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases",
@@ -98,6 +98,7 @@ const GITHUB_REPO = {
   "node-red": "node-red/node-red", influxdb: "influxdata/influxdb", neo4j: "neo4j/neo4j",
   valkey: "valkey-io/valkey", couchdb: "apache/couchdb", dragonfly: "dragonflydb/dragonfly",
   authentik: "goauthentik/authentik", actual: "actualbudget/actual",
+  glance: "glanceapp/glance", "blackbox-exporter": "prometheus/blackbox_exporter",
 };
 
 function formatStars(n) {
