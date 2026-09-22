@@ -18,12 +18,12 @@ const CATEGORIES = {
   postgres: "Databases", mariadb: "Databases", redis: "Databases", clickhouse: "Databases",
   seaweedfs: "Object storage",
   rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging",
-  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability",
+  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability",
   keycloak: "Identity", vaultwarden: "Identity", authentik: "Identity",
   gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools",
   n8n: "Automation", "node-red": "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics",
-  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps",
+  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps",
   fleet: "Device management",
   ollama: "AI", qdrant: "AI", "open-webui": "AI",
   memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases",
@@ -101,6 +101,7 @@ const GITHUB_REPO = {
   glance: "glanceapp/glance", "blackbox-exporter": "prometheus/blackbox_exporter",
   "postgres-exporter": "prometheus-community/postgres_exporter", "redis-exporter": "oliver006/redis_exporter", "mysqld-exporter": "prometheus/mysqld_exporter",
   navidrome: "navidrome/navidrome", syncthing: "syncthing/syncthing", "rest-server": "restic/rest-server",
+  glances: "nicolargo/glances", jellyfin: "jellyfin/jellyfin", photoprism: "photoprism/photoprism",
 };
 
 function formatStars(n) {
