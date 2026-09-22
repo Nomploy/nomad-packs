@@ -121,6 +121,34 @@ function parseVariables(hcl) {
   });
 }
 
+// Extract quick facts from a rendered-ish job template: exposed static ports (with
+// their variable defaults resolved), named-volume mount targets, and the task count.
+function parseFacts(tpl, variables) {
+  if (!tpl) return { ports: [], volumes: [], tasks: 0 };
+  const defs = Object.fromEntries(variables.map((v) => [v.name, (v.default || "").replace(/^"|"$/g, "")]));
+  const resolve = (raw) => {
+    raw = raw.trim().replace(/,$/, "").trim();
+    const vm = raw.match(/\[\[\s*var\s+"([^"]+)"/);
+    return vm ? defs[vm[1]] ?? "" : raw.replace(/^"|"$/g, "");
+  };
+  const ports = [];
+  let m;
+  const pre = /port\s+"([^"]+)"\s*\{([\s\S]*?)\}/g;
+  while ((m = pre.exec(tpl))) {
+    const sm = m[2].match(/static\s*=\s*([^\n]+)/);
+    if (sm) ports.push({ name: m[1], port: resolve(sm[1]) });
+  }
+  const volumes = [];
+  const vre = /mount\s*\{([\s\S]*?)\}/g;
+  while ((m = vre.exec(tpl))) {
+    if (!/type\s*=\s*"volume"/.test(m[1])) continue;
+    const tm = m[1].match(/target\s*=\s*"([^"]+)"/);
+    if (tm && !volumes.includes(tm[1])) volumes.push(tm[1]);
+  }
+  const tasks = (tpl.match(/task\s+"[^"]+"\s*\{/g) || []).length;
+  return { ports, volumes, tasks };
+}
+
 // Upstream GitHub repo (owner/repo) per pack, for the star badge. Omit where the
 // project isn't primarily on GitHub. A wrong/missing repo just hides the badge.
 const GITHUB_REPO = {
@@ -197,6 +225,8 @@ export async function getPacks() {
       const name = meta.name || d;
       const category = CATEGORIES[d] || "Other";
       const icon = resolveIcon(d, name, category);
+      const variables = parseVariables(readIf(join(dir, "variables.hcl")));
+      const facts = parseFacts(readIf(join(dir, "templates", d + ".nomad.tpl")), variables);
       return {
         id: d,
         name,
@@ -210,7 +240,8 @@ export async function getPacks() {
         repo: GITHUB_REPO[d] || null,
         stars: null,
         starsLabel: null,
-        variables: parseVariables(readIf(join(dir, "variables.hcl"))),
+        variables,
+        facts,
         icon: icon.compact,
         iconSvg: icon.svg,
         readme,

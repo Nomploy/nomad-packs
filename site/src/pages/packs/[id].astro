@@ -61,6 +61,24 @@ const jsonld = {
   </p>
 
   {
+    pack.facts && (pack.facts.ports.length > 0 || pack.facts.volumes.length > 0 || pack.facts.tasks > 0) && (
+      <div class="facts">
+        {pack.facts.tasks > 0 && (
+          <span class="fact"><span class="fk">{pack.facts.tasks}</span> {pack.facts.tasks === 1 ? "task" : "tasks"}</span>
+        )}
+        {pack.facts.ports.map((p) => (
+          <span class="fact port" title={`${p.name} port`}>{p.name} <span class="fk">{p.port}</span></span>
+        ))}
+        {pack.facts.volumes.length > 0 && (
+          <span class="fact" title={pack.facts.volumes.join("\n")}>
+            <span class="fk">{pack.facts.volumes.length}</span> {pack.facts.volumes.length === 1 ? "volume" : "volumes"}
+          </span>
+        )}
+      </div>
+    )
+  }
+
+  {
     pack.variables.length > 0 && (
       <>
         <div class="vtop">
@@ -122,6 +140,11 @@ const jsonld = {
   .desc { color: var(--muted); margin: 6px 0 16px; }
   .links { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; margin: 8px 0 0; }
   .links .stars { color: #e3b341; font-weight: 600; }
+
+  .facts { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 0; }
+  .fact { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); background: var(--chip); border: 1px solid var(--border); border-radius: 8px; padding: 4px 10px; }
+  .fact.port { font-family: ui-monospace, monospace; }
+  .fact .fk { font-weight: 700; color: var(--text); font-family: ui-monospace, monospace; }
 
   .vtop { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 28px 0 8px; }
   .vcount { font-size: 12px; font-weight: 600; color: var(--muted); background: var(--chip); border-radius: 999px; padding: 1px 8px; margin-left: 4px; }
