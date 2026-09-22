@@ -10,7 +10,7 @@ time it scans every pack's `metadata.hcl`, `variables.hcl`, and `README.md`
 ```sh
 cd site
 npm install
-npm run dev       # http://localhost:4321/nomad-packs/
+npm run dev       # http://localhost:4321/
 ```
 
 ## Build
@@ -21,9 +21,9 @@ npm run build     # outputs site/dist/ (static)
 npm run preview   # serve the build locally
 ```
 
-Config lives in `astro.config.mjs` — `base: /nomad-packs` for the GitHub Pages project
-subpath. Adding or editing a pack under `../packs/` is automatically picked up on the next
-build; no code change needed here.
+Config lives in `astro.config.mjs` — `site: https://packs.nomploy.com`, served at the root
+(`base: /`) via the custom domain (`public/CNAME`). Adding or editing a pack under
+`../packs/` is automatically picked up on the next build; no code change needed here.
 
 ## Deploy
 
@@ -55,3 +55,27 @@ https://packs.nomploy.com/api/packs/redis.json
 
 The data comes straight from `src/lib/packs.js`, so adding a pack updates the API on the
 next deploy with no extra work.
+
+## SEO
+
+`src/layouts/Base.astro` emits per-page canonical URLs, Open Graph + Twitter card tags
+(shared `public/og.png`, 1200×630), and JSON-LD (`WebSite` site-wide, `SoftwareApplication`
+per pack). `src/pages/sitemap.xml.js` generates `/sitemap.xml` (home + every pack page) and
+`public/robots.txt` points crawlers at it.
+
+## Analytics (optional Plausible)
+
+Off by default — no tracking script is emitted unless you enable it. Set a build-time env
+var to turn it on:
+
+| Env var | Purpose |
+| --- | --- |
+| `PLAUSIBLE_DOMAIN` | The Plausible `data-domain` (e.g. `packs.nomploy.com`). Enables the snippet. |
+| `PLAUSIBLE_SRC` | Script URL. Defaults to `https://plausible.io/js/script.js`; point it at your self-hosted instance (the [`plausible`](../packs/plausible) pack), e.g. `https://analytics.example.com/js/script.js`. |
+
+In CI these come from repo **Variables** (Settings → Secrets and variables → Actions →
+Variables), wired in `.github/workflows/pages.yml`. Locally:
+
+```sh
+PLAUSIBLE_DOMAIN=packs.nomploy.com npm run build
+```
