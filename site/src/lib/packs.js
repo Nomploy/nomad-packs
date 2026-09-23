@@ -36,6 +36,55 @@ function gitDates() {
   _gitDates = { added, updated };
   return _gitDates;
 }
+
+// Last commit date at which each pack's container image default was changed (added
+// or bumped). One `git log -p` pass over the variables.hcl files, matching added
+// `default = "…"` lines that look like an image reference. Best-effort; empty on failure.
+let _imgDates;
+function imageBumpDates() {
+  if (_imgDates) return _imgDates;
+  const bumped = {};
+  try {
+    const out = execSync(
+      'git -C "' + REPO_ROOT + '" log --format="C:%cI" -p -- "packs/*/variables.hcl"',
+      { encoding: "utf8", maxBuffer: 128 * 1024 * 1024, stdio: ["ignore", "pipe", "ignore"] }
+    );
+    let date = null, id = null;
+    for (const line of out.split("\n")) {
+      if (line.startsWith("C:")) { date = line.slice(2).trim(); continue; }
+      if (line.startsWith("diff --git")) { id = null; continue; }
+      const f = line.match(/^\+\+\+ b\/packs\/([^/]+)\/variables\.hcl/);
+      if (f) { id = f[1]; continue; }
+      if (!id || !date) continue;
+      const m = line.match(/^\+\s*default\s*=\s*"([^"]+)"/);
+      if (!m) continue;
+      const v = m[1];
+      // container ref: no spaces, has a registry path or a :tag, not a URL/email/secret
+      if (!/^[a-z0-9][\w.\-/]*(?::[\w.\-]+)?(?:@sha256:[a-f0-9]+)?$/.test(v)) continue;
+      if (!(v.includes("/") || /:[\w.\-]+$/.test(v))) continue;
+      if (!bumped[id]) bumped[id] = date; // newest-first → first hit = last bump
+    }
+  } catch {}
+  _imgDates = bumped;
+  return _imgDates;
+}
+
+// Split a container image reference into repo + tag/digest, and flag whether it is
+// pinned to a concrete version (anything other than empty or "latest").
+function parseImageRef(image) {
+  const s = (image || "").trim();
+  if (!s) return { repo: "", tag: "", pinned: false };
+  const digest = s.match(/@(sha256:[a-f0-9]+)$/);
+  const bare = digest ? s.slice(0, digest.index) : s;
+  const slash = bare.lastIndexOf("/");
+  const colon = bare.indexOf(":", slash + 1); // colon after the last '/' is the tag
+  const repo = colon === -1 ? bare : bare.slice(0, colon);
+  const tag = colon === -1 ? "" : bare.slice(colon + 1);
+  const label = digest ? (tag ? `${tag}@${digest[1].slice(0, 14)}…` : `${digest[1].slice(0, 14)}…`) : tag;
+  const pinned = Boolean(digest) || (tag !== "" && tag !== "latest");
+  return { repo, tag: label, pinned };
+}
+
 const REPO_URL = "https://github.com/Nomploy/nomad-packs";
 
 export const REGISTRY_URL = "github.com/Nomploy/nomad-packs";
@@ -153,7 +202,7 @@ function parseVariables(hcl) {
 // their variable defaults resolved), named-volume mount targets, and the task count.
 function parseFacts(tpl, variables) {
   const defs = Object.fromEntries(variables.map((v) => [v.name, (v.default || "").replace(/^"|"$/g, "")]));
-  if (!tpl) return { ports: [], volumes: [], tasks: 0, image: defs.image || "", cpu: 0, memory: 0 };
+  if (!tpl) return { ports: [], volumes: [], tasks: 0, bundledDb: false, image: defs.image || "", cpu: 0, memory: 0 };
   const resolve = (raw) => {
     raw = raw.trim().replace(/,$/, "").trim();
     const vm = raw.match(/\[\[\s*var\s+"([^"]+)"/);
@@ -174,6 +223,8 @@ function parseFacts(tpl, variables) {
     if (tm && !volumes.includes(tm[1])) volumes.push(tm[1]);
   }
   const tasks = (tpl.match(/task\s+"[^"]+"\s*\{/g) || []).length;
+  // A bundled database sidecar (all-in-one packs): a task named after a common DB engine.
+  const bundledDb = /task\s+"(postgres(?:ql)?|mariadb|mysql|redis|valkey|mongo(?:db)?|clickhouse|couchdb|database|db)"/i.test(tpl);
   // Estimate CPU/RAM from the resources object variables (main + sidecars).
   let cpu = 0, memory = 0;
   for (const v of variables) {
@@ -183,7 +234,7 @@ function parseFacts(tpl, variables) {
     if (mm) memory += parseInt(mm[1], 10);
     if (cc) cpu += parseInt(cc[1], 10);
   }
-  return { ports, volumes, tasks, image: defs.image || "", cpu, memory };
+  return { ports, volumes, tasks, bundledDb, image: defs.image || "", cpu, memory };
 }
 
 // "Pairs with" relationships. Listed one-directionally; buildRelated() makes them
@@ -362,6 +413,7 @@ let cache;
 export async function getPacks() {
   if (cache) return cache;
   const dates = gitDates();
+  const imgBumped = imageBumpDates();
   const packs = readdirSync(PACKS_DIR)
     .filter((d) => statSync(join(PACKS_DIR, d)).isDirectory())
     .map((d) => {
@@ -373,6 +425,7 @@ export async function getPacks() {
       const icon = resolveIcon(d, name, category);
       const variables = parseVariables(readIf(join(dir, "variables.hcl")));
       const facts = parseFacts(readIf(join(dir, "templates", d + ".nomad.tpl")), variables);
+      const img = parseImageRef(facts.image);
       return {
         id: d,
         name,
@@ -388,6 +441,9 @@ export async function getPacks() {
         starsLabel: null,
         variables,
         facts,
+        imageTag: img.tag,
+        imagePinned: img.pinned,
+        imageBumped: imgBumped[d] || null,
         added: dates.added[d] || null,
         updated: dates.updated[d] || null,
         related: [],
