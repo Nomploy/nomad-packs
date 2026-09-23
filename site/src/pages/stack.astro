@@ -116,13 +116,6 @@ const base = import.meta.env.BASE_URL;
   .stats b { color: var(--text); }
   .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 18px 0 8px; }
   .portmap { display: flex; flex-direction: column; gap: 4px; }
-  .pmrow { display: flex; align-items: center; gap: 8px; font-size: 13px; }
-  .pmrow .pp { font-family: ui-monospace, monospace; font-weight: 700; min-width: 58px; }
-  .pmrow .pu { color: var(--muted); }
-  .pmrow.bad { color: #b42318; }
-  .pmrow.bad .pp { color: #b42318; }
-  :root[data-theme="dark"] .pmrow.bad, :root[data-theme="dark"] .pmrow.bad .pp { color: #ff9d94; }
-  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pmrow.bad, :root:not([data-theme="light"]) .pmrow.bad .pp { color: #ff9d94; } }
   .conflict { border: 1px solid #f59e0b66; background: #f59e0b1a; color: #b45309; border-radius: 8px; padding: 9px 11px; font-size: 13px; margin-top: 10px; }
   :root[data-theme="dark"] .conflict { color: #fbbf24; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .conflict { color: #fbbf24; } }
@@ -131,6 +124,20 @@ const base = import.meta.env.BASE_URL;
   .addcmd { display: flex; gap: 8px; align-items: flex-start; }
   .muted { color: var(--muted); } .small { font-size: 12px; }
   .back { margin: 22px 0 0; font-size: 13px; }
+</style>
+
+<!-- Global: the port-map rows are built client-side via innerHTML, so scoped
+     styles would not match them. -->
+<style is:global>
+  .portmap .pmrow { display: flex; align-items: baseline; gap: 10px; font-size: 13px; }
+  .portmap .pmrow .pp { font-family: ui-monospace, monospace; font-weight: 700; min-width: 56px; flex: 0 0 auto; }
+  .portmap .pmrow .pu { color: var(--muted); }
+  .portmap .pmrow.bad, .portmap .pmrow.bad .pp { color: #b42318; }
+  :root[data-theme="dark"] .portmap .pmrow.bad, :root[data-theme="dark"] .portmap .pmrow.bad .pp { color: #ff9d94; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .portmap .pmrow.bad,
+    :root:not([data-theme="light"]) .portmap .pmrow.bad .pp { color: #ff9d94; }
+  }
 </style>
 
 <script is:inline>
