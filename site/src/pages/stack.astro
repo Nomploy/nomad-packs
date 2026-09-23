@@ -14,6 +14,7 @@ const data = packs.map((p) => ({
   volumes: p.facts.volumes.length,
   cpu: p.facts.cpu || 0,
   memory: p.facts.memory || 0,
+  setvars: p.variables.filter((v) => v.placeholder || v.sensitive).map((v) => ({ name: v.name, ph: !!v.placeholder })),
 }));
 const stacksData = stacks.map((s) => ({ id: s.id, name: s.name, packs: s.packs }));
 const cats = [...new Set(data.map((d) => d.category))].sort();
@@ -74,6 +75,9 @@ const base = import.meta.env.BASE_URL;
 
       <div class="section-title">Selected packs</div>
       <div id="sellist" class="sellist"><p class="muted">Nothing selected yet — pick packs on the left or load a starter stack above.</p></div>
+
+      <div class="section-title">Set before deploy</div>
+      <div id="setvars" class="setvars"><p class="muted">Variables you must set (passwords, secrets, URLs) appear here per pack.</p></div>
 
       <div class="section-title">Host ports</div>
       <div id="portmap" class="portmap"><p class="muted">Select packs to see their ports.</p></div>
@@ -154,6 +158,13 @@ const base = import.meta.env.BASE_URL;
   .selitem .si-ports { margin-left: auto; font-family: ui-monospace, monospace; font-size: 11.5px; color: var(--muted); }
   .selitem .si-x { cursor: pointer; border: 0; background: none; color: var(--muted); font-size: 15px; line-height: 1; padding: 0 2px; }
   .selitem .si-x:hover { color: #b42318; }
+  .setvars { display: flex; flex-direction: column; gap: 6px; }
+  .setvars .svrow { font-size: 13px; line-height: 1.5; }
+  .setvars .svp { font-weight: 600; color: var(--accent); }
+  .setvars .svv code { font-family: ui-monospace, monospace; font-size: 11.5px; background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px; padding: 1px 5px; margin: 0 2px 2px 0; display: inline-block; color: var(--muted); }
+  .setvars .svv code.must { color: #b45309; border-color: #f59e0b66; background: #f59e0b1a; }
+  :root[data-theme="dark"] .setvars .svv code.must { color: #fbbf24; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .setvars .svv code.must { color: #fbbf24; } }
   .portmap .pmrow { display: flex; align-items: baseline; gap: 10px; font-size: 13px; }
   .portmap .pmrow .pp { font-family: ui-monospace, monospace; font-weight: 700; min-width: 56px; flex: 0 0 auto; }
   .portmap .pmrow .pu { color: var(--muted); }
@@ -213,6 +224,17 @@ const base = import.meta.env.BASE_URL;
       const d = byId[id];
       return `<div class="selitem"><span class="si-name">${esc(d.name)}</span><span class="si-cat">${esc(d.category)}</span><span class="si-ports">${d.ports.join(" · ") || "—"}</span><button class="si-x" data-id="${id}" title="Remove" aria-label="Remove ${esc(d.name)}">✕</button></div>`;
     }).join("");
+
+    // variables to set (placeholders/secrets) per pack
+    const sv = $("setvars");
+    if (!sel.length) {
+      sv.innerHTML = '<p class="muted">Variables you must set (passwords, secrets, URLs) appear here per pack.</p>';
+    } else {
+      const rows = sel.map((id) => byId[id]).filter((d) => d.setvars && d.setvars.length);
+      sv.innerHTML = rows.length
+        ? rows.map((d) => `<div class="svrow"><a class="svp" href="../packs/${d.id}/">${esc(d.name)}</a> <span class="svv">${d.setvars.map((v) => `<code class="${v.ph ? "must" : ""}">${esc(v.name)}</code>`).join(" ")}</span></div>`).join("")
+        : '<p class="muted">No secrets flagged — sensible defaults, but review each pack before production.</p>';
+    }
 
     // port map
     const pm = $("portmap");
