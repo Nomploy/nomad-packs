@@ -3,11 +3,39 @@
 import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { execSync } from "node:child_process";
 import { marked } from "marked";
 import { resolveIcon } from "./icons.js";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const PACKS_DIR = join(HERE, "..", "..", "..", "packs");
+const REPO_ROOT = join(HERE, "..", "..", "..");
+
+// Git-derived first-seen (added) and last-changed (updated) dates for every pack,
+// from one `git log` pass over packs/. Needs full history (fetch-depth: 0 in CI);
+// falls back to empty on any failure so the build never breaks.
+let _gitDates;
+function gitDates() {
+  if (_gitDates) return _gitDates;
+  const added = {}, updated = {};
+  try {
+    const out = execSync(
+      'git -C "' + REPO_ROOT + '" log --diff-filter=AM --name-only --format="C:%cI" -- packs/',
+      { encoding: "utf8", maxBuffer: 64 * 1024 * 1024, stdio: ["ignore", "pipe", "ignore"] }
+    );
+    let date = null;
+    for (const line of out.split("\n")) {
+      if (line.startsWith("C:")) { date = line.slice(2).trim(); continue; }
+      const m = line.match(/^packs\/([^/]+)\//);
+      if (!m || !date) continue;
+      const id = m[1];
+      if (!updated[id]) updated[id] = date; // log is newest-first → first seen = latest
+      added[id] = date;                      // keep overwriting → ends on oldest
+    }
+  } catch {}
+  _gitDates = { added, updated };
+  return _gitDates;
+}
 const REPO_URL = "https://github.com/Nomploy/nomad-packs";
 
 export const REGISTRY_URL = "github.com/Nomploy/nomad-packs";
@@ -328,6 +356,7 @@ async function fetchStars(repo) {
 let cache;
 export async function getPacks() {
   if (cache) return cache;
+  const dates = gitDates();
   const packs = readdirSync(PACKS_DIR)
     .filter((d) => statSync(join(PACKS_DIR, d)).isDirectory())
     .map((d) => {
@@ -354,6 +383,8 @@ export async function getPacks() {
         starsLabel: null,
         variables,
         facts,
+        added: dates.added[d] || null,
+        updated: dates.updated[d] || null,
         related: [],
         alternatives: [],
         icon: icon.compact,

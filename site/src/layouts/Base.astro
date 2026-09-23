@@ -3,13 +3,14 @@ const {
   title = "Nomploy Nomad Packs",
   description = "Browse the Nomploy curated Nomad Pack registry — batteries-included, one-click infrastructure packs for Nomad: databases, observability, dev tools, and apps you self-host.",
   jsonld = null,
+  image = "og.png",
 } = Astro.props;
 const base = import.meta.env.BASE_URL;
 
 // SEO: absolute canonical + social image derived from the configured site.
 const site = Astro.site ?? new URL("https://packs.nomploy.com");
 const canonical = new URL(Astro.url.pathname, site).href;
-const ogImage = new URL("og.png", site).href;
+const ogImage = new URL(image, site).href;
 
 // Site-level structured data, always emitted; pages can add their own via `jsonld`.
 const siteLd = {
@@ -93,6 +94,7 @@ const graph = jsonld ? [siteLd, jsonld] : [siteLd];
         · <a href={`${base}stacks/`}>Stacks</a>
         · <a href={`${base}stack/`}>Stack builder</a>
         · <a href={`${base}api/packs.json`}>JSON API</a>
+        · <a href={`${base}updates.xml`}>RSS</a>
       </footer>
     </div>
 
