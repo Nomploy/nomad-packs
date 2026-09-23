@@ -32,6 +32,8 @@ const BRAND = {
   audiobookshelf: "audiobookshelf",
   rustdesk: "rustdesk",
   mattermost: "mattermost",
+  "home-assistant": "homeassistant",
+  esphome: "esphome",
   cloudbeaver: "dbeaver",
   nginx: "nginx",
   gitea: "gitea",

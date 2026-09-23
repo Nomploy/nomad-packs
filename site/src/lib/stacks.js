@@ -50,6 +50,14 @@ export const STACKS = [
       "A self-hosted dev backbone: Gitea for Git hosting, zot as an OCI container registry, Verdaccio as a private npm registry, and code-server for VS Code in the browser.",
     packs: ["gitea", "zot", "verdaccio", "code-server"],
   },
+  {
+    id: "home-automation",
+    name: "Home automation stack",
+    tagline: "Smart home, local and private",
+    description:
+      "Run your smart home locally: Home Assistant as the hub, Mosquitto as the MQTT broker, ESPHome to build firmware for ESP32/ESP8266 devices, and Node-RED for flows and automations.",
+    packs: ["home-assistant", "mosquitto", "esphome", "node-red"],
+  },
 ];
 
 export function getStacks() {
