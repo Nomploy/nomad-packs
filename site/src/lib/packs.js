@@ -197,18 +197,54 @@ const RELATED = {
   nocodb: ["directus", "grist"],
 };
 
-function buildRelated(allIds) {
+// Build a symmetric adjacency (a→b implies b→a) from a one-directional map,
+// dropping unknown ids and capping each list.
+function buildGraph(map, allIds, cap = 8) {
   const idset = new Set(allIds);
   const adj = {};
   const add = (a, b) => {
     if (a === b) return;
     (adj[a] ??= new Set()).add(b);
   };
-  for (const [a, list] of Object.entries(RELATED)) for (const b of list) { add(a, b); add(b, a); }
+  for (const [a, list] of Object.entries(map)) for (const b of list) { add(a, b); add(b, a); }
   const out = {};
-  for (const id of allIds) out[id] = [...(adj[id] ?? [])].filter((x) => idset.has(x)).sort().slice(0, 8);
+  for (const id of allIds) out[id] = [...(adj[id] ?? [])].filter((x) => idset.has(x)).sort().slice(0, cap);
   return out;
 }
+
+// "Alternatives" — packs that do essentially the same job (pick one). Grouped;
+// buildGraph makes every member an alternative of the others.
+const ALTERNATIVES = {
+  redis: ["valkey", "dragonfly", "memcached"],
+  valkey: ["dragonfly", "memcached"],
+  postgres: ["mariadb", "cockroachdb"],
+  timescaledb: ["postgres", "influxdb", "questdb"],
+  mosquitto: ["emqx"],
+  meilisearch: ["typesense"],
+  qdrant: ["weaviate"],
+  "open-webui": ["lobe-chat"],
+  keycloak: ["authentik", "pocket-id"],
+  plausible: ["umami", "matomo"],
+  linkwarden: ["shiori"],
+  docmost: ["wikijs", "hedgedoc"],
+  trilium: ["memos"],
+  "uptime-kuma": ["gatus", "statping"],
+  monitoring: ["beszel"],
+  glances: ["beszel"],
+  ntfy: ["gotify"],
+  caddy: ["nginx-proxy-manager"],
+  opengist: ["microbin"],
+  homepage: ["glance", "flame"],
+  adminer: ["cloudbeaver"],
+  pgweb: ["pgadmin"],
+  actual: ["firefly-iii"],
+  directus: ["nocodb", "grist"],
+  jellyseerr: [],
+  drawio: ["excalidraw"],
+};
+
+function buildRelated(allIds) { return buildGraph(RELATED, allIds); }
+function buildAlternatives(allIds) { return buildGraph(ALTERNATIVES, allIds, 6); }
 
 // Upstream GitHub repo (owner/repo) per pack, for the star badge. Omit where the
 // project isn't primarily on GitHub. A wrong/missing repo just hides the badge.
@@ -319,6 +355,7 @@ export async function getPacks() {
         variables,
         facts,
         related: [],
+        alternatives: [],
         icon: icon.compact,
         iconSvg: icon.svg,
         readme,
@@ -327,10 +364,15 @@ export async function getPacks() {
     })
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  // Attach symmetric "pairs with" relationships now that every id is known.
-  const rel = buildRelated(packs.map((p) => p.id));
+  // Attach symmetric "pairs with" + "alternatives" relationships now that every id is known.
+  const ids = packs.map((p) => p.id);
+  const rel = buildRelated(ids);
+  const alt = buildAlternatives(ids);
   const nameOf = Object.fromEntries(packs.map((p) => [p.id, p.name]));
-  for (const p of packs) p.related = rel[p.id].map((id) => ({ id, name: nameOf[id] }));
+  for (const p of packs) {
+    p.related = rel[p.id].map((id) => ({ id, name: nameOf[id] }));
+    p.alternatives = alt[p.id].map((id) => ({ id, name: nameOf[id] }));
+  }
 
   // Fetch stars in parallel for packs with a known repo (best-effort).
   await Promise.all(

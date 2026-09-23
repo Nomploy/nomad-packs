@@ -71,6 +71,12 @@ const base = import.meta.env.BASE_URL;
         <span><b id="nram">0</b> <span id="nramunit">MB RAM</span></span>
       </div>
 
+      <div class="cap">
+        <label class="caplabel">Node RAM <input id="capgb" type="number" min="1" step="1" value="8" /> GB</label>
+        <div class="capbar"><div id="capfill" class="capfill"></div></div>
+        <div id="capnote" class="capnote muted">Estimated RAM vs. your node's capacity.</div>
+      </div>
+
       <div id="conflict" class="conflict" hidden></div>
 
       <div class="section-title">Selected packs</div>
@@ -137,6 +143,16 @@ const base = import.meta.env.BASE_URL;
   .ghost:hover { border-color: var(--accent); }
   .stats { display: flex; gap: 14px; flex-wrap: wrap; color: var(--muted); font-size: 13px; margin: 8px 0 4px; }
   .stats b { color: var(--text); }
+  .cap { margin: 10px 0 4px; }
+  .caplabel { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  .caplabel input { width: 60px; padding: 4px 6px; border: 1px solid var(--border); border-radius: 6px; background: var(--card); color: var(--text); font-size: 13px; }
+  .capbar { height: 8px; border-radius: 999px; background: var(--chip); overflow: hidden; margin: 8px 0 6px; }
+  .capfill { height: 100%; width: 0; background: var(--accent); transition: width .2s ease; }
+  .capfill.warn { background: #f59e0b; }
+  .capfill.over { background: #e5484d; }
+  .capnote { font-size: 12.5px; }
+  .capnote.over { color: #b42318; }
+  :root[data-theme="dark"] .capnote.over { color: #ff9d94; }
   .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 18px 0 8px; }
   .portmap { display: flex; flex-direction: column; gap: 4px; }
   .conflict { border: 1px solid #f59e0b66; background: #f59e0b1a; color: #b45309; border-radius: 8px; padding: 9px 11px; font-size: 13px; margin-top: 10px; }
@@ -208,6 +224,19 @@ const base = import.meta.env.BASE_URL;
     $("nvols").textContent = vols;
     $("nram").textContent = ram >= 1024 ? (ram / 1024).toFixed(1) : ram;
     $("nramunit").textContent = ram >= 1024 ? "GB RAM" : "MB RAM";
+
+    // node capacity check
+    const capMb = Math.max(1, (parseFloat($("capgb").value) || 0)) * 1024;
+    const pct = ram / capMb;
+    const fill = $("capfill"), note = $("capnote");
+    fill.style.width = Math.min(100, pct * 100).toFixed(0) + "%";
+    fill.classList.toggle("over", pct > 1);
+    fill.classList.toggle("warn", pct > 0.8 && pct <= 1);
+    note.classList.toggle("over", pct > 1);
+    const gb = (n) => (n / 1024).toFixed(1);
+    if (!sel.length) note.textContent = "Estimated RAM vs. your node's capacity.";
+    else if (pct > 1) note.textContent = `~${gb(ram)} GB needed — over your ${gb(capMb)} GB node by ${gb(ram - capMb)} GB. Trim the stack or use a bigger node.`;
+    else note.textContent = `~${gb(ram)} GB of ${gb(capMb)} GB used (${Math.round(pct * 100)}%) — fits.`;
     const ports = Object.keys(portUsers).map(Number).sort((a, b) => a - b);
     $("nports").textContent = ports.length;
 
@@ -271,6 +300,8 @@ const base = import.meta.env.BASE_URL;
     b.closest(".row").classList.toggle("sel", b.checked);
     recompute();
   }));
+
+  $("capgb").addEventListener("input", recompute);
 
   // filter
   const sf = $("sfilter");

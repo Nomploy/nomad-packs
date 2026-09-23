@@ -93,6 +93,17 @@ const jsonld = {
   }
 
   {
+    pack.alternatives && pack.alternatives.length > 0 && (
+      <div class="related">
+        <span class="rlabel">Alternatives</span>
+        {pack.alternatives.map((r) => (
+          <a class="rchip alt" href={`${base}packs/${r.id}/`}>{r.name}</a>
+        ))}
+      </div>
+    )
+  }
+
+  {
     pack.variables.length > 0 && (
       <>
         <div class="vtop">
@@ -166,6 +177,8 @@ const jsonld = {
   .rlabel { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
   .rchip { font-size: 13px; color: var(--accent); background: var(--chip); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; }
   .rchip:hover { border-color: var(--accent); text-decoration: none; }
+  .rchip.alt { color: var(--muted); }
+  .rchip.alt:hover { color: var(--accent); }
 
   .vtop { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 28px 0 8px; }
   .vcount { font-size: 12px; font-weight: 600; color: var(--muted); background: var(--chip); border-radius: 999px; padding: 1px 8px; margin-left: 4px; }
