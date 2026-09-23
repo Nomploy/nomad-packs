@@ -36,6 +36,7 @@ const BRAND = {
   esphome: "esphome",
   consul: "consul",
   etcd: "etcd",
+  "nginx-proxy-manager": "nginxproxymanager",
   cloudbeaver: "dbeaver",
   nginx: "nginx",
   gitea: "gitea",
