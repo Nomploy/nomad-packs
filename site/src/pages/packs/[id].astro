@@ -10,6 +10,18 @@ const { pack } = Astro.props;
 const base = import.meta.env.BASE_URL;
 const runCmd = `nomad-pack run ${pack.id} --registry nomploy`;
 
+// Compact "3 days ago" style relative time for the last image bump.
+function relTime(iso) {
+  if (!iso) return "";
+  const d = (Date.now() - new Date(iso).getTime()) / 86400000;
+  if (d < 1) return "today";
+  if (d < 2) return "yesterday";
+  if (d < 31) return `${Math.round(d)} days ago`;
+  if (d < 365) return `${Math.round(d / 30)} mo ago`;
+  return `${Math.round(d / 365)} yr ago`;
+}
+const bumpedRel = relTime(pack.imageBumped);
+
 // A ready-to-edit HCL var file: every variable, its description as a comment, and its default.
 const valuesHcl =
   pack.variables.map((v) => `# ${v.description}\n${v.name} = ${v.default || "\"\""}`).join("\n\n") + "\n";
@@ -50,6 +62,14 @@ const jsonld = {
     <div class="cmd" id="runcmd">{runCmd}</div>
     <button class="copy" data-copy="#runcmd">Copy</button>
   </div>
+  <details class="oneliner">
+    <summary>…or one line (add registry + run)</summary>
+    <div class="addcmd">
+      <div class="cmd" id="onecmd">{`curl -fsSL https://packs.nomploy.com/install.sh | sh -s -- ${pack.id}`}</div>
+      <button class="copy" data-copy="#onecmd">Copy</button>
+    </div>
+    <p class="olhint">Needs <code>nomad-pack</code> on PATH. The script only adds the <code>nomploy</code> registry and runs this pack.</p>
+  </details>
   <p class="links">
     <a href={pack.sourceUrl} target="_blank" rel="noopener">Source ↗</a>
     {pack.appUrl && <a href={pack.appUrl} target="_blank" rel="noopener">Project ↗</a>}
@@ -76,6 +96,17 @@ const jsonld = {
         )}
         {pack.facts.image && (
           <span class="fact img" title="container image"><span class="mut">image</span> {pack.facts.image}</span>
+        )}
+        {pack.imageTag && (
+          <span
+            class={`fact vtagf ${pack.imagePinned ? "pin" : "float"}`}
+            title={pack.imagePinned ? `Image pinned to :${pack.imageTag} — reproducible deploys` : "Image tracks :latest — not version-pinned; Renovate keeps the digest fresh"}
+          >{pack.imagePinned ? "pinned" : "tracks"} <span class="fk">:{pack.imageTag}</span></span>
+        )}
+        {bumpedRel && (
+          <span class="fact" title={`Image default last changed ${new Date(pack.imageBumped).toISOString().slice(0, 10)} (Renovate / manual bump)`}>
+            <span class="mut">image bumped</span> {bumpedRel}
+          </span>
         )}
       </div>
     )
@@ -160,6 +191,13 @@ const jsonld = {
 
 <style>
   .crumb { margin: 16px 0 0; font-size: 13px; }
+  .oneliner { margin: 8px 0 0; font-size: 13px; }
+  .oneliner > summary { cursor: pointer; color: var(--accent); font-weight: 600; list-style: none; user-select: none; }
+  .oneliner > summary::-webkit-details-marker { display: none; }
+  .oneliner > summary::before { content: "▸ "; }
+  .oneliner[open] > summary::before { content: "▾ "; }
+  .oneliner[open] > summary { margin-bottom: 8px; }
+  .olhint { color: var(--muted); font-size: 12.5px; margin: 8px 0 0; }
   .head { display: flex; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
   .head h1 { margin: 0; font-size: 26px; letter-spacing: -.02em; }
   .desc { color: var(--muted); margin: 6px 0 16px; }
@@ -172,6 +210,11 @@ const jsonld = {
   .fact.img { font-family: ui-monospace, monospace; }
   .fact .fk { font-weight: 700; color: var(--text); font-family: ui-monospace, monospace; }
   .fact .mut { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 10.5px; letter-spacing: .04em; }
+  .fact.vtagf { font-family: ui-monospace, monospace; }
+  .fact.vtagf.pin { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 40%, var(--border)); }
+  .fact.vtagf.float { color: #b45309; background: #f59e0b18; border-color: #f59e0b55; }
+  :root[data-theme="dark"] .fact.vtagf.float { color: #fbbf24; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .fact.vtagf.float { color: #fbbf24; } }
 
   .related { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 14px 0 0; }
   .rlabel { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }

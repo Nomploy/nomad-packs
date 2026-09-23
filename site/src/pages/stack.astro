@@ -15,6 +15,8 @@ const data = packs.map((p) => ({
   cpu: p.facts.cpu || 0,
   memory: p.facts.memory || 0,
   setvars: p.variables.filter((v) => v.placeholder || v.sensitive).map((v) => ({ name: v.name, ph: !!v.placeholder })),
+  // Full variable surface for the combined values.hcl generator.
+  vars: p.variables.map((v) => ({ name: v.name, def: v.default || "", desc: v.description || "", ph: !!v.placeholder, sec: !!v.sensitive })),
 }));
 const stacksData = stacks.map((s) => ({ id: s.id, name: s.name, packs: s.packs }));
 const cats = [...new Set(data.map((d) => d.category))].sort();
@@ -87,6 +89,17 @@ const base = import.meta.env.BASE_URL;
 
       <div class="section-title">Host ports</div>
       <div id="portmap" class="portmap"><p class="muted">Select packs to see their ports.</p></div>
+
+      <details class="valgen" id="valgen">
+        <summary>Combined <code>values.hcl</code> + one-paste deploy script</summary>
+        <div class="valgen-in">
+          <p class="muted small" id="valnote">One editable <code>values.hcl</code> section per selected pack, plus a script that writes each file and runs the pack. Fill in the <span class="mustlabel">CHANGE ME</span> values first.</p>
+          <div class="addcmd">
+            <pre class="cmd" id="valscript">Select packs to generate the deploy script.</pre>
+            <button class="copy" data-copy="#valscript">Copy</button>
+          </div>
+        </div>
+      </details>
 
       <div class="section-title">Deploy</div>
       <div class="addcmd">
@@ -184,6 +197,15 @@ const base = import.meta.env.BASE_URL;
   .portmap .pmrow { display: flex; align-items: baseline; gap: 10px; font-size: 13px; }
   .portmap .pmrow .pp { font-family: ui-monospace, monospace; font-weight: 700; min-width: 56px; flex: 0 0 auto; }
   .portmap .pmrow .pu { color: var(--muted); }
+  .valgen { margin: 6px 0 2px; }
+  .valgen > summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 13px; list-style: none; user-select: none; }
+  .valgen > summary::-webkit-details-marker { display: none; }
+  .valgen > summary::before { content: "▸ "; }
+  .valgen[open] > summary::before { content: "▾ "; }
+  .valgen-in { margin-top: 10px; }
+  .mustlabel { color: #b45309; font-weight: 600; }
+  :root[data-theme="dark"] .mustlabel { color: #fbbf24; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .mustlabel { color: #fbbf24; } }
   .portmap .pmrow.bad, .portmap .pmrow.bad .pp { color: #b42318; }
   :root[data-theme="dark"] .portmap .pmrow.bad, :root[data-theme="dark"] .portmap .pmrow.bad .pp { color: #ff9d94; }
   @media (prefers-color-scheme: dark) {
@@ -293,6 +315,35 @@ const base = import.meta.env.BASE_URL;
     if (!sel.length) { cmds.textContent = "Select packs to generate commands."; }
     else {
       cmds.textContent = [`nomad-pack registry add nomploy ${REGISTRY}`, ...sel.map((id) => `nomad-pack run ${id} --registry nomploy`)].join("\n");
+    }
+
+    // combined values.hcl + one-paste deploy script
+    const vg = $("valscript");
+    if (!sel.length) { vg.textContent = "Select packs to generate the deploy script."; }
+    else {
+      // "notable" = worth overriding: placeholders, secrets, ports, urls, images, emails.
+      const notable = (v) => v.ph || v.sec || /(?:^|_)port$|_url$|^base_url$|^image$|_password$|_email$|_key$|secret/i.test(v.name);
+      const lines = [`nomad-pack registry add nomploy ${REGISTRY}`, ""];
+      for (const id of sel) {
+        const d = byId[id];
+        const vs = (d.vars || []).filter(notable);
+        if (!vs.length) {
+          lines.push(`# ${d.name} — defaults are fine, run as-is`, `nomad-pack run ${id} --registry nomploy`, "");
+          continue;
+        }
+        lines.push(`# ${d.name} — edit values below, then it deploys`);
+        lines.push(`cat > ${id}.values.hcl <<'HCL'`);
+        for (const v of vs) {
+          if (v.desc) lines.push(`# ${v.desc}`);
+          const flag = (v.ph || v.sec) ? "   # <-- CHANGE ME" : "";
+          const val = v.def !== "" ? v.def : '""';
+          lines.push(`${v.name} = ${val}${flag}`);
+        }
+        lines.push("HCL");
+        lines.push(`nomad-pack run ${id} -f ${id}.values.hcl --registry nomploy`);
+        lines.push("");
+      }
+      vg.textContent = lines.join("\n").replace(/\n+$/, "\n");
     }
   }
 

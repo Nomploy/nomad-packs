@@ -26,11 +26,19 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
       <div class="cmd" id="addcmd">{addCmd}</div>
       <button class="copy" data-copy="#addcmd">Copy</button>
     </div>
+    <details class="oneliner">
+      <summary>…or one line to add the registry &amp; run a pack</summary>
+      <div class="addcmd">
+        <div class="cmd" id="onecmd">curl -fsSL https://packs.nomploy.com/install.sh | sh -s -- grafana</div>
+        <button class="copy" data-copy="#onecmd">Copy</button>
+      </div>
+      <p class="olhint">Replace <code>grafana</code> with any pack id (or omit it to just add the registry). Needs <code>nomad-pack</code> on PATH.</p>
+    </details>
     <p class="herolinks"><a href={`${base}stacks/`}>📦 Common stacks</a> · <a href={`${base}stack/`}>🧩 Stack builder — check for port conflicts →</a></p>
   </section>
 
   <div class="controls">
-    <input id="q" type="search" placeholder="Search packs…  ( / )" autocomplete="off" />
+    <input id="q" type="search" placeholder="Search packs by name, description, or port…  ( / )" autocomplete="off" />
     <label class="sortwrap">
       <span>Sort</span>
       <select id="sort">
@@ -46,6 +54,17 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
         <span class="chip" data-cat={c}>{c} <span class="c">{counts[c]}</span></span>
       ))}
     </div>
+    <div class="facets" id="facets">
+      <span class="facet-label">Filters</span>
+      <span class="facet" data-facet="stateless" title="No persistent volume — safe to scale to count > 1">Stateless</span>
+      <span class="facet" data-facet="persistent" title="Has at least one persistent volume">Persistent</span>
+      <span class="facet" data-facet="db" title="Ships a bundled database sidecar (all-in-one)">Bundled DB</span>
+      <span class="facet" data-facet="single" title="A single container task">Single task</span>
+      <span class="facet" data-facet="pinned" title="Image pinned to a concrete version tag">Pinned image</span>
+      <span class="facet" data-facet="light" title="Estimated ≤ 256 MB RAM">≤256 MB</span>
+      <span class="facet" data-facet="mid" title="Estimated 257 MB – 1 GB RAM">256 MB–1 GB</span>
+      <span class="facet" data-facet="heavy" title="Estimated &gt; 1 GB RAM">&gt;1 GB</span>
+    </div>
   </div>
 
   <div class="grid" id="grid">
@@ -59,6 +78,12 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
           data-cat={p.category}
           data-stars={p.stars ?? -1}
           data-vars={p.variables.length}
+          data-mem={p.facts.memory || 0}
+          data-vols={p.facts.volumes.length}
+          data-tasks={p.facts.tasks || 0}
+          data-db={p.facts.bundledDb ? 1 : 0}
+          data-pinned={p.imagePinned ? 1 : 0}
+          data-ports={p.facts.ports.map((x) => x.port).join(" ")}
         >
           <div class="phead">
             {p.icon.kind === "brand" ? (
@@ -74,6 +99,12 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
           <p>{p.description}</p>
           <div class="foot">
             <span>{p.variables.length} variables</span>
+            {p.imageTag && (
+              <span
+                class={`itag ${p.imagePinned ? "pin" : "float"}`}
+                title={p.imagePinned ? `Image pinned to :${p.imageTag}` : "Image tracks :latest (not version-pinned)"}
+              >:{p.imageTag}</span>
+            )}
             {p.starsLabel && <span class="stars" title={`${p.stars.toLocaleString()} GitHub stars`}>★ {p.starsLabel}</span>}
             <span class="arrow">→</span>
           </div>
@@ -96,6 +127,13 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
   .stats { display: flex; gap: 8px 18px; flex-wrap: wrap; margin: 0 0 16px; font-size: 13px; color: var(--muted); }
   .stat b { color: var(--text); font-size: 15px; }
   .stat + .stat { padding-left: 18px; border-left: 1px solid var(--border); }
+  .oneliner { margin: 8px 0 0; font-size: 13px; }
+  .oneliner > summary { cursor: pointer; color: var(--accent); font-weight: 600; list-style: none; user-select: none; }
+  .oneliner > summary::-webkit-details-marker { display: none; }
+  .oneliner > summary::before { content: "▸ "; }
+  .oneliner[open] > summary::before { content: "▾ "; }
+  .oneliner[open] > summary { margin-bottom: 8px; }
+  .olhint { color: var(--muted); font-size: 12.5px; margin: 8px 0 0; }
   .herolinks { margin: 14px 0 0; font-size: 14px; }
   .herolinks a { font-weight: 600; }
   @media (max-width: 560px) { .hero h1 { font-size: 24px; } .stat + .stat { padding-left: 0; border-left: 0; } }
@@ -108,6 +146,11 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
   .chip .c { font-size: 11px; opacity: .7; }
   .chip.on { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
   .chip.on .c { opacity: .85; }
+  .facets { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; width: 100%; }
+  .facet-label { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin-right: 2px; }
+  .facet { background: transparent; border: 1px dashed var(--border); color: var(--muted); border-radius: 999px; padding: 4px 10px; font-size: 12.5px; cursor: pointer; user-select: none; }
+  .facet:hover { border-color: var(--accent); color: var(--text); }
+  .facet.on { background: color-mix(in srgb, var(--accent) 14%, var(--card)); color: var(--accent); border-style: solid; border-color: var(--accent); font-weight: 600; }
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; padding: 20px 0 8px; }
   .pcard { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); transition: transform .08s ease, border-color .12s ease; color: inherit; display: flex; flex-direction: column; }
   /* the author display:flex above beats the UA [hidden] rule, so filtering needs this */
@@ -119,6 +162,11 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
   .pcard p { margin: 0; color: var(--muted); font-size: 13.5px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .foot { margin-top: 12px; color: var(--muted); font-size: 12px; display: flex; align-items: center; gap: 10px; }
   .foot .stars { color: #e3b341; font-weight: 600; }
+  .foot .itag { font-family: ui-monospace, monospace; font-size: 11px; font-weight: 600; border-radius: 6px; padding: 1px 6px; border: 1px solid var(--border); }
+  .foot .itag.pin { color: var(--accent); background: var(--chip); }
+  .foot .itag.float { color: #b45309; background: #f59e0b18; border-color: #f59e0b55; }
+  :root[data-theme="dark"] .foot .itag.float { color: #fbbf24; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .foot .itag.float { color: #fbbf24; } }
   .foot .arrow { margin-left: auto; }
   .empty { color: var(--muted); padding: 40px 0; text-align: center; }
   .count { color: var(--muted); font-size: 13px; }
@@ -134,6 +182,19 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
   const count = document.getElementById("count");
   const total = cards.length;
   let activeCat = "";
+  const facetsEl = document.getElementById("facets");
+  const activeFacets = new Set();
+
+  const facetTests = {
+    stateless: (c) => +c.dataset.vols === 0,
+    persistent: (c) => +c.dataset.vols > 0,
+    db: (c) => c.dataset.db === "1",
+    single: (c) => +c.dataset.tasks === 1,
+    pinned: (c) => c.dataset.pinned === "1",
+    light: (c) => +c.dataset.mem > 0 && +c.dataset.mem <= 256,
+    mid: (c) => +c.dataset.mem > 256 && +c.dataset.mem <= 1024,
+    heavy: (c) => +c.dataset.mem > 1024,
+  };
 
   const byName = (a, b) => a.dataset.name.localeCompare(b.dataset.name);
   const comparators = {
@@ -153,8 +214,11 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
     let shown = 0;
     for (const c of cards) {
       const okCat = !activeCat || c.dataset.cat === activeCat;
-      const okText = !term || c.dataset.name.includes(term) || c.dataset.desc.includes(term);
-      const show = okCat && okText;
+      const okText = !term || c.dataset.name.includes(term) || c.dataset.desc.includes(term) ||
+        (c.dataset.ports || "").includes(term);
+      let okFacets = true;
+      for (const f of activeFacets) if (!facetTests[f](c)) { okFacets = false; break; }
+      const show = okCat && okText && okFacets;
       c.hidden = !show;
       if (show) shown++;
     }
@@ -169,6 +233,15 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
     if (!chip) return;
     activeCat = chip.dataset.cat;
     chips.querySelectorAll(".chip").forEach((c) => c.classList.toggle("on", c === chip));
+    apply();
+  });
+  facetsEl.addEventListener("click", (e) => {
+    const f = e.target.closest(".facet");
+    if (!f) return;
+    const key = f.dataset.facet;
+    if (activeFacets.has(key)) activeFacets.delete(key);
+    else activeFacets.add(key);
+    f.classList.toggle("on", activeFacets.has(key));
     apply();
   });
 
