@@ -41,6 +41,7 @@ const BRAND = {
   matomo: "matomo",
   mysql: "mysql",
   mumble: "mumble",
+  jupyter: "jupyter",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
