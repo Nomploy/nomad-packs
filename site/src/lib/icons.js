@@ -42,6 +42,8 @@ const BRAND = {
   mysql: "mysql",
   mumble: "mumble",
   jupyter: "jupyter",
+  netdata: "netdata",
+  searxng: "searxng",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
