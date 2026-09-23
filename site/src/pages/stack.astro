@@ -1,0 +1,203 @@
+---
+import Base from "../layouts/Base.astro";
+import { getPacks, REGISTRY_URL } from "../lib/packs.js";
+
+const packs = await getPacks();
+const data = packs.map((p) => ({
+  id: p.id,
+  name: p.name,
+  category: p.category,
+  ports: [...new Set(p.facts.ports.map((x) => parseInt(x.port, 10)).filter((n) => !Number.isNaN(n)))],
+  tasks: p.facts.tasks || 0,
+  volumes: p.facts.volumes.length,
+}));
+const cats = [...new Set(data.map((d) => d.category))].sort();
+const byCat = Object.fromEntries(cats.map((c) => [c, data.filter((d) => d.category === c).sort((a, b) => a.name.localeCompare(b.name))]));
+const base = import.meta.env.BASE_URL;
+---
+
+<Base
+  title="Stack builder — Nomploy Nomad Packs"
+  description="Compose a self-hosted stack from Nomploy Nomad Packs and instantly catch host-port collisions before you deploy."
+>
+  <section class="hero">
+    <h1>Stack builder</h1>
+    <p class="lede">
+      Pick the packs you want to run on one node. Because every pack is host-networked on static
+      ports, the real risk when combining them is a <strong>port collision</strong> — this catches
+      it before you deploy, and generates the commands.
+    </p>
+  </section>
+
+  <div class="sb">
+    <div class="picker">
+      <input id="sfilter" type="search" placeholder="Filter packs…" autocomplete="off" />
+      {cats.map((c) => (
+        <div class="cat-group" data-cat={c}>
+          <div class="cat-head">{c}</div>
+          {byCat[c].map((d) => (
+            <label class="row" data-name={d.id}>
+              <input type="checkbox" value={d.id} />
+              <span class="rn">{d.name}</span>
+              <span class="rp">{d.ports.length ? d.ports.join(" · ") : "—"}</span>
+            </label>
+          ))}
+        </div>
+      ))}
+    </div>
+
+    <aside class="summary" id="summary">
+      <div class="scount"><b id="nsel">0</b> packs selected</div>
+      <div class="stats">
+        <span><b id="ntasks">0</b> tasks</span>
+        <span><b id="nports">0</b> ports</span>
+        <span><b id="nvols">0</b> volumes</span>
+      </div>
+
+      <div id="conflict" class="conflict" hidden></div>
+
+      <div class="section-title">Host ports</div>
+      <div id="portmap" class="portmap"><p class="muted">Select packs to see their ports.</p></div>
+
+      <div class="section-title">Deploy</div>
+      <div class="addcmd">
+        <pre class="cmd" id="cmds">Select packs to generate commands.</pre>
+        <button class="copy" data-copy="#cmds">Copy</button>
+      </div>
+      <p class="muted small">Pin stateful packs to one node with each pack's <code>constraints</code> variable, and set any <code>*_password</code> / <code>secret</code> before production.</p>
+    </aside>
+  </div>
+
+  <p class="back"><a href={base}>← Back to the catalog</a></p>
+
+  <script type="application/json" id="stackdata" set:html={JSON.stringify(data)}></script>
+</Base>
+
+<style>
+  .hero { padding: 18px 20px; margin: 12px 0 16px; border: 1px solid var(--border); border-radius: 16px; background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, var(--card)) 0%, var(--card) 60%); position: relative; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--brand-grad); }
+  .hero h1 { margin: 2px 0 6px; font-size: 26px; letter-spacing: -.02em; background: var(--brand-grad); -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-block; }
+  .lede { color: var(--muted); margin: 0; max-width: 760px; }
+
+  .sb { display: grid; grid-template-columns: 1fr 360px; gap: 18px; align-items: start; }
+  @media (max-width: 820px) { .sb { grid-template-columns: 1fr; } .summary { position: static !important; } }
+
+  #sfilter { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font-size: 14px; margin-bottom: 12px; }
+  .cat-group { margin-bottom: 14px; }
+  .cat-head { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 6px; }
+  .row { display: flex; align-items: center; gap: 10px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); margin-bottom: 6px; cursor: pointer; }
+  .row:hover { border-color: var(--accent); }
+  .row input { accent-color: var(--accent); width: 16px; height: 16px; }
+  .rn { flex: 1; font-size: 14px; }
+  .rp { font-family: ui-monospace, monospace; font-size: 12px; color: var(--muted); }
+  .row.sel { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--card)); }
+
+  .summary { position: sticky; top: 12px; border: 1px solid var(--border); border-radius: 12px; padding: 16px; background: var(--card); box-shadow: var(--shadow); }
+  .scount { font-size: 15px; } .scount b { font-size: 20px; }
+  .stats { display: flex; gap: 14px; flex-wrap: wrap; color: var(--muted); font-size: 13px; margin: 8px 0 4px; }
+  .stats b { color: var(--text); }
+  .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 18px 0 8px; }
+  .portmap { display: flex; flex-direction: column; gap: 4px; }
+  .pmrow { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+  .pmrow .pp { font-family: ui-monospace, monospace; font-weight: 700; min-width: 58px; }
+  .pmrow .pu { color: var(--muted); }
+  .pmrow.bad { color: #b42318; }
+  .pmrow.bad .pp { color: #b42318; }
+  :root[data-theme="dark"] .pmrow.bad, :root[data-theme="dark"] .pmrow.bad .pp { color: #ff9d94; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pmrow.bad, :root:not([data-theme="light"]) .pmrow.bad .pp { color: #ff9d94; } }
+  .conflict { border: 1px solid #f59e0b66; background: #f59e0b1a; color: #b45309; border-radius: 8px; padding: 9px 11px; font-size: 13px; margin-top: 10px; }
+  :root[data-theme="dark"] .conflict { color: #fbbf24; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .conflict { color: #fbbf24; } }
+  .conflict.ok { border-color: color-mix(in srgb, var(--accent) 50%, transparent); background: color-mix(in srgb, var(--accent) 12%, transparent); color: var(--accent); }
+  .cmd { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 12.5px; overflow: auto; white-space: pre; font-family: ui-monospace, monospace; max-height: 260px; margin: 0; }
+  .addcmd { display: flex; gap: 8px; align-items: flex-start; }
+  .muted { color: var(--muted); } .small { font-size: 12px; }
+  .back { margin: 22px 0 0; font-size: 13px; }
+</style>
+
+<script is:inline>
+  const DATA = JSON.parse(document.getElementById("stackdata").textContent);
+  const byId = Object.fromEntries(DATA.map((d) => [d.id, d]));
+  const REGISTRY = "github.com/Nomploy/nomad-packs";
+  const boxes = [...document.querySelectorAll('.picker input[type=checkbox]')];
+  const $ = (id) => document.getElementById(id);
+
+  function selected() { return boxes.filter((b) => b.checked).map((b) => b.value); }
+
+  function recompute() {
+    const sel = selected();
+    $("nsel").textContent = sel.length;
+    let tasks = 0, vols = 0;
+    const portUsers = {}; // port -> [names]
+    for (const id of sel) {
+      const d = byId[id];
+      tasks += d.tasks; vols += d.volumes;
+      for (const p of d.ports) (portUsers[p] ||= []).push(d.name);
+    }
+    $("ntasks").textContent = tasks;
+    $("nvols").textContent = vols;
+    const ports = Object.keys(portUsers).map(Number).sort((a, b) => a - b);
+    $("nports").textContent = ports.length;
+
+    // port map
+    const pm = $("portmap");
+    if (!sel.length) { pm.innerHTML = '<p class="muted">Select packs to see their ports.</p>'; }
+    else {
+      pm.innerHTML = ports.map((p) => {
+        const users = portUsers[p];
+        const bad = users.length > 1;
+        return `<div class="pmrow ${bad ? "bad" : ""}"><span class="pp">${p}</span><span class="pu">${users.join(", ")}${bad ? " ⚠ conflict" : ""}</span></div>`;
+      }).join("");
+    }
+
+    // conflict banner
+    const conflicts = ports.filter((p) => portUsers[p].length > 1);
+    const cf = $("conflict");
+    if (!sel.length) { cf.hidden = true; }
+    else if (conflicts.length) {
+      cf.hidden = false; cf.classList.remove("ok");
+      cf.innerHTML = `⚠ ${conflicts.length} port ${conflicts.length === 1 ? "conflict" : "conflicts"} (${conflicts.join(", ")}). Change the port variable on one of the clashing packs, or run them on different nodes.`;
+    } else {
+      cf.hidden = false; cf.classList.add("ok");
+      cf.textContent = "✓ No host-port conflicts in this selection.";
+    }
+
+    // commands
+    const cmds = $("cmds");
+    if (!sel.length) { cmds.textContent = "Select packs to generate commands."; }
+    else {
+      cmds.textContent = [`nomad-pack registry add nomploy ${REGISTRY}`, ...sel.map((id) => `nomad-pack run ${id} --registry nomploy`)].join("\n");
+    }
+  }
+
+  boxes.forEach((b) => b.addEventListener("change", () => {
+    b.closest(".row").classList.toggle("sel", b.checked);
+    recompute();
+  }));
+
+  // filter
+  const sf = $("sfilter");
+  sf?.addEventListener("input", () => {
+    const t = sf.value.trim().toLowerCase();
+    for (const row of document.querySelectorAll(".picker .row")) {
+      row.style.display = !t || row.dataset.name.includes(t) ? "" : "none";
+    }
+    for (const g of document.querySelectorAll(".cat-group")) {
+      const any = [...g.querySelectorAll(".row")].some((r) => r.style.display !== "none");
+      g.style.display = any ? "" : "none";
+    }
+  });
+
+  document.querySelectorAll(".copy").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const el = document.querySelector(btn.dataset.copy);
+      try {
+        await navigator.clipboard.writeText(el.textContent);
+        const o = btn.textContent; btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = o), 1200);
+      } catch (e) {}
+    });
+  });
+
+  recompute();
+</script>

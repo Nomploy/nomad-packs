@@ -26,6 +26,7 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
       <div class="cmd" id="addcmd">{addCmd}</div>
       <button class="copy" data-copy="#addcmd">Copy</button>
     </div>
+    <p class="herolinks"><a href={`${base}stack/`}>🧩 Build a stack &amp; check for port conflicts →</a></p>
   </section>
 
   <div class="controls">
@@ -95,6 +96,8 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
   .stats { display: flex; gap: 8px 18px; flex-wrap: wrap; margin: 0 0 16px; font-size: 13px; color: var(--muted); }
   .stat b { color: var(--text); font-size: 15px; }
   .stat + .stat { padding-left: 18px; border-left: 1px solid var(--border); }
+  .herolinks { margin: 14px 0 0; font-size: 14px; }
+  .herolinks a { font-weight: 600; }
   @media (max-width: 560px) { .hero h1 { font-size: 24px; } .stat + .stat { padding-left: 0; border-left: 0; } }
   .controls { position: sticky; top: 0; background: var(--bg); padding: 14px 0; z-index: 5; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; border-bottom: 1px solid var(--border); }
   #q { flex: 1; min-width: 220px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font-size: 15px; }
