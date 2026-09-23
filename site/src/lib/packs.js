@@ -20,10 +20,10 @@ const CATEGORIES = {
   rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging", redpanda: "Messaging", soketi: "Messaging",
   monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability",
   keycloak: "Identity", vaultwarden: "Identity", authentik: "Identity", "pocket-id": "Identity",
-  gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools", filebrowser: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools", opengist: "Dev tools", wakapi: "Dev tools", kroki: "Dev tools",
+  gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools", filebrowser: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools", opengist: "Dev tools", wakapi: "Dev tools", kroki: "Dev tools", microbin: "Dev tools",
   n8n: "Automation", "node-red": "Automation", changedetection: "Automation", "home-assistant": "Automation", esphome: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics", matomo: "Analytics",
-  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps", shiori: "Apps", "firefly-iii": "Apps", kimai: "Apps", drawio: "Apps",
+  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps", shiori: "Apps", "firefly-iii": "Apps", kimai: "Apps", drawio: "Apps", komga: "Apps", pairdrop: "Apps",
   fleet: "Device management",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI",
   memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases", etcd: "Databases",
@@ -257,6 +257,7 @@ const GITHUB_REPO = {
   shiori: "go-shiori/shiori", "firefly-iii": "firefly-iii/firefly-iii", litellm: "BerriAI/litellm",
   matomo: "matomo-org/matomo", kimai: "kimai/kimai", wakapi: "muety/wakapi",
   drawio: "jgraph/drawio", "cloudflare-ddns": "favonia/cloudflare-ddns", kroki: "yuzutech/kroki",
+  komga: "gotson/komga", pairdrop: "schlagmichdoch/PairDrop", microbin: "szabodanika/microbin",
 };
 
 function formatStars(n) {
