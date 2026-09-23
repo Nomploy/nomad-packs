@@ -44,6 +44,7 @@ const BRAND = {
   jupyter: "jupyter",
   netdata: "netdata",
   searxng: "searxng",
+  minio: "minio",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
