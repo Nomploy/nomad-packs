@@ -44,6 +44,7 @@ const SAAS = [
   { slug: "google-search", name: "Google Search", tagline: "Private web search", packs: ["searxng", "whoogle"] },
   { slug: "speedtest-net", name: "Speedtest.net", tagline: "Network speed test", packs: ["openspeedtest"] },
   { slug: "datadog", name: "Datadog", tagline: "Infrastructure monitoring", packs: ["netdata", "grafana", "monitoring"] },
+  { slug: "amazon-s3", name: "Amazon S3", tagline: "Object storage", packs: ["minio", "seaweedfs"] },
   { slug: "elasticsearch", name: "Elasticsearch", tagline: "Full-text search engine", packs: ["meilisearch", "typesense"] },
   { slug: "firebase", name: "Firebase", tagline: "Backend-as-a-service", packs: ["pocketbase", "directus"] },
   { slug: "mongodb-atlas", name: "MongoDB Atlas", tagline: "Document database", packs: ["ferretdb"] },
