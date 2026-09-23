@@ -1,0 +1,63 @@
+job "[[ var "job_name" . ]]" {
+  namespace   = "[[ var "namespace" . ]]"
+  datacenters = [[ var "datacenters" . | toStringList ]]
+  type        = "service"
+
+  [[- range $c := var "constraints" . ]]
+  constraint {
+    attribute = "[[ $c.attribute ]]"
+    operator  = "[[ $c.operator ]]"
+    value     = "[[ $c.value ]]"
+  }
+  [[- end ]]
+
+  group "[[ var "job_name" . ]]" {
+    count = 1
+
+    network {
+      mode = "host"
+      port "http" {
+        static = [[ var "port" . ]]
+      }
+    }
+
+    service {
+      name     = "[[ var "job_name" . ]]"
+      provider = "nomad"
+      port     = "http"
+    }
+
+    restart {
+      attempts = 3
+      interval = "5m"
+      delay    = "15s"
+      mode     = "delay"
+    }
+
+    task "pocket-id" {
+      driver = "docker"
+
+      config {
+        image        = "[[ var "image" . ]]"
+        network_mode = "host"
+        ports        = ["http"]
+        mount {
+          type   = "volume"
+          target = "/app/data"
+          source = "[[ var "data_volume" . ]]"
+        }
+      }
+
+      env {
+        PORT        = "[[ var "port" . ]]"
+        APP_URL     = "[[ if ne (var "app_url" .) "" ]][[ var "app_url" . ]][[ else ]]http://localhost:[[ var "port" . ]][[ end ]]"
+        TRUST_PROXY = "[[ var "trust_proxy" . ]]"
+      }
+
+      resources {
+        cpu    = [[ (var "resources" .).cpu ]]
+        memory = [[ (var "resources" .).memory ]]
+      }
+    }
+  }
+}

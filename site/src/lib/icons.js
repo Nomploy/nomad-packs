@@ -31,6 +31,7 @@ const BRAND = {
   caddy: "caddy",
   audiobookshelf: "audiobookshelf",
   rustdesk: "rustdesk",
+  mattermost: "mattermost",
   nginx: "nginx",
   gitea: "gitea",
   keycloak: "keycloak",
