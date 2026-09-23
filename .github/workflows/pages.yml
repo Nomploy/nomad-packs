@@ -27,6 +27,8 @@ jobs:
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history so the site can derive each pack's added/updated date
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
