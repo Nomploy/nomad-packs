@@ -39,6 +39,8 @@ const BRAND = {
   "nginx-proxy-manager": "nginxproxymanager",
   "firefly-iii": "fireflyiii",
   matomo: "matomo",
+  mysql: "mysql",
+  mumble: "mumble",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
