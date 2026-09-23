@@ -23,9 +23,9 @@ const CATEGORIES = {
   gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools", filebrowser: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools", opengist: "Dev tools",
   n8n: "Automation", "node-red": "Automation", changedetection: "Automation", "home-assistant": "Automation", esphome: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics",
-  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps",
+  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps", shiori: "Apps", "firefly-iii": "Apps",
   fleet: "Device management",
-  ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI",
+  ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI",
   memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases", etcd: "Databases",
   meilisearch: "Search", typesense: "Search", whoogle: "Search",
   ntfy: "Notifications", gotify: "Notifications",
@@ -245,6 +245,7 @@ const GITHUB_REPO = {
   "home-assistant": "home-assistant/core", esphome: "esphome/esphome", flame: "pawelmalak/flame",
   consul: "hashicorp/consul", etcd: "etcd-io/etcd", whoogle: "benbusby/whoogle-search",
   "nginx-proxy-manager": "NginxProxyManager/nginx-proxy-manager", opengist: "thomiceli/opengist", "lobe-chat": "lobehub/lobe-chat",
+  shiori: "go-shiori/shiori", "firefly-iii": "firefly-iii/firefly-iii", litellm: "BerriAI/litellm",
 };
 
 function formatStars(n) {
