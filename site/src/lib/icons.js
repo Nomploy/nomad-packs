@@ -38,6 +38,7 @@ const BRAND = {
   etcd: "etcd",
   "nginx-proxy-manager": "nginxproxymanager",
   "firefly-iii": "fireflyiii",
+  matomo: "matomo",
   cloudbeaver: "dbeaver",
   nginx: "nginx",
   gitea: "gitea",
