@@ -100,6 +100,24 @@ const builderHref = `${base}stack/?packs=${stack.packs.join(",")}`;
     ))}
   </div>
 
+  <div class="section-title">Variables to set</div>
+  <div class="setvars">
+    {members.map((p) => {
+      const vs = p.variables.filter((v) => v.placeholder || v.sensitive);
+      return (
+        <div class="svrow">
+          <a class="svp" href={`${base}packs/${p.id}/`}>{p.name}</a>{" "}
+          {vs.length === 0 ? (
+            <span class="muted">sensible defaults</span>
+          ) : (
+            <span class="svv">{vs.map((v) => <code class={v.placeholder ? "must" : ""}>{v.name}</code>)}</span>
+          )}
+        </div>
+      );
+    })}
+  </div>
+  <p class="muted small">Highlighted variables are placeholders (passwords, secret keys) you should change before production. Open a pack for its full variable table and a copy-paste <code>values.hcl</code>.</p>
+
   <div class="section-title">Host ports</div>
   <div class="portmap">
     {ports.map((n) => (
@@ -152,6 +170,14 @@ const builderHref = `${base}stack/?packs=${stack.packs.join(",")}`;
   .pmrow.bad, .pmrow.bad .pp { color: #b42318; }
   :root[data-theme="dark"] .pmrow.bad, :root[data-theme="dark"] .pmrow.bad .pp { color: #ff9d94; }
   .back { margin: 24px 0 0; font-size: 13px; }
+  .small { font-size: 12px; }
+  .setvars { display: flex; flex-direction: column; gap: 6px; }
+  .svrow { font-size: 13.5px; line-height: 1.6; }
+  .svp { font-weight: 600; }
+  .svv code { font-family: ui-monospace, monospace; font-size: 12px; background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; margin: 0 3px 3px 0; display: inline-block; color: var(--muted); }
+  .svv code.must { color: #b45309; border-color: #f59e0b66; background: #f59e0b1a; }
+  :root[data-theme="dark"] .svv code.must { color: #fbbf24; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .svv code.must { color: #fbbf24; } }
 </style>
 
 <script>
