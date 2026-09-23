@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import { getPacks } from "../../lib/packs.js";
+import { getSaasAlternatives } from "../../lib/saas.js";
 
 export async function getStaticPaths() {
   return (await getPacks()).map((p) => ({ params: { id: p.id }, props: { pack: p } }));
@@ -21,6 +22,22 @@ function relTime(iso) {
   return `${Math.round(d / 365)} yr ago`;
 }
 const bumpedRel = relTime(pack.imageBumped);
+const replaces = getSaasAlternatives().filter((s) => s.packs.includes(pack.id));
+
+// Backup recipes for this pack's Docker named volumes.
+const volNames = pack.facts.volumeNames || [];
+const volPaths = volNames.map((n) => `/var/lib/docker/volumes/${n}/_data`);
+const resticCmd = [
+  "# Run on the node hosting this pack. Point restic at your repo first:",
+  '#   export RESTIC_REPOSITORY="s3:https://<account>.r2.cloudflarestorage.com/<bucket>"',
+  '#   export RESTIC_PASSWORD="<repo-password>"',
+  '#   export AWS_ACCESS_KEY_ID=<key>  AWS_SECRET_ACCESS_KEY=<secret>',
+  "restic backup \\",
+  ...volPaths.map((p, i) => `  ${p}${i < volPaths.length - 1 ? " \\" : ""}`),
+].join("\n");
+const rcloneCmd = volNames
+  .map((n) => `rclone sync /var/lib/docker/volumes/${n}/_data backup:<bucket>/${n}`)
+  .join("\n");
 
 // A ready-to-edit HCL var file: every variable, its description as a comment, and its default.
 const valuesHcl =
@@ -78,6 +95,7 @@ const jsonld = {
         ★ {pack.starsLabel || "GitHub"}
       </a>
     )}
+    <a class="report" href={`https://github.com/Nomploy/nomad-packs/issues/new?template=pack_issue.yml&pack=${pack.id}&title=${encodeURIComponent(`[pack] ${pack.id}: `)}`} target="_blank" rel="noopener" title="Report a problem with this pack on GitHub">⚑ Report an issue</a>
   </p>
 
   {
@@ -108,6 +126,17 @@ const jsonld = {
             <span class="mut">image bumped</span> {bumpedRel}
           </span>
         )}
+      </div>
+    )
+  }
+
+  {
+    replaces.length > 0 && (
+      <div class="related">
+        <span class="rlabel">Replaces</span>
+        {replaces.map((s) => (
+          <a class="rchip repl" href={`${base}alternative-to/${s.slug}/`} title={`Self-hosted ${s.name} alternative`}>{s.name}</a>
+        ))}
       </div>
     )
   }
@@ -180,6 +209,34 @@ const jsonld = {
   }
 
   {
+    volNames.length > 0 && (
+      <details class="backup">
+        <summary>Back up this pack</summary>
+        <div class="backup-in">
+          <p class="bkhint">
+            This pack stores data in {volNames.length === 1 ? "one Docker named volume" : `${volNames.length} Docker named volumes`}:
+            {volNames.map((n) => <code class="vol">{n}</code>)}
+          </p>
+          {pack.facts.bundledDb && (
+            <p class="bkwarn">⚠ This pack bundles a database. A cold copy of the volume can be inconsistent — for a reliable backup, dump the DB (<code>pg_dump</code> / <code>mysqldump</code>) or stop the job while backing up.</p>
+          )}
+          <p class="bklbl">restic</p>
+          <div class="addcmd">
+            <pre class="cmd" id="resticcmd">{resticCmd}</pre>
+            <button class="copy" data-copy="#resticcmd">Copy</button>
+          </div>
+          <p class="bklbl">rclone (sync to S3/R2)</p>
+          <div class="addcmd">
+            <pre class="cmd" id="rclonecmd">{rcloneCmd}</pre>
+            <button class="copy" data-copy="#rclonecmd">Copy</button>
+          </div>
+          <p class="bkhint">Paths assume the default Docker volume location (<code>/var/lib/docker/volumes</code>). Restore by stopping the job, restoring files into the same volume, and re-running the pack.</p>
+        </div>
+      </details>
+    )
+  }
+
+  {
     pack.readmeHtml && (
       <>
         <div class="section-title">Readme</div>
@@ -198,11 +255,26 @@ const jsonld = {
   .oneliner[open] > summary::before { content: "▾ "; }
   .oneliner[open] > summary { margin-bottom: 8px; }
   .olhint { color: var(--muted); font-size: 12.5px; margin: 8px 0 0; }
+  .backup { margin: 26px 0 0; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; background: var(--card); }
+  .backup > summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 14px; list-style: none; user-select: none; }
+  .backup > summary::-webkit-details-marker { display: none; }
+  .backup > summary::before { content: "▸ "; }
+  .backup[open] > summary::before { content: "▾ "; }
+  .backup-in { margin-top: 12px; }
+  .backup-in .cmd { white-space: pre; }
+  .bkhint { color: var(--muted); font-size: 13px; margin: 0 0 10px; }
+  .bkhint .vol, .bkwarn code { font-family: ui-monospace, monospace; font-size: 12px; background: var(--code-bg); border: 1px solid var(--border); border-radius: 5px; padding: 1px 6px; margin: 0 3px; }
+  .bklbl { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 14px 0 6px; }
+  .bkwarn { font-size: 13px; margin: 0 0 10px; color: #b45309; background: #f59e0b14; border: 1px solid #f59e0b44; border-radius: 8px; padding: 8px 10px; }
+  :root[data-theme="dark"] .bkwarn { color: #fbbf24; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .bkwarn { color: #fbbf24; } }
   .head { display: flex; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
   .head h1 { margin: 0; font-size: 26px; letter-spacing: -.02em; }
   .desc { color: var(--muted); margin: 6px 0 16px; }
   .links { display: flex; gap: 14px; flex-wrap: wrap; font-size: 13px; margin: 8px 0 0; }
   .links .stars { color: #e3b341; font-weight: 600; }
+  .links .report { color: var(--muted); }
+  .links .report:hover { color: var(--accent); }
 
   .facts { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 0; }
   .fact { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); background: var(--chip); border: 1px solid var(--border); border-radius: 8px; padding: 4px 10px; }
@@ -222,6 +294,7 @@ const jsonld = {
   .rchip:hover { border-color: var(--accent); text-decoration: none; }
   .rchip.alt { color: var(--muted); }
   .rchip.alt:hover { color: var(--accent); }
+  .rchip.repl { color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--card)); }
 
   .vtop { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 28px 0 8px; }
   .vcount { font-size: 12px; font-weight: 600; color: var(--muted); background: var(--chip); border-radius: 999px; padding: 1px 8px; margin-left: 4px; }

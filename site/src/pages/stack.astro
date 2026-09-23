@@ -17,6 +17,7 @@ const data = packs.map((p) => ({
   setvars: p.variables.filter((v) => v.placeholder || v.sensitive).map((v) => ({ name: v.name, ph: !!v.placeholder })),
   // Full variable surface for the combined values.hcl generator.
   vars: p.variables.map((v) => ({ name: v.name, def: v.default || "", desc: v.description || "", ph: !!v.placeholder, sec: !!v.sensitive })),
+  related: (p.related || []).map((r) => r.id),
 }));
 const stacksData = stacks.map((s) => ({ id: s.id, name: s.name, packs: s.packs }));
 const cats = [...new Set(data.map((d) => d.category))].sort();
@@ -83,6 +84,11 @@ const base = import.meta.env.BASE_URL;
 
       <div class="section-title">Selected packs</div>
       <div id="sellist" class="sellist"><p class="muted">Nothing selected yet — pick packs on the left or load a starter stack above.</p></div>
+
+      <div id="suggestwrap" hidden>
+        <div class="section-title">Suggested companions</div>
+        <div id="suggest" class="suggest"></div>
+      </div>
 
       <div class="section-title">Set before deploy</div>
       <div id="setvars" class="setvars"><p class="muted">Variables you must set (passwords, secrets, URLs) appear here per pack.</p></div>
@@ -197,6 +203,10 @@ const base = import.meta.env.BASE_URL;
   .portmap .pmrow { display: flex; align-items: baseline; gap: 10px; font-size: 13px; }
   .portmap .pmrow .pp { font-family: ui-monospace, monospace; font-weight: 700; min-width: 56px; flex: 0 0 auto; }
   .portmap .pmrow .pu { color: var(--muted); }
+  .suggest { display: flex; flex-wrap: wrap; gap: 6px; }
+  .suggest .sugg { cursor: pointer; font-size: 12.5px; color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, var(--card)); border: 1px solid var(--border); border-radius: 999px; padding: 4px 11px; display: inline-flex; align-items: center; gap: 6px; }
+  .suggest .sugg:hover { border-color: var(--accent); }
+  .suggest .sugg .sg-cat { font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
   .valgen { margin: 6px 0 2px; }
   .valgen > summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 13px; list-style: none; user-select: none; }
   .valgen > summary::-webkit-details-marker { display: none; }
@@ -275,6 +285,24 @@ const base = import.meta.env.BASE_URL;
       const d = byId[id];
       return `<div class="selitem"><span class="si-name">${esc(d.name)}</span><span class="si-cat">${esc(d.category)}</span><span class="si-ports">${d.ports.join(" · ") || "—"}</span><button class="si-x" data-id="${id}" title="Remove" aria-label="Remove ${esc(d.name)}">✕</button></div>`;
     }).join("");
+
+    // suggested companions: union of selected packs' "pairs with", minus already selected
+    const selSet = new Set(sel);
+    const suggScore = {};
+    for (const id of sel) for (const r of (byId[id]?.related || [])) {
+      if (selSet.has(r) || !byId[r]) continue;
+      suggScore[r] = (suggScore[r] || 0) + 1;
+    }
+    const suggIds = Object.keys(suggScore).sort((a, b) => suggScore[b] - suggScore[a] || byId[a].name.localeCompare(byId[b].name)).slice(0, 8);
+    const sw = $("suggestwrap"), sg = $("suggest");
+    if (!suggIds.length) { sw.hidden = true; sg.innerHTML = ""; }
+    else {
+      sw.hidden = false;
+      sg.innerHTML = suggIds.map((id) => {
+        const d = byId[id];
+        return `<button class="sugg" data-id="${id}" title="Add ${esc(d.name)} to the stack">+ ${esc(d.name)} <span class="sg-cat">${esc(d.category)}</span></button>`;
+      }).join("");
+    }
 
     // variables to set (placeholders/secrets) per pack
     const sv = $("setvars");
@@ -394,6 +422,14 @@ const base = import.meta.env.BASE_URL;
     if (!x) return;
     const b = boxes.find((b) => b.value === x.dataset.id);
     if (b) { b.checked = false; b.closest(".row").classList.remove("sel"); recompute(); }
+  });
+
+  // Add a suggested companion to the selection (delegated).
+  $("suggest").addEventListener("click", (e) => {
+    const s = e.target.closest(".sugg");
+    if (!s) return;
+    const b = boxes.find((b) => b.value === s.dataset.id);
+    if (b) { b.checked = true; b.closest(".row").classList.add("sel"); recompute(); }
   });
 
   // Share link: current selection as ?packs=…

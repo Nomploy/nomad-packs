@@ -1,5 +1,6 @@
 import { getPacks } from "../lib/packs.js";
 import { getStacks } from "../lib/stacks.js";
+import { getSaasAlternatives } from "../lib/saas.js";
 
 // Hand-rolled sitemap: the @astrojs/sitemap integration trips over the JSON API
 // endpoints, so we enumerate the real pages (home + one page per pack) here.
@@ -12,6 +13,12 @@ export async function GET({ site }) {
     { loc: new URL("/", base).href, priority: "1.0", changefreq: "daily" },
     { loc: new URL("/stack/", base).href, priority: "0.7", changefreq: "monthly" },
     { loc: new URL("/stacks/", base).href, priority: "0.8", changefreq: "weekly" },
+    { loc: new URL("/alternative-to/", base).href, priority: "0.8", changefreq: "weekly" },
+    ...getSaasAlternatives(packs.map((p) => p.id)).map((s) => ({
+      loc: new URL(`/alternative-to/${s.slug}/`, base).href,
+      priority: "0.7",
+      changefreq: "weekly",
+    })),
     ...getStacks().map((s) => ({
       loc: new URL(`/stacks/${s.id}/`, base).href,
       priority: "0.7",

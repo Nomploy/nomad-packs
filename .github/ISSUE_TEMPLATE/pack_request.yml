@@ -1,0 +1,40 @@
+name: Pack request
+description: Request a new Nomad Pack for the registry
+title: "[pack request] "
+labels: ["pack request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a pack! The best candidates are self-hostable services with an
+        official container image, host-networkable on static ports, storing state in a volume.
+  - type: input
+    id: app
+    attributes:
+      label: App / project
+      description: Name and homepage or GitHub URL.
+      placeholder: e.g. Immich — https://github.com/immich-app/immich
+    validations:
+      required: true
+  - type: input
+    id: image
+    attributes:
+      label: Container image
+      description: The image you'd run, ideally with a tag.
+      placeholder: e.g. ghcr.io/immich-app/immich-server:release
+  - type: textarea
+    id: notes
+    attributes:
+      label: Deployment notes
+      description: Ports, volumes, required env vars, databases/sidecars, and anything tricky.
+      placeholder: |
+        - Ports: 2283 (web)
+        - Volumes: /usr/src/app/upload
+        - Needs: PostgreSQL + Redis
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Suitability
+      options:
+        - label: Has an official / well-maintained container image
+        - label: Can run host-networked on configurable ports
