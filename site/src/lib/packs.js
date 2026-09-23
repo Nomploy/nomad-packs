@@ -26,11 +26,11 @@ const CATEGORIES = {
   "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps",
   fleet: "Device management",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI",
-  memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases",
-  meilisearch: "Search", typesense: "Search",
+  memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases", etcd: "Databases",
+  meilisearch: "Search", typesense: "Search", whoogle: "Search",
   ntfy: "Notifications", gotify: "Notifications",
   backup: "Backup", "rest-server": "Backup",
-  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking",
+  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking",
   openbao: "Secrets",
 };
 
@@ -243,6 +243,7 @@ const GITHUB_REPO = {
   radicale: "Kozea/Radicale", "pocket-id": "pocket-id/pocket-id", mattermost: "mattermost/mattermost",
   redpanda: "redpanda-data/redpanda", cloudbeaver: "dbeaver/cloudbeaver", soketi: "soketi/soketi",
   "home-assistant": "home-assistant/core", esphome: "esphome/esphome", flame: "pawelmalak/flame",
+  consul: "hashicorp/consul", etcd: "etcd-io/etcd", whoogle: "benbusby/whoogle-search",
 };
 
 function formatStars(n) {

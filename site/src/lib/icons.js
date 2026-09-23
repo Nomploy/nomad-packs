@@ -34,6 +34,8 @@ const BRAND = {
   mattermost: "mattermost",
   "home-assistant": "homeassistant",
   esphome: "esphome",
+  consul: "consul",
+  etcd: "etcd",
   cloudbeaver: "dbeaver",
   nginx: "nginx",
   gitea: "gitea",
