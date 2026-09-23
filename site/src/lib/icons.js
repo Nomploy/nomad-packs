@@ -37,6 +37,7 @@ const BRAND = {
   consul: "consul",
   etcd: "etcd",
   "nginx-proxy-manager": "nginxproxymanager",
+  "firefly-iii": "fireflyiii",
   cloudbeaver: "dbeaver",
   nginx: "nginx",
   gitea: "gitea",
