@@ -1,0 +1,59 @@
+---
+import Base from "../../layouts/Base.astro";
+import { getPacks } from "../../lib/packs.js";
+import { getSaasAlternatives } from "../../lib/saas.js";
+
+const packs = await getPacks();
+const items = getSaasAlternatives(packs.map((p) => p.id));
+const byId = Object.fromEntries(packs.map((p) => [p.id, p]));
+const base = import.meta.env.BASE_URL;
+
+const title = "Self-hosted alternatives to popular SaaS — Nomad Packs";
+const description = `Open-source, self-hosted replacements for ${items.length} popular hosted products (Notion, Google Analytics, Trello, Doodle and more), each deployable on HashiCorp Nomad in one command.`;
+---
+
+<Base title={title} description={description}>
+  <section class="hero">
+    <h1>Self-hosted alternatives</h1>
+    <p class="lede">
+      Replace hosted SaaS with software you run and own. Each product below maps to one or more
+      batteries-included Nomad Packs — pick one and deploy it in a single command.
+    </p>
+  </section>
+
+  <div class="grid">
+    {items.map((s) => (
+      <a class="acard" href={`${base}alternative-to/${s.slug}/`}>
+        <div class="ac-head">
+          <h3>{s.name}</h3>
+          <span class="cnt">{s.packs.length}</span>
+        </div>
+        <p class="tag">{s.tagline}</p>
+        <div class="repl">
+          {s.packs.map((id) => <span class="chip">{byId[id]?.name || id}</span>)}
+        </div>
+      </a>
+    ))}
+  </div>
+
+  <p class="back"><a href={base}>← Back to the catalog</a></p>
+</Base>
+
+<style>
+  .hero { padding: 20px 22px 22px; margin: 12px 0 18px; border: 1px solid var(--border); border-radius: 16px;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, var(--card)) 0%, var(--card) 60%); position: relative; overflow: hidden; }
+  .hero::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--brand-grad); }
+  .hero h1 { margin: 4px 0 8px; font-size: 28px; letter-spacing: -.03em;
+    background: var(--brand-grad); -webkit-background-clip: text; background-clip: text; color: transparent; display: inline-block; }
+  .lede { color: var(--muted); margin: 0; max-width: 720px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+  .acard { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); color: inherit; display: flex; flex-direction: column; gap: 6px; transition: transform .08s ease, border-color .12s ease; }
+  .acard:hover { transform: translateY(-2px); border-color: var(--accent); text-decoration: none; }
+  .ac-head { display: flex; align-items: baseline; gap: 8px; }
+  .acard h3 { margin: 0; font-size: 16px; }
+  .ac-head .cnt { margin-left: auto; font-size: 11px; font-weight: 700; color: var(--muted); background: var(--chip); border-radius: 999px; padding: 1px 8px; }
+  .tag { margin: 0; color: var(--muted); font-size: 12.5px; }
+  .repl { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 4px; }
+  .repl .chip { font-size: 11.5px; color: var(--accent); background: var(--chip); border: 1px solid var(--border); border-radius: 999px; padding: 2px 9px; }
+  .back { margin: 26px 0 0; font-size: 13px; }
+</style>

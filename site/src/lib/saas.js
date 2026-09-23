@@ -1,0 +1,63 @@
+// SaaS → self-hosted mapping powering the /alternative-to/<slug> SEO landing pages.
+// Each entry maps a well-known hosted product to the packs that replace it. Unknown
+// pack ids are dropped at build time (see getSaasAlternatives), so it is safe to list
+// a pack here before it exists.
+const SAAS = [
+  { slug: "notion", name: "Notion", tagline: "Docs, wikis, and notes", packs: ["docmost", "wikijs", "trilium", "hedgedoc", "memos"] },
+  { slug: "confluence", name: "Confluence", tagline: "Team wiki & knowledge base", packs: ["wikijs", "docmost", "hedgedoc"] },
+  { slug: "trello", name: "Trello", tagline: "Kanban boards", packs: ["planka", "vikunja"] },
+  { slug: "jira", name: "Jira", tagline: "Issue & project tracking", packs: ["vikunja", "planka"] },
+  { slug: "todoist", name: "Todoist", tagline: "To-dos & task lists", packs: ["vikunja"] },
+  { slug: "doodle", name: "Doodle", tagline: "Meeting scheduling polls", packs: ["rallly"] },
+  { slug: "airtable", name: "Airtable", tagline: "Databases & no-code apps", packs: ["nocodb", "grist", "directus"] },
+  { slug: "google-analytics", name: "Google Analytics", tagline: "Privacy-friendly web analytics", packs: ["plausible", "umami", "matomo"] },
+  { slug: "google-photos", name: "Google Photos", tagline: "Photo library & albums", packs: ["photoprism"] },
+  { slug: "google-drive", name: "Google Drive", tagline: "File sync & storage", packs: ["seaweedfs", "filebrowser", "syncthing"] },
+  { slug: "dropbox", name: "Dropbox", tagline: "File sync across devices", packs: ["syncthing", "filebrowser"] },
+  { slug: "spotify", name: "Spotify", tagline: "Music streaming from your library", packs: ["navidrome"] },
+  { slug: "plex", name: "Plex", tagline: "Media server for movies & TV", packs: ["jellyfin"] },
+  { slug: "audible", name: "Audible", tagline: "Audiobook & podcast server", packs: ["audiobookshelf"] },
+  { slug: "twitch", name: "Twitch", tagline: "Live streaming & chat", packs: ["owncast"] },
+  { slug: "slack", name: "Slack", tagline: "Team chat", packs: ["mattermost"] },
+  { slug: "discord", name: "Discord", tagline: "Voice & text chat", packs: ["mumble", "mattermost"] },
+  { slug: "1password", name: "1Password", tagline: "Password manager & vault", packs: ["vaultwarden"] },
+  { slug: "lastpass", name: "LastPass", tagline: "Password manager", packs: ["vaultwarden"] },
+  { slug: "zapier", name: "Zapier", tagline: "Workflow automation", packs: ["n8n", "node-red"] },
+  { slug: "ifttt", name: "IFTTT", tagline: "If-this-then-that automation", packs: ["node-red", "home-assistant"] },
+  { slug: "pocket", name: "Pocket", tagline: "Read-it-later & bookmarks", packs: ["shiori", "linkwarden"] },
+  { slug: "feedly", name: "Feedly", tagline: "RSS reader", packs: ["miniflux"] },
+  { slug: "evernote", name: "Evernote", tagline: "Notes & knowledge capture", packs: ["trilium", "memos", "docmost"] },
+  { slug: "google-keep", name: "Google Keep", tagline: "Quick notes", packs: ["memos", "trilium"] },
+  { slug: "ynab", name: "YNAB", tagline: "Personal budgeting", packs: ["actual", "firefly-iii"] },
+  { slug: "mint", name: "Mint", tagline: "Personal finance & budgeting", packs: ["firefly-iii", "actual"] },
+  { slug: "toggl", name: "Toggl", tagline: "Time tracking", packs: ["kimai", "wakapi"] },
+  { slug: "calendly", name: "Calendly", tagline: "Scheduling & availability", packs: ["rallly"] },
+  { slug: "teamviewer", name: "TeamViewer", tagline: "Remote desktop", packs: ["rustdesk"] },
+  { slug: "anydesk", name: "AnyDesk", tagline: "Remote desktop", packs: ["rustdesk"] },
+  { slug: "tailscale", name: "Tailscale", tagline: "Mesh VPN control server", packs: ["headscale"] },
+  { slug: "nextdns", name: "NextDNS", tagline: "Network-wide ad & tracker blocking", packs: ["adguardhome"] },
+  { slug: "pihole", name: "Pi-hole", tagline: "DNS ad-blocking", packs: ["adguardhome"] },
+  { slug: "pingdom", name: "Pingdom", tagline: "Uptime & status monitoring", packs: ["uptime-kuma", "gatus", "statping"] },
+  { slug: "uptimerobot", name: "UptimeRobot", tagline: "Uptime monitoring", packs: ["uptime-kuma", "gatus"] },
+  { slug: "pushover", name: "Pushover", tagline: "Push notifications", packs: ["ntfy", "gotify"] },
+  { slug: "algolia", name: "Algolia", tagline: "Search-as-a-service", packs: ["meilisearch", "typesense"] },
+  { slug: "elasticsearch", name: "Elasticsearch", tagline: "Full-text search engine", packs: ["meilisearch", "typesense"] },
+  { slug: "firebase", name: "Firebase", tagline: "Backend-as-a-service", packs: ["pocketbase", "directus"] },
+  { slug: "mongodb-atlas", name: "MongoDB Atlas", tagline: "Document database", packs: ["ferretdb"] },
+  { slug: "looker", name: "Looker", tagline: "BI dashboards & analytics", packs: ["metabase", "grafana"] },
+  { slug: "tableau", name: "Tableau", tagline: "Data visualization & BI", packs: ["metabase", "grafana"] },
+  { slug: "pastebin", name: "Pastebin", tagline: "Share snippets & pastes", packs: ["microbin", "opengist"] },
+  { slug: "wetransfer", name: "WeTransfer", tagline: "Peer-to-peer file transfer", packs: ["pairdrop"] },
+  { slug: "gmail", name: "Gmail", tagline: "Webmail client", packs: ["snappymail"] },
+  { slug: "google-colab", name: "Google Colab", tagline: "Notebooks for data science", packs: ["jupyter"] },
+  { slug: "vs-code-online", name: "VS Code (cloud)", tagline: "IDE in the browser", packs: ["code-server"] },
+  { slug: "cloudflare-tunnel", name: "Cloudflare Tunnel", tagline: "Expose services without open ports", packs: ["cloudflared"] },
+];
+
+export function getSaasAlternatives(validIds) {
+  const ok = validIds ? new Set(validIds) : null;
+  return SAAS
+    .map((s) => ({ ...s, packs: ok ? s.packs.filter((id) => ok.has(id)) : s.packs }))
+    .filter((s) => s.packs.length > 0)
+    .sort((a, b) => a.name.localeCompare(b.name));
+}

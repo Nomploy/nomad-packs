@@ -202,7 +202,7 @@ function parseVariables(hcl) {
 // their variable defaults resolved), named-volume mount targets, and the task count.
 function parseFacts(tpl, variables) {
   const defs = Object.fromEntries(variables.map((v) => [v.name, (v.default || "").replace(/^"|"$/g, "")]));
-  if (!tpl) return { ports: [], volumes: [], tasks: 0, bundledDb: false, image: defs.image || "", cpu: 0, memory: 0 };
+  if (!tpl) return { ports: [], volumes: [], volumeNames: [], tasks: 0, bundledDb: false, image: defs.image || "", cpu: 0, memory: 0 };
   const resolve = (raw) => {
     raw = raw.trim().replace(/,$/, "").trim();
     const vm = raw.match(/\[\[\s*var\s+"([^"]+)"/);
@@ -216,11 +216,14 @@ function parseFacts(tpl, variables) {
     if (sm) ports.push({ name: m[1], port: resolve(sm[1]) });
   }
   const volumes = [];
+  const volumeNames = [];
   const vre = /mount\s*\{([\s\S]*?)\}/g;
   while ((m = vre.exec(tpl))) {
     if (!/type\s*=\s*"volume"/.test(m[1])) continue;
     const tm = m[1].match(/target\s*=\s*"([^"]+)"/);
     if (tm && !volumes.includes(tm[1])) volumes.push(tm[1]);
+    const sm = m[1].match(/source\s*=\s*([^\n]+)/);
+    if (sm) { const nm = resolve(sm[1]); if (nm && !volumeNames.includes(nm)) volumeNames.push(nm); }
   }
   const tasks = (tpl.match(/task\s+"[^"]+"\s*\{/g) || []).length;
   // A bundled database sidecar (all-in-one packs): a task named after a common DB engine.
@@ -234,7 +237,7 @@ function parseFacts(tpl, variables) {
     if (mm) memory += parseInt(mm[1], 10);
     if (cc) cpu += parseInt(cc[1], 10);
   }
-  return { ports, volumes, tasks, bundledDb, image: defs.image || "", cpu, memory };
+  return { ports, volumes, volumeNames, tasks, bundledDb, image: defs.image || "", cpu, memory };
 }
 
 // "Pairs with" relationships. Listed one-directionally; buildRelated() makes them

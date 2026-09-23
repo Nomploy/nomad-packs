@@ -1,0 +1,29 @@
+name: Pack issue
+description: Report a problem with an existing pack
+title: "[pack] "
+labels: ["bug"]
+body:
+  - type: input
+    id: pack
+    attributes:
+      label: Pack id
+      description: The pack's id (the folder name under packs/, e.g. grafana).
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What went wrong
+      description: What did you run, and what happened? Include the exact command and any error output.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect instead?
+  - type: input
+    id: nomad
+    attributes:
+      label: Nomad / nomad-pack version
+      placeholder: e.g. Nomad 1.9.3, nomad-pack 0.3.0
