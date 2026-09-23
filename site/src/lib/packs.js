@@ -21,9 +21,9 @@ const CATEGORIES = {
   monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability",
   keycloak: "Identity", vaultwarden: "Identity", authentik: "Identity", "pocket-id": "Identity",
   gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools", filebrowser: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools",
-  n8n: "Automation", "node-red": "Automation", changedetection: "Automation",
+  n8n: "Automation", "node-red": "Automation", changedetection: "Automation", "home-assistant": "Automation", esphome: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics",
-  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps",
+  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps",
   fleet: "Device management",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI",
   memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases",
@@ -242,6 +242,7 @@ const GITHUB_REPO = {
   flowise: "FlowiseAI/Flowise", headscale: "juanfont/headscale", statping: "statping-ng/statping-ng",
   radicale: "Kozea/Radicale", "pocket-id": "pocket-id/pocket-id", mattermost: "mattermost/mattermost",
   redpanda: "redpanda-data/redpanda", cloudbeaver: "dbeaver/cloudbeaver", soketi: "soketi/soketi",
+  "home-assistant": "home-assistant/core", esphome: "esphome/esphome", flame: "pawelmalak/flame",
 };
 
 function formatStars(n) {
