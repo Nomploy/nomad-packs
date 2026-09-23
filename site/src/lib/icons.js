@@ -32,6 +32,7 @@ const BRAND = {
   audiobookshelf: "audiobookshelf",
   rustdesk: "rustdesk",
   mattermost: "mattermost",
+  cloudbeaver: "dbeaver",
   nginx: "nginx",
   gitea: "gitea",
   keycloak: "keycloak",

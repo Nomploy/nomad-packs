@@ -17,10 +17,10 @@ export { REPO_URL };
 const CATEGORIES = {
   postgres: "Databases", mariadb: "Databases", redis: "Databases", clickhouse: "Databases",
   seaweedfs: "Object storage",
-  rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging",
+  rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging", redpanda: "Messaging", soketi: "Messaging",
   monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability",
   keycloak: "Identity", vaultwarden: "Identity", authentik: "Identity", "pocket-id": "Identity",
-  gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools", filebrowser: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools",
+  gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools", filebrowser: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools",
   n8n: "Automation", "node-red": "Automation", changedetection: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics",
   "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps",
@@ -241,6 +241,7 @@ const GITHUB_REPO = {
   pgweb: "sosedoff/pgweb", rustdesk: "rustdesk/rustdesk-server", homebox: "sysadminsmedia/homebox",
   flowise: "FlowiseAI/Flowise", headscale: "juanfont/headscale", statping: "statping-ng/statping-ng",
   radicale: "Kozea/Radicale", "pocket-id": "pocket-id/pocket-id", mattermost: "mattermost/mattermost",
+  redpanda: "redpanda-data/redpanda", cloudbeaver: "dbeaver/cloudbeaver", soketi: "soketi/soketi",
 };
 
 function formatStars(n) {
