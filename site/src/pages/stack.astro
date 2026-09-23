@@ -12,7 +12,10 @@ const data = packs.map((p) => ({
   ports: [...new Set(p.facts.ports.map((x) => parseInt(x.port, 10)).filter((n) => !Number.isNaN(n)))],
   tasks: p.facts.tasks || 0,
   volumes: p.facts.volumes.length,
+  cpu: p.facts.cpu || 0,
+  memory: p.facts.memory || 0,
 }));
+const stacksData = stacks.map((s) => ({ id: s.id, name: s.name, packs: s.packs }));
 const cats = [...new Set(data.map((d) => d.category))].sort();
 const byCat = Object.fromEntries(cats.map((c) => [c, data.filter((d) => d.category === c).sort((a, b) => a.name.localeCompare(b.name))]));
 const base = import.meta.env.BASE_URL;
@@ -34,7 +37,7 @@ const base = import.meta.env.BASE_URL;
   <div class="presets">
     <span class="plabel">Starter stacks</span>
     {stacks.map((s) => (
-      <button class="preset" type="button" data-packs={s.packs.join(",")} title={s.description}>{s.name}</button>
+      <button class="preset" type="button" data-packs={s.packs.join(",")} data-stack={s.name} title={s.description}>{s.name}</button>
     ))}
     <button class="preset clear" type="button" data-packs="">Clear</button>
     <a class="preset-link" href={`${base}stacks/`}>Browse stacks →</a>
@@ -58,14 +61,19 @@ const base = import.meta.env.BASE_URL;
     </div>
 
     <aside class="summary" id="summary">
+      <div class="stitle" id="stitle">Your stack</div>
       <div class="scount"><b id="nsel">0</b> packs selected</div>
       <div class="stats">
         <span><b id="ntasks">0</b> tasks</span>
         <span><b id="nports">0</b> ports</span>
         <span><b id="nvols">0</b> volumes</span>
+        <span><b id="nram">0</b> <span id="nramunit">MB RAM</span></span>
       </div>
 
       <div id="conflict" class="conflict" hidden></div>
+
+      <div class="section-title">Selected packs</div>
+      <div id="sellist" class="sellist"><p class="muted">Nothing selected yet — pick packs on the left or load a starter stack above.</p></div>
 
       <div class="section-title">Host ports</div>
       <div id="portmap" class="portmap"><p class="muted">Select packs to see their ports.</p></div>
@@ -75,13 +83,17 @@ const base = import.meta.env.BASE_URL;
         <pre class="cmd" id="cmds">Select packs to generate commands.</pre>
         <button class="copy" data-copy="#cmds">Copy</button>
       </div>
-      <p class="muted small">Pin stateful packs to one node with each pack's <code>constraints</code> variable, and set any <code>*_password</code> / <code>secret</code> before production.</p>
+      <div class="sharerow">
+        <button class="ghost" id="sharebtn" type="button">Copy share link</button>
+      </div>
+      <p class="muted small">Pin stateful packs to one node with each pack's <code>constraints</code> variable, and set any <code>*_password</code> / <code>secret</code> before production. RAM is a rough estimate from each pack's default resource limits.</p>
     </aside>
   </div>
 
   <p class="back"><a href={base}>← Back to the catalog</a></p>
 
   <script type="application/json" id="stackdata" set:html={JSON.stringify(data)}></script>
+  <script type="application/json" id="stacksdata" set:html={JSON.stringify(stacksData)}></script>
 </Base>
 
 <style>
@@ -97,8 +109,8 @@ const base = import.meta.env.BASE_URL;
   .preset.clear { color: var(--muted); }
   .preset-link { font-size: 13px; margin-left: auto; color: var(--accent); font-weight: 600; }
 
-  .sb { display: grid; grid-template-columns: 1fr 360px; gap: 18px; align-items: start; }
-  @media (max-width: 820px) { .sb { grid-template-columns: 1fr; } .summary { position: static !important; } }
+  .sb { display: grid; grid-template-columns: 1fr 400px; gap: 18px; align-items: start; }
+  @media (max-width: 900px) { .sb { grid-template-columns: 1fr; } .summary { position: static !important; } }
 
   #sfilter { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--card); color: var(--text); font-size: 14px; margin-bottom: 12px; }
   .cat-group { margin-bottom: 14px; }
@@ -110,8 +122,15 @@ const base = import.meta.env.BASE_URL;
   .rp { font-family: ui-monospace, monospace; font-size: 12px; color: var(--muted); }
   .row.sel { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--card)); }
 
-  .summary { position: sticky; top: 12px; border: 1px solid var(--border); border-radius: 12px; padding: 16px; background: var(--card); box-shadow: var(--shadow); }
+  .summary { position: sticky; top: 12px; border: 1px solid var(--border); border-radius: 12px; padding: 16px; background: var(--card); box-shadow: var(--shadow); overflow: hidden; }
+  .summary::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--brand-grad); }
+  .stitle { font-size: 17px; font-weight: 700; letter-spacing: -.01em; margin: 2px 0 8px; display: flex; align-items: center; gap: 8px; }
+  .stitle .badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #fff; background: var(--brand-grad); border-radius: 999px; padding: 2px 9px; }
   .scount { font-size: 15px; } .scount b { font-size: 20px; }
+  .sellist { display: flex; flex-direction: column; gap: 6px; }
+  .sharerow { margin-top: 8px; }
+  .ghost { background: var(--card); border: 1px solid var(--border); color: var(--text); border-radius: 8px; padding: 7px 12px; font-size: 13px; cursor: pointer; }
+  .ghost:hover { border-color: var(--accent); }
   .stats { display: flex; gap: 14px; flex-wrap: wrap; color: var(--muted); font-size: 13px; margin: 8px 0 4px; }
   .stats b { color: var(--text); }
   .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 18px 0 8px; }
@@ -126,9 +145,15 @@ const base = import.meta.env.BASE_URL;
   .back { margin: 22px 0 0; font-size: 13px; }
 </style>
 
-<!-- Global: the port-map rows are built client-side via innerHTML, so scoped
-     styles would not match them. -->
+<!-- Global: the port-map rows and selected-pack items are built client-side via
+     innerHTML, so scoped styles would not match them. -->
 <style is:global>
+  .selitem { display: flex; align-items: center; gap: 8px; border: 1px solid var(--border); border-radius: 8px; padding: 6px 10px; background: color-mix(in srgb, var(--accent) 6%, var(--card)); }
+  .selitem .si-name { font-weight: 600; font-size: 13.5px; }
+  .selitem .si-cat { font-size: 11px; color: var(--muted); }
+  .selitem .si-ports { margin-left: auto; font-family: ui-monospace, monospace; font-size: 11.5px; color: var(--muted); }
+  .selitem .si-x { cursor: pointer; border: 0; background: none; color: var(--muted); font-size: 15px; line-height: 1; padding: 0 2px; }
+  .selitem .si-x:hover { color: #b42318; }
   .portmap .pmrow { display: flex; align-items: baseline; gap: 10px; font-size: 13px; }
   .portmap .pmrow .pp { font-family: ui-monospace, monospace; font-weight: 700; min-width: 56px; flex: 0 0 auto; }
   .portmap .pmrow .pu { color: var(--muted); }
@@ -142,27 +167,52 @@ const base = import.meta.env.BASE_URL;
 
 <script is:inline>
   const DATA = JSON.parse(document.getElementById("stackdata").textContent);
+  const STACKS = JSON.parse(document.getElementById("stacksdata").textContent);
   const byId = Object.fromEntries(DATA.map((d) => [d.id, d]));
   const REGISTRY = "github.com/Nomploy/nomad-packs";
   const boxes = [...document.querySelectorAll('.picker input[type=checkbox]')];
   const $ = (id) => document.getElementById(id);
+  const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
   function selected() { return boxes.filter((b) => b.checked).map((b) => b.value); }
+
+  // Name the selection when it exactly matches a curated stack.
+  function matchStack(sel) {
+    const set = [...sel].sort().join(",");
+    const s = STACKS.find((s) => [...s.packs].sort().join(",") === set);
+    return s ? s.name : null;
+  }
 
   function recompute() {
     const sel = selected();
     $("nsel").textContent = sel.length;
-    let tasks = 0, vols = 0;
+    let tasks = 0, vols = 0, ram = 0;
     const portUsers = {}; // port -> [names]
     for (const id of sel) {
       const d = byId[id];
-      tasks += d.tasks; vols += d.volumes;
+      tasks += d.tasks; vols += d.volumes; ram += d.memory || 0;
       for (const p of d.ports) (portUsers[p] ||= []).push(d.name);
     }
     $("ntasks").textContent = tasks;
     $("nvols").textContent = vols;
+    $("nram").textContent = ram >= 1024 ? (ram / 1024).toFixed(1) : ram;
+    $("nramunit").textContent = ram >= 1024 ? "GB RAM" : "MB RAM";
     const ports = Object.keys(portUsers).map(Number).sort((a, b) => a - b);
     $("nports").textContent = ports.length;
+
+    // title
+    const named = matchStack(sel);
+    const st = $("stitle");
+    if (named) st.innerHTML = `<span class="badge">stack</span> ${esc(named)}`;
+    else st.textContent = sel.length ? "Custom stack" : "Your stack";
+
+    // selected packs list
+    const sl = $("sellist");
+    if (!sel.length) sl.innerHTML = '<p class="muted">Nothing selected yet — pick packs on the left or load a starter stack above.</p>';
+    else sl.innerHTML = sel.map((id) => {
+      const d = byId[id];
+      return `<div class="selitem"><span class="si-name">${esc(d.name)}</span><span class="si-cat">${esc(d.category)}</span><span class="si-ports">${d.ports.join(" · ") || "—"}</span><button class="si-x" data-id="${id}" title="Remove" aria-label="Remove ${esc(d.name)}">✕</button></div>`;
+    }).join("");
 
     // port map
     const pm = $("portmap");
@@ -233,6 +283,25 @@ const base = import.meta.env.BASE_URL;
     }
     recompute();
   }
+
+  // Remove a pack from the selected-packs list (✕ buttons, delegated).
+  $("sellist").addEventListener("click", (e) => {
+    const x = e.target.closest(".si-x");
+    if (!x) return;
+    const b = boxes.find((b) => b.value === x.dataset.id);
+    if (b) { b.checked = false; b.closest(".row").classList.remove("sel"); recompute(); }
+  });
+
+  // Share link: current selection as ?packs=…
+  $("sharebtn").addEventListener("click", async () => {
+    const sel = selected();
+    const url = location.origin + location.pathname + (sel.length ? "?packs=" + sel.join(",") : "");
+    try {
+      await navigator.clipboard.writeText(url);
+      const b = $("sharebtn"), o = b.textContent; b.textContent = "Link copied!";
+      setTimeout(() => (b.textContent = o), 1200);
+    } catch (e) {}
+  });
 
   // Starter-stack preset buttons.
   document.querySelectorAll(".preset").forEach((btn) => {

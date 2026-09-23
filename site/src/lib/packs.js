@@ -125,7 +125,7 @@ function parseVariables(hcl) {
 // their variable defaults resolved), named-volume mount targets, and the task count.
 function parseFacts(tpl, variables) {
   const defs = Object.fromEntries(variables.map((v) => [v.name, (v.default || "").replace(/^"|"$/g, "")]));
-  if (!tpl) return { ports: [], volumes: [], tasks: 0, image: defs.image || "" };
+  if (!tpl) return { ports: [], volumes: [], tasks: 0, image: defs.image || "", cpu: 0, memory: 0 };
   const resolve = (raw) => {
     raw = raw.trim().replace(/,$/, "").trim();
     const vm = raw.match(/\[\[\s*var\s+"([^"]+)"/);
@@ -146,7 +146,16 @@ function parseFacts(tpl, variables) {
     if (tm && !volumes.includes(tm[1])) volumes.push(tm[1]);
   }
   const tasks = (tpl.match(/task\s+"[^"]+"\s*\{/g) || []).length;
-  return { ports, volumes, tasks, image: defs.image || "" };
+  // Estimate CPU/RAM from the resources object variables (main + sidecars).
+  let cpu = 0, memory = 0;
+  for (const v of variables) {
+    if (!/resources$/i.test(v.name)) continue;
+    const mm = (v.default || "").match(/memory\s*=\s*(\d+)/);
+    const cc = (v.default || "").match(/cpu\s*=\s*(\d+)/);
+    if (mm) memory += parseInt(mm[1], 10);
+    if (cc) cpu += parseInt(cc[1], 10);
+  }
+  return { ports, volumes, tasks, image: defs.image || "", cpu, memory };
 }
 
 // "Pairs with" relationships. Listed one-directionally; buildRelated() makes them

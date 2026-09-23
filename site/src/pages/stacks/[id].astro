@@ -23,6 +23,8 @@ const ports = Object.keys(portUsers).map(Number).sort((a, b) => a - b);
 const conflicts = ports.filter((n) => portUsers[n].length > 1);
 const totalTasks = members.reduce((s, p) => s + (p.facts.tasks || 0), 0);
 const totalVolumes = members.reduce((s, p) => s + p.facts.volumes.length, 0);
+const totalMem = members.reduce((s, p) => s + (p.facts.memory || 0), 0);
+const ramLabel = totalMem >= 1024 ? `${(totalMem / 1024).toFixed(1)} GB` : `${totalMem} MB`;
 
 const cmds = [`nomad-pack registry add nomploy ${REGISTRY_URL}`, ...members.map((p) => `nomad-pack run ${p.id} --registry nomploy`)].join("\n");
 
@@ -58,6 +60,7 @@ const builderHref = `${base}stack/?packs=${stack.packs.join(",")}`;
     <span class="fact"><span class="fk">{totalTasks}</span> tasks</span>
     <span class="fact"><span class="fk">{ports.length}</span> ports</span>
     <span class="fact"><span class="fk">{totalVolumes}</span> volumes</span>
+    <span class="fact"><span class="fk">{ramLabel}</span> RAM</span>
     {conflicts.length === 0 ? (
       <span class="fact ok">✓ no port conflicts</span>
     ) : (
