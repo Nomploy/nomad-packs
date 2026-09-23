@@ -25,7 +25,7 @@ const CATEGORIES = {
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics", matomo: "Analytics",
   "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps", shiori: "Apps", "firefly-iii": "Apps", kimai: "Apps", drawio: "Apps", komga: "Apps", pairdrop: "Apps",
   fleet: "Device management",
-  ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI",
+  ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI", opencode: "AI",
   memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases", etcd: "Databases",
   meilisearch: "Search", typesense: "Search", whoogle: "Search",
   ntfy: "Notifications", gotify: "Notifications",
@@ -258,7 +258,7 @@ const GITHUB_REPO = {
   matomo: "matomo-org/matomo", kimai: "kimai/kimai", wakapi: "muety/wakapi",
   drawio: "jgraph/drawio", "cloudflare-ddns": "favonia/cloudflare-ddns", kroki: "yuzutech/kroki",
   komga: "gotson/komga", pairdrop: "schlagmichdoch/PairDrop", microbin: "szabodanika/microbin",
-  hermes: "NousResearch/hermes-agent",
+  hermes: "NousResearch/hermes-agent", opencode: "anomalyco/opencode",
 };
 
 function formatStars(n) {
