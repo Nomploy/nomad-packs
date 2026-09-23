@@ -1,4 +1,5 @@
 import { getPacks } from "../lib/packs.js";
+import { getStacks } from "../lib/stacks.js";
 
 // Hand-rolled sitemap: the @astrojs/sitemap integration trips over the JSON API
 // endpoints, so we enumerate the real pages (home + one page per pack) here.
@@ -9,6 +10,13 @@ export async function GET({ site }) {
 
   const urls = [
     { loc: new URL("/", base).href, priority: "1.0", changefreq: "daily" },
+    { loc: new URL("/stack/", base).href, priority: "0.7", changefreq: "monthly" },
+    { loc: new URL("/stacks/", base).href, priority: "0.8", changefreq: "weekly" },
+    ...getStacks().map((s) => ({
+      loc: new URL(`/stacks/${s.id}/`, base).href,
+      priority: "0.7",
+      changefreq: "weekly",
+    })),
     ...packs.map((p) => ({
       loc: new URL(`/packs/${p.id}/`, base).href,
       priority: "0.8",
