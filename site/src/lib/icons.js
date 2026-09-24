@@ -54,6 +54,7 @@ const BRAND = {
   libsql: "turso",
   siyuan: "siyuan",
   forgejo: "forgejo",
+  openfga: "openfga",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
