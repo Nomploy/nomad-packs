@@ -23,6 +23,7 @@ const SAAS = [
   { slug: "lastfm", name: "Last.fm", tagline: "Music scrobbling & listening stats", packs: ["maloja"] },
   { slug: "plex", name: "Plex", tagline: "Media server for movies & TV", packs: ["jellyfin"] },
   { slug: "audible", name: "Audible", tagline: "Audiobook & podcast server", packs: ["audiobookshelf"] },
+  { slug: "comixology", name: "Comixology / Kindle", tagline: "Comics, manga & ebook library", packs: ["komga", "kavita", "stump"] },
   { slug: "twitch", name: "Twitch", tagline: "Live streaming & chat", packs: ["owncast"] },
   { slug: "slack", name: "Slack", tagline: "Team chat", packs: ["mattermost"] },
   { slug: "discord", name: "Discord", tagline: "Voice & text chat", packs: ["mumble", "mattermost"] },
