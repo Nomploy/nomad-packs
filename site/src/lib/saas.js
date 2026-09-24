@@ -63,6 +63,8 @@ const SAAS = [
   { slug: "wetransfer", name: "WeTransfer", tagline: "File transfer & sharing", packs: ["pingvin-share", "pairdrop"] },
   { slug: "bitly", name: "Bitly", tagline: "URL shortener with analytics", packs: ["shlink"] },
   { slug: "google-timeline", name: "Google Maps Timeline", tagline: "Personal location history", packs: ["owntracks-recorder"] },
+  { slug: "google-translate", name: "Google Translate", tagline: "Machine translation", packs: ["libretranslate"] },
+  { slug: "deepl", name: "DeepL", tagline: "Machine translation API", packs: ["libretranslate"] },
   { slug: "gmail", name: "Gmail", tagline: "Webmail client", packs: ["snappymail"] },
   { slug: "google-colab", name: "Google Colab", tagline: "Notebooks for data science", packs: ["jupyter"] },
   { slug: "vs-code-online", name: "VS Code (cloud)", tagline: "IDE in the browser", packs: ["code-server"] },

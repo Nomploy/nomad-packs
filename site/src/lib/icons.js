@@ -50,6 +50,8 @@ const BRAND = {
   "joplin-server": "joplin",
   postgrest: "postgrest",
   ghostfolio: "ghostfolio",
+  traefik: "traefikproxy",
+  libsql: "turso",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
