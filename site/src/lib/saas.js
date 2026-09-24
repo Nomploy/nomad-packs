@@ -3,7 +3,9 @@
 // pack ids are dropped at build time (see getSaasAlternatives), so it is safe to list
 // a pack here before it exists.
 const SAAS = [
-  { slug: "notion", name: "Notion", tagline: "Docs, wikis, and notes", packs: ["docmost", "wikijs", "trilium", "hedgedoc", "memos"] },
+  { slug: "notion", name: "Notion", tagline: "Docs, wikis, and notes", packs: ["docmost", "wikijs", "trilium", "hedgedoc", "memos", "siyuan"] },
+  { slug: "chatgpt", name: "ChatGPT", tagline: "Chat UI for LLMs", packs: ["open-webui", "lobe-chat", "anythingllm"] },
+  { slug: "miro", name: "Miro / MindMeister", tagline: "Whiteboards & mind maps", packs: ["excalidraw", "drawio", "teammapper"] },
   { slug: "confluence", name: "Confluence", tagline: "Team wiki & knowledge base", packs: ["wikijs", "docmost", "hedgedoc"] },
   { slug: "trello", name: "Trello", tagline: "Kanban boards", packs: ["planka", "vikunja"] },
   { slug: "jira", name: "Jira", tagline: "Issue & project tracking", packs: ["vikunja", "planka"] },

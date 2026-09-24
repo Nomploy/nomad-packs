@@ -52,6 +52,7 @@ const BRAND = {
   ghostfolio: "ghostfolio",
   traefik: "traefikproxy",
   libsql: "turso",
+  siyuan: "siyuan",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
