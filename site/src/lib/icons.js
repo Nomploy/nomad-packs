@@ -57,6 +57,7 @@ const BRAND = {
   openfga: "openfga",
   pgvector: "postgresql",
   homarr: "homarr",
+  teamspeak: "teamspeak",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
