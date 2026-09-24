@@ -45,6 +45,8 @@ const BRAND = {
   netdata: "netdata",
   searxng: "searxng",
   minio: "minio",
+  conduit: "matrix",
+  "swagger-ui": "swagger",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",

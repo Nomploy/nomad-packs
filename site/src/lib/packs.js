@@ -94,13 +94,13 @@ export { REPO_URL };
 const CATEGORIES = {
   postgres: "Databases", mariadb: "Databases", mysql: "Databases", redis: "Databases", clickhouse: "Databases",
   seaweedfs: "Object storage", minio: "Object storage",
-  rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging", redpanda: "Messaging", soketi: "Messaging", mumble: "Messaging",
-  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability", netdata: "Observability",
+  rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging", redpanda: "Messaging", soketi: "Messaging", mumble: "Messaging", conduit: "Messaging",
+  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability", netdata: "Observability", healthchecks: "Observability",
   keycloak: "Identity", vaultwarden: "Identity", authentik: "Identity", "pocket-id": "Identity",
-  gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools", filebrowser: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools", opengist: "Dev tools", wakapi: "Dev tools", kroki: "Dev tools", microbin: "Dev tools", jupyter: "Dev tools", gotenberg: "Dev tools", dbgate: "Dev tools",
+  gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools", filebrowser: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools", opengist: "Dev tools", wakapi: "Dev tools", kroki: "Dev tools", microbin: "Dev tools", jupyter: "Dev tools", gotenberg: "Dev tools", dbgate: "Dev tools", "swagger-ui": "Dev tools",
   n8n: "Automation", "node-red": "Automation", changedetection: "Automation", "home-assistant": "Automation", esphome: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics", matomo: "Analytics",
-  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps", shiori: "Apps", "firefly-iii": "Apps", kimai: "Apps", drawio: "Apps", komga: "Apps", pairdrop: "Apps", owncast: "Apps", rallly: "Apps", snappymail: "Apps", mealie: "Apps", cefiro: "Apps", kavita: "Apps", linkding: "Apps",
+  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps", shiori: "Apps", "firefly-iii": "Apps", kimai: "Apps", drawio: "Apps", komga: "Apps", pairdrop: "Apps", owncast: "Apps", rallly: "Apps", snappymail: "Apps", mealie: "Apps", cefiro: "Apps", kavita: "Apps", linkding: "Apps", maloja: "Apps",
   fleet: "Device management",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI", opencode: "AI",
   memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases", etcd: "Databases", dolt: "Databases",
@@ -290,6 +290,9 @@ const RELATED = {
   linkding: ["shiori", "linkwarden"],
   dbgate: ["postgres", "mariadb", "adminer"],
   dolt: ["adminer", "dbgate"],
+  maloja: ["navidrome", "jellyfin"],
+  healthchecks: ["ntfy", "gotify", "uptime-kuma", "apprise"],
+  "swagger-ui": ["gitea", "kroki"],
 };
 
 // Build a symmetric adjacency (a→b implies b→a) from a one-directional map,
@@ -334,6 +337,7 @@ const ALTERNATIVES = {
   kavita: ["komga"],
   linkding: ["shiori", "linkwarden"],
   dbgate: ["cloudbeaver", "adminer", "pgweb"],
+  healthchecks: ["uptime-kuma", "gatus"],
   ntfy: ["gotify"],
   caddy: ["nginx-proxy-manager"],
   opengist: ["microbin"],
@@ -404,6 +408,7 @@ const GITHUB_REPO = {
   minio: "minio/minio", mealie: "mealie-recipes/mealie", apprise: "caronc/apprise-api",
   cefiro: "pipozzz/cefiro",
   kavita: "Kareadita/Kavita", dbgate: "dbgate/dbgate", linkding: "sissbruecker/linkding", dolt: "dolthub/dolt",
+  maloja: "krateng/maloja", "swagger-ui": "swagger-api/swagger-ui", healthchecks: "healthchecks/healthchecks",
 };
 
 function formatStars(n) {
