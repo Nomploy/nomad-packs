@@ -22,6 +22,7 @@ const SAAS = [
   { slug: "spotify", name: "Spotify", tagline: "Music streaming from your library", packs: ["navidrome"] },
   { slug: "lastfm", name: "Last.fm", tagline: "Music scrobbling & listening stats", packs: ["maloja"] },
   { slug: "plex", name: "Plex", tagline: "Media server for movies & TV", packs: ["jellyfin"] },
+  { slug: "netflix", name: "Netflix", tagline: "Self-hosted media library & automation", packs: ["jellyfin", "jellyseerr", "sonarr", "radarr"] },
   { slug: "audible", name: "Audible", tagline: "Audiobook & podcast server", packs: ["audiobookshelf"] },
   { slug: "comixology", name: "Comixology / Kindle", tagline: "Comics, manga & ebook library", packs: ["komga", "kavita", "stump"] },
   { slug: "twitch", name: "Twitch", tagline: "Live streaming & chat", packs: ["owncast"] },
