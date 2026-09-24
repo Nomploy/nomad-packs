@@ -100,7 +100,7 @@ const CATEGORIES = {
   gitea: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools", filebrowser: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools", opengist: "Dev tools", wakapi: "Dev tools", kroki: "Dev tools", microbin: "Dev tools", jupyter: "Dev tools", gotenberg: "Dev tools", dbgate: "Dev tools", "swagger-ui": "Dev tools", semaphore: "Dev tools", postgrest: "Dev tools", dufs: "Dev tools",
   n8n: "Automation", "node-red": "Automation", changedetection: "Automation", "home-assistant": "Automation", esphome: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics", matomo: "Analytics",
-  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps", shiori: "Apps", "firefly-iii": "Apps", kimai: "Apps", drawio: "Apps", komga: "Apps", pairdrop: "Apps", owncast: "Apps", rallly: "Apps", snappymail: "Apps", mealie: "Apps", cefiro: "Apps", kavita: "Apps", linkding: "Apps", maloja: "Apps", docuseal: "Apps", "joplin-server": "Apps", filestash: "Apps", ghostfolio: "Apps",
+  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps", shiori: "Apps", "firefly-iii": "Apps", kimai: "Apps", drawio: "Apps", komga: "Apps", pairdrop: "Apps", owncast: "Apps", rallly: "Apps", snappymail: "Apps", mealie: "Apps", cefiro: "Apps", kavita: "Apps", linkding: "Apps", maloja: "Apps", docuseal: "Apps", "joplin-server": "Apps", filestash: "Apps", ghostfolio: "Apps", shlink: "Apps", "pingvin-share": "Apps", copyparty: "Apps", "owntracks-recorder": "Apps",
   fleet: "Device management",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI", opencode: "AI", chroma: "AI",
   memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases", etcd: "Databases", dolt: "Databases", immudb: "Databases",
@@ -305,6 +305,9 @@ const RELATED = {
   immudb: ["postgres"],
   dufs: ["filebrowser", "syncthing"],
   ghostfolio: ["actual", "firefly-iii"],
+  "pingvin-share": ["pairdrop", "filebrowser"],
+  copyparty: ["filebrowser", "dufs", "filestash"],
+  "owntracks-recorder": ["home-assistant"],
 };
 
 // Build a symmetric adjacency (a→b implies b→a) from a one-directional map,
@@ -355,8 +358,9 @@ const ALTERNATIVES = {
   lldap: ["keycloak", "authentik"],
   "joplin-server": ["trilium", "memos"],
   filestash: ["filebrowser"],
-  dufs: ["filebrowser"],
+  dufs: ["filebrowser", "copyparty"],
   ghostfolio: ["firefly-iii"],
+  "pingvin-share": ["pairdrop"],
   ntfy: ["gotify"],
   caddy: ["nginx-proxy-manager"],
   opengist: ["microbin"],
@@ -431,6 +435,7 @@ const GITHUB_REPO = {
   chroma: "chroma-core/chroma", semaphore: "semaphoreui/semaphore", technitium: "TechnitiumSoftware/DnsServer", docuseal: "docusealco/docuseal",
   lldap: "lldap/lldap", postgrest: "PostgREST/postgrest", "joplin-server": "laurent22/joplin", "step-ca": "smallstep/certificates",
   filestash: "mickael-kerjean/filestash", immudb: "codenotary/immudb", dufs: "sigoden/dufs", ghostfolio: "ghostfolio/ghostfolio",
+  shlink: "shlinkio/shlink", "pingvin-share": "stonith404/pingvin-share", copyparty: "9001/copyparty", "owntracks-recorder": "owntracks/recorder",
 };
 
 function formatStars(n) {
