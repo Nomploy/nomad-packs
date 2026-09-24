@@ -55,6 +55,8 @@ const BRAND = {
   siyuan: "siyuan",
   forgejo: "forgejo",
   openfga: "openfga",
+  pgvector: "postgresql",
+  homarr: "homarr",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
