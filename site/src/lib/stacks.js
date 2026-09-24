@@ -55,8 +55,32 @@ export const STACKS = [
     name: "Home automation stack",
     tagline: "Smart home, local and private",
     description:
-      "Run your smart home locally: Home Assistant as the hub, Mosquitto as the MQTT broker, ESPHome to build firmware for ESP32/ESP8266 devices, and Node-RED for flows and automations.",
-    packs: ["home-assistant", "mosquitto", "esphome", "node-red"],
+      "Run your smart home locally: Home Assistant as the hub, Mosquitto as the MQTT broker, Zigbee2MQTT to bring Zigbee devices in off their vendor hubs, ESPHome to build firmware for ESP32/ESP8266 devices, and Node-RED for flows and automations.",
+    packs: ["home-assistant", "mosquitto", "zigbee2mqtt", "esphome", "node-red"],
+  },
+  {
+    id: "media-automation",
+    name: "Media automation stack",
+    tagline: "The *arr stack: find, grab, organize, stream",
+    description:
+      "A hands-off media pipeline: Prowlarr manages indexers, Sonarr and Radarr grab TV and movies, Bazarr fetches subtitles, qBittorrent downloads them, Jellyfin streams the library, and Jellyseerr takes requests. Share one media volume across them for instant hardlink imports.",
+    packs: ["prowlarr", "sonarr", "radarr", "bazarr", "qbittorrent", "jellyfin", "jellyseerr"],
+  },
+  {
+    id: "rag-ai",
+    name: "Local RAG stack",
+    tagline: "Chat with your documents, fully local",
+    description:
+      "A private retrieval-augmented-generation setup: Ollama runs the LLM, pgvector stores embeddings in PostgreSQL, AnythingLLM ties documents and chat together, and Open WebUI gives you a polished chat front-end — no data leaves your hardware.",
+    packs: ["ollama", "pgvector", "anythingllm", "open-webui"],
+  },
+  {
+    id: "git-forge",
+    name: "Git forge stack",
+    tagline: "Self-hosted code hosting & registries",
+    description:
+      "Own your source and artifacts: Forgejo for Git hosting with issues and CI, zot as an OCI container registry, and Verdaccio as a private npm registry — a lightweight, community-governed dev backbone.",
+    packs: ["forgejo", "zot", "verdaccio"],
   },
 ];
 
