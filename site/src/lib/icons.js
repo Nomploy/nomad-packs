@@ -47,6 +47,8 @@ const BRAND = {
   minio: "minio",
   conduit: "matrix",
   "swagger-ui": "swagger",
+  "joplin-server": "joplin",
+  postgrest: "postgrest",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
