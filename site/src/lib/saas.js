@@ -44,6 +44,8 @@ const SAAS = [
   { slug: "teamviewer", name: "TeamViewer", tagline: "Remote desktop", packs: ["rustdesk"] },
   { slug: "anydesk", name: "AnyDesk", tagline: "Remote desktop", packs: ["rustdesk"] },
   { slug: "tailscale", name: "Tailscale", tagline: "Mesh VPN control server", packs: ["headscale"] },
+  { slug: "nordvpn", name: "NordVPN / commercial VPN", tagline: "Your own WireGuard VPN", packs: ["wg-easy"] },
+  { slug: "smartthings", name: "SmartThings / vendor hubs", tagline: "Local smart-home hub", packs: ["home-assistant", "zigbee2mqtt", "esphome"] },
   { slug: "nextdns", name: "NextDNS", tagline: "Network-wide ad & tracker blocking", packs: ["adguardhome", "technitium"] },
   { slug: "pihole", name: "Pi-hole", tagline: "DNS ad-blocking", packs: ["adguardhome", "technitium"] },
   { slug: "pingdom", name: "Pingdom", tagline: "Uptime & status monitoring", packs: ["uptime-kuma", "gatus", "statping"] },
