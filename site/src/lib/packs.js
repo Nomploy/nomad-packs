@@ -102,12 +102,12 @@ const CATEGORIES = {
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics", matomo: "Analytics",
   "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps", shiori: "Apps", "firefly-iii": "Apps", kimai: "Apps", drawio: "Apps", komga: "Apps", pairdrop: "Apps", owncast: "Apps", rallly: "Apps", snappymail: "Apps", mealie: "Apps", cefiro: "Apps", kavita: "Apps", linkding: "Apps", maloja: "Apps", docuseal: "Apps", "joplin-server": "Apps", filestash: "Apps", ghostfolio: "Apps", shlink: "Apps", "pingvin-share": "Apps", copyparty: "Apps", "owntracks-recorder": "Apps",
   fleet: "Device management",
-  ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI", opencode: "AI", chroma: "AI",
-  memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases", etcd: "Databases", dolt: "Databases", immudb: "Databases",
+  ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI", opencode: "AI", chroma: "AI", libretranslate: "AI", "whisper-asr": "AI",
+  memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases", etcd: "Databases", dolt: "Databases", immudb: "Databases", libsql: "Databases",
   meilisearch: "Search", typesense: "Search", whoogle: "Search", searxng: "Search",
   ntfy: "Notifications", gotify: "Notifications", apprise: "Notifications",
   backup: "Backup", "rest-server": "Backup",
-  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking",
+  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking",
   openbao: "Secrets", "step-ca": "Secrets",
 };
 
@@ -308,6 +308,10 @@ const RELATED = {
   "pingvin-share": ["pairdrop", "filebrowser"],
   copyparty: ["filebrowser", "dufs", "filestash"],
   "owntracks-recorder": ["home-assistant"],
+  libsql: ["pocketbase"],
+  libretranslate: ["open-webui"],
+  "whisper-asr": ["open-webui", "ollama"],
+  traefik: ["consul", "whoami"],
 };
 
 // Build a symmetric adjacency (a→b implies b→a) from a one-directional map,
@@ -361,6 +365,7 @@ const ALTERNATIVES = {
   dufs: ["filebrowser", "copyparty"],
   ghostfolio: ["firefly-iii"],
   "pingvin-share": ["pairdrop"],
+  traefik: ["caddy", "nginx-proxy-manager"],
   ntfy: ["gotify"],
   caddy: ["nginx-proxy-manager"],
   opengist: ["microbin"],
@@ -436,6 +441,7 @@ const GITHUB_REPO = {
   lldap: "lldap/lldap", postgrest: "PostgREST/postgrest", "joplin-server": "laurent22/joplin", "step-ca": "smallstep/certificates",
   filestash: "mickael-kerjean/filestash", immudb: "codenotary/immudb", dufs: "sigoden/dufs", ghostfolio: "ghostfolio/ghostfolio",
   shlink: "shlinkio/shlink", "pingvin-share": "stonith404/pingvin-share", copyparty: "9001/copyparty", "owntracks-recorder": "owntracks/recorder",
+  libsql: "tursodatabase/libsql", libretranslate: "LibreTranslate/LibreTranslate", "whisper-asr": "ahmetoner/whisper-asr-webservice", traefik: "traefik/traefik",
 };
 
 function formatStars(n) {
