@@ -100,14 +100,14 @@ const CATEGORIES = {
   gitea: "Dev tools", forgejo: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", pocketbase: "Dev tools", redisinsight: "Dev tools", filebrowser: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools", opengist: "Dev tools", wakapi: "Dev tools", kroki: "Dev tools", microbin: "Dev tools", jupyter: "Dev tools", gotenberg: "Dev tools", dbgate: "Dev tools", "swagger-ui": "Dev tools", semaphore: "Dev tools", postgrest: "Dev tools", dufs: "Dev tools", wetty: "Dev tools",
   n8n: "Automation", "node-red": "Automation", changedetection: "Automation", "home-assistant": "Automation", esphome: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics", matomo: "Analytics",
-  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps", shiori: "Apps", "firefly-iii": "Apps", kimai: "Apps", drawio: "Apps", komga: "Apps", pairdrop: "Apps", owncast: "Apps", rallly: "Apps", snappymail: "Apps", mealie: "Apps", cefiro: "Apps", kavita: "Apps", linkding: "Apps", maloja: "Apps", docuseal: "Apps", "joplin-server": "Apps", filestash: "Apps", ghostfolio: "Apps", shlink: "Apps", "pingvin-share": "Apps", copyparty: "Apps", "owntracks-recorder": "Apps", siyuan: "Apps", teammapper: "Apps", littlelink: "Apps", beaverhabits: "Apps", donetick: "Apps", metube: "Apps", pinchflat: "Apps", slskd: "Apps", stump: "Apps", homarr: "Apps", readeck: "Apps", focalboard: "Apps", prowlarr: "Apps", sonarr: "Apps", radarr: "Apps", qbittorrent: "Apps",
+  "uptime-kuma": "Apps", nginx: "Apps", excalidraw: "Apps", "stirling-pdf": "Apps", ghost: "Apps", nocodb: "Apps", homepage: "Apps", vikunja: "Apps", miniflux: "Apps", docmost: "Apps", directus: "Apps", actual: "Apps", glance: "Apps", navidrome: "Apps", syncthing: "Apps", jellyfin: "Apps", photoprism: "Apps", "paperless-ngx": "Apps", trilium: "Apps", wikijs: "Apps", hedgedoc: "Apps", grist: "Apps", planka: "Apps", memos: "Apps", jellyseerr: "Apps", linkwarden: "Apps", audiobookshelf: "Apps", homebox: "Apps", radicale: "Apps", mattermost: "Apps", flame: "Apps", shiori: "Apps", "firefly-iii": "Apps", kimai: "Apps", drawio: "Apps", komga: "Apps", pairdrop: "Apps", owncast: "Apps", rallly: "Apps", snappymail: "Apps", mealie: "Apps", cefiro: "Apps", kavita: "Apps", linkding: "Apps", maloja: "Apps", docuseal: "Apps", "joplin-server": "Apps", filestash: "Apps", ghostfolio: "Apps", shlink: "Apps", "pingvin-share": "Apps", copyparty: "Apps", "owntracks-recorder": "Apps", siyuan: "Apps", teammapper: "Apps", littlelink: "Apps", beaverhabits: "Apps", donetick: "Apps", metube: "Apps", pinchflat: "Apps", slskd: "Apps", stump: "Apps", homarr: "Apps", readeck: "Apps", focalboard: "Apps", prowlarr: "Apps", sonarr: "Apps", radarr: "Apps", qbittorrent: "Apps", bazarr: "Apps", lidarr: "Apps", sabnzbd: "Apps",
   fleet: "Device management",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI", opencode: "AI", chroma: "AI", libretranslate: "AI", "whisper-asr": "AI", anythingllm: "AI",
   memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases", etcd: "Databases", dolt: "Databases", immudb: "Databases", libsql: "Databases", rqlite: "Databases", eventstore: "Databases", pgvector: "Databases",
   meilisearch: "Search", typesense: "Search", whoogle: "Search", searxng: "Search", manticore: "Search",
   ntfy: "Notifications", gotify: "Notifications", apprise: "Notifications",
   backup: "Backup", "rest-server": "Backup", backrest: "Backup",
-  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking",
+  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking", flaresolverr: "Networking",
   openbao: "Secrets", "step-ca": "Secrets",
 };
 
@@ -336,9 +336,13 @@ const RELATED = {
   cadvisor: ["monitoring", "grafana", "beszel"],
   teamspeak: ["mumble"],
   prowlarr: ["sonarr", "radarr", "qbittorrent"],
-  sonarr: ["radarr", "prowlarr", "qbittorrent", "jellyfin", "jellyseerr"],
-  radarr: ["sonarr", "prowlarr", "qbittorrent", "jellyfin", "jellyseerr"],
-  qbittorrent: ["sonarr", "radarr", "prowlarr"],
+  sonarr: ["radarr", "prowlarr", "qbittorrent", "bazarr", "sabnzbd", "jellyfin", "jellyseerr"],
+  radarr: ["sonarr", "prowlarr", "qbittorrent", "bazarr", "sabnzbd", "jellyfin", "jellyseerr"],
+  qbittorrent: ["sonarr", "radarr", "prowlarr", "sabnzbd"],
+  bazarr: ["sonarr", "radarr"],
+  lidarr: ["prowlarr", "qbittorrent", "navidrome"],
+  sabnzbd: ["sonarr", "radarr", "prowlarr"],
+  flaresolverr: ["prowlarr", "bazarr"],
 };
 
 // Build a symmetric adjacency (a→b implies b→a) from a one-directional map,
@@ -491,6 +495,7 @@ const GITHUB_REPO = {
   pgvector: "pgvector/pgvector", homarr: "homarr-labs/homarr", wetty: "butlerx/wetty",
   focalboard: "mattermost/focalboard", backrest: "garethgeorge/backrest", cadvisor: "google/cadvisor",
   prowlarr: "Prowlarr/Prowlarr", sonarr: "Sonarr/Sonarr", radarr: "Radarr/Radarr", qbittorrent: "qbittorrent/qBittorrent",
+  bazarr: "morpheus65535/bazarr", lidarr: "Lidarr/Lidarr", sabnzbd: "sabnzbd/sabnzbd", flaresolverr: "FlareSolverr/FlareSolverr",
 };
 
 function formatStars(n) {
