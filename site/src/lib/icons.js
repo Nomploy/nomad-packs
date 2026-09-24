@@ -49,6 +49,7 @@ const BRAND = {
   "swagger-ui": "swagger",
   "joplin-server": "joplin",
   postgrest: "postgrest",
+  ghostfolio: "ghostfolio",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
