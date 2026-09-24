@@ -53,6 +53,7 @@ const BRAND = {
   traefik: "traefikproxy",
   libsql: "turso",
   siyuan: "siyuan",
+  forgejo: "forgejo",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
