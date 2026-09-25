@@ -72,6 +72,7 @@ const BRAND = {
   duplicati: "duplicati",
   "calibre-web": "calibreweb",
   languagetool: "languagetool",
+  baserow: "baserow",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
