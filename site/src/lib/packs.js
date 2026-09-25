@@ -108,7 +108,7 @@ const CATEGORIES = {
   meilisearch: "Search", typesense: "Search", whoogle: "Search", searxng: "Search", manticore: "Search",
   rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging", redpanda: "Messaging", soketi: "Messaging", mumble: "Messaging", conduit: "Messaging", teamspeak: "Messaging", mattermost: "Messaging",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI", opencode: "AI", chroma: "AI", libretranslate: "AI", "whisper-asr": "AI", anythingllm: "AI",
-  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability", netdata: "Observability", healthchecks: "Observability", dashdot: "Observability", cadvisor: "Observability", "uptime-kuma": "Observability", "node-exporter": "Observability",
+  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability", netdata: "Observability", healthchecks: "Observability", dashdot: "Observability", cadvisor: "Observability", "uptime-kuma": "Observability", "node-exporter": "Observability", scrutiny: "Observability",
   cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking", flaresolverr: "Networking", "wg-easy": "Networking", nginx: "Networking", coturn: "Networking",
   keycloak: "Identity", vaultwarden: "Identity", authentik: "Identity", "pocket-id": "Identity", lldap: "Identity", openfga: "Identity",
   openbao: "Secrets", "step-ca": "Secrets",
@@ -116,12 +116,12 @@ const CATEGORIES = {
   nocodb: "Low-code", directus: "Low-code", grist: "Low-code", pocketbase: "Low-code",
   n8n: "Automation", "node-red": "Automation", changedetection: "Automation", "home-assistant": "Automation", esphome: "Automation", zigbee2mqtt: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics", matomo: "Analytics",
-  jellyfin: "Media", navidrome: "Media", photoprism: "Media", audiobookshelf: "Media", komga: "Media", kavita: "Media", stump: "Media", owncast: "Media", jellyseerr: "Media", metube: "Media", pinchflat: "Media", slskd: "Media", maloja: "Media", prowlarr: "Media", sonarr: "Media", radarr: "Media", lidarr: "Media", bazarr: "Media", qbittorrent: "Media", sabnzbd: "Media", tautulli: "Media", jellystat: "Media",
+  jellyfin: "Media", navidrome: "Media", photoprism: "Media", audiobookshelf: "Media", komga: "Media", kavita: "Media", stump: "Media", owncast: "Media", jellyseerr: "Media", metube: "Media", pinchflat: "Media", slskd: "Media", maloja: "Media", prowlarr: "Media", sonarr: "Media", radarr: "Media", lidarr: "Media", bazarr: "Media", qbittorrent: "Media", sabnzbd: "Media", tautulli: "Media", jellystat: "Media", "calibre-web": "Media",
   filebrowser: "Files & sync", filestash: "Files & sync", copyparty: "Files & sync", dufs: "Files & sync", syncthing: "Files & sync", pairdrop: "Files & sync", "pingvin-share": "Files & sync",
   trilium: "Notes & docs", memos: "Notes & docs", siyuan: "Notes & docs", "joplin-server": "Notes & docs", docmost: "Notes & docs", wikijs: "Notes & docs", hedgedoc: "Notes & docs",
-  linkding: "Bookmarks & RSS", shiori: "Bookmarks & RSS", linkwarden: "Bookmarks & RSS", readeck: "Bookmarks & RSS", miniflux: "Bookmarks & RSS",
+  linkding: "Bookmarks & RSS", shiori: "Bookmarks & RSS", linkwarden: "Bookmarks & RSS", readeck: "Bookmarks & RSS", miniflux: "Bookmarks & RSS", karakeep: "Bookmarks & RSS",
   vikunja: "Productivity", planka: "Productivity", focalboard: "Productivity", donetick: "Productivity", beaverhabits: "Productivity", rallly: "Productivity", homebox: "Productivity", radicale: "Productivity", mealie: "Productivity", cefiro: "Productivity", teammapper: "Productivity", excalidraw: "Productivity", drawio: "Productivity", "owntracks-recorder": "Productivity", docuseal: "Productivity", littlelink: "Productivity", shlink: "Productivity", snappymail: "Productivity", ghost: "Productivity", "stirling-pdf": "Productivity", "paperless-ngx": "Productivity",
-  homepage: "Dashboards", glance: "Dashboards", flame: "Dashboards", homarr: "Dashboards",
+  homepage: "Dashboards", glance: "Dashboards", flame: "Dashboards", homarr: "Dashboards", dashy: "Dashboards",
   actual: "Finance", "firefly-iii": "Finance", ghostfolio: "Finance", kimai: "Finance",
   ntfy: "Notifications", gotify: "Notifications", apprise: "Notifications",
   backup: "Backup", "rest-server": "Backup", backrest: "Backup", duplicati: "Backup",
@@ -369,6 +369,10 @@ const RELATED = {
   webtop: ["code-server", "rustdesk"],
   duplicati: ["backrest", "backup", "minio"],
   coturn: ["conduit"],
+  karakeep: ["linkwarden", "linkding", "readeck", "shiori"],
+  "calibre-web": ["komga", "kavita", "audiobookshelf"],
+  dashy: ["homepage", "homarr", "glance"],
+  scrutiny: ["netdata", "beszel", "monitoring", "grafana"],
 };
 
 // Build a symmetric adjacency (a→b implies b→a) from a one-directional map,
@@ -450,6 +454,9 @@ const ALTERNATIVES = {
   drawio: ["excalidraw"],
   tautulli: ["jellystat"],
   duplicati: ["backrest"],
+  karakeep: ["linkwarden", "linkding", "readeck", "shiori"],
+  "calibre-web": ["komga", "kavita"],
+  dashy: ["homepage", "homarr", "glance", "flame"],
 };
 
 function buildRelated(allIds) { return buildGraph(RELATED, allIds); }
@@ -526,6 +533,7 @@ const GITHUB_REPO = {
   bazarr: "morpheus65535/bazarr", lidarr: "Lidarr/Lidarr", sabnzbd: "sabnzbd/sabnzbd", flaresolverr: "FlareSolverr/FlareSolverr",
   "wg-easy": "wg-easy/wg-easy", tautulli: "Tautulli/Tautulli", zigbee2mqtt: "Koenkk/zigbee2mqtt", jellystat: "CyferShepard/Jellystat",
   "node-exporter": "prometheus/node_exporter", webtop: "linuxserver/docker-webtop", duplicati: "duplicati/duplicati", coturn: "coturn/coturn",
+  karakeep: "karakeep-app/karakeep", "calibre-web": "janeczku/calibre-web", dashy: "Lissy93/dashy", scrutiny: "AnalogJ/scrutiny",
 };
 
 function formatStars(n) {
