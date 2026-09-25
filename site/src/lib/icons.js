@@ -73,6 +73,7 @@ const BRAND = {
   "calibre-web": "calibreweb",
   languagetool: "languagetool",
   baserow: "baserow",
+  immich: "immich",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
