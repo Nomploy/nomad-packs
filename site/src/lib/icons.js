@@ -71,6 +71,7 @@ const BRAND = {
   "node-exporter": "prometheus",
   duplicati: "duplicati",
   "calibre-web": "calibreweb",
+  languagetool: "languagetool",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
