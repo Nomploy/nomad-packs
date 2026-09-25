@@ -108,8 +108,8 @@ const CATEGORIES = {
   meilisearch: "Search", typesense: "Search", whoogle: "Search", searxng: "Search", manticore: "Search",
   rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging", redpanda: "Messaging", soketi: "Messaging", mumble: "Messaging", conduit: "Messaging", teamspeak: "Messaging", mattermost: "Messaging",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI", opencode: "AI", chroma: "AI", libretranslate: "AI", "whisper-asr": "AI", anythingllm: "AI",
-  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability", netdata: "Observability", healthchecks: "Observability", dashdot: "Observability", cadvisor: "Observability", "uptime-kuma": "Observability",
-  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking", flaresolverr: "Networking", "wg-easy": "Networking", nginx: "Networking",
+  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability", netdata: "Observability", healthchecks: "Observability", dashdot: "Observability", cadvisor: "Observability", "uptime-kuma": "Observability", "node-exporter": "Observability",
+  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking", flaresolverr: "Networking", "wg-easy": "Networking", nginx: "Networking", coturn: "Networking",
   keycloak: "Identity", vaultwarden: "Identity", authentik: "Identity", "pocket-id": "Identity", lldap: "Identity", openfga: "Identity",
   openbao: "Secrets", "step-ca": "Secrets",
   gitea: "Dev tools", forgejo: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", redisinsight: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools", opengist: "Dev tools", wakapi: "Dev tools", kroki: "Dev tools", microbin: "Dev tools", jupyter: "Dev tools", gotenberg: "Dev tools", dbgate: "Dev tools", "swagger-ui": "Dev tools", semaphore: "Dev tools", postgrest: "Dev tools", wetty: "Dev tools",
@@ -124,8 +124,9 @@ const CATEGORIES = {
   homepage: "Dashboards", glance: "Dashboards", flame: "Dashboards", homarr: "Dashboards",
   actual: "Finance", "firefly-iii": "Finance", ghostfolio: "Finance", kimai: "Finance",
   ntfy: "Notifications", gotify: "Notifications", apprise: "Notifications",
-  backup: "Backup", "rest-server": "Backup", backrest: "Backup",
+  backup: "Backup", "rest-server": "Backup", backrest: "Backup", duplicati: "Backup",
   fleet: "Device management",
+  webtop: "Dev tools",
 };
 
 const readIf = (p) => (existsSync(p) ? readFileSync(p, "utf8") : "");
@@ -364,6 +365,10 @@ const RELATED = {
   tautulli: ["jellyfin", "jellystat"],
   zigbee2mqtt: ["home-assistant", "mosquitto", "esphome"],
   jellystat: ["jellyfin", "tautulli", "jellyseerr"],
+  "node-exporter": ["monitoring", "grafana", "cadvisor"],
+  webtop: ["code-server", "rustdesk"],
+  duplicati: ["backrest", "backup", "minio"],
+  coturn: ["conduit"],
 };
 
 // Build a symmetric adjacency (a→b implies b→a) from a one-directional map,
@@ -444,6 +449,7 @@ const ALTERNATIVES = {
   jellyseerr: [],
   drawio: ["excalidraw"],
   tautulli: ["jellystat"],
+  duplicati: ["backrest"],
 };
 
 function buildRelated(allIds) { return buildGraph(RELATED, allIds); }
@@ -519,6 +525,7 @@ const GITHUB_REPO = {
   prowlarr: "Prowlarr/Prowlarr", sonarr: "Sonarr/Sonarr", radarr: "Radarr/Radarr", qbittorrent: "qbittorrent/qBittorrent",
   bazarr: "morpheus65535/bazarr", lidarr: "Lidarr/Lidarr", sabnzbd: "sabnzbd/sabnzbd", flaresolverr: "FlareSolverr/FlareSolverr",
   "wg-easy": "wg-easy/wg-easy", tautulli: "Tautulli/Tautulli", zigbee2mqtt: "Koenkk/zigbee2mqtt", jellystat: "CyferShepard/Jellystat",
+  "node-exporter": "prometheus/node_exporter", webtop: "linuxserver/docker-webtop", duplicati: "duplicati/duplicati", coturn: "coturn/coturn",
 };
 
 function formatStars(n) {

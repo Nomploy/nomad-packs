@@ -68,6 +68,8 @@ const BRAND = {
   "wg-easy": "wireguard",
   tautulli: "tautulli",
   zigbee2mqtt: "zigbee2mqtt",
+  "node-exporter": "prometheus",
+  duplicati: "duplicati",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
