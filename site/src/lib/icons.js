@@ -70,6 +70,7 @@ const BRAND = {
   zigbee2mqtt: "zigbee2mqtt",
   "node-exporter": "prometheus",
   duplicati: "duplicati",
+  "calibre-web": "calibreweb",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
