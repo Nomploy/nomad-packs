@@ -116,11 +116,11 @@ const CATEGORIES = {
   nocodb: "Low-code", directus: "Low-code", grist: "Low-code", pocketbase: "Low-code", baserow: "Low-code",
   n8n: "Automation", "node-red": "Automation", changedetection: "Automation", "home-assistant": "Automation", esphome: "Automation", zigbee2mqtt: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics", matomo: "Analytics",
-  jellyfin: "Media", navidrome: "Media", photoprism: "Media", audiobookshelf: "Media", komga: "Media", kavita: "Media", stump: "Media", owncast: "Media", jellyseerr: "Media", metube: "Media", pinchflat: "Media", slskd: "Media", maloja: "Media", prowlarr: "Media", sonarr: "Media", radarr: "Media", lidarr: "Media", bazarr: "Media", qbittorrent: "Media", sabnzbd: "Media", tautulli: "Media", jellystat: "Media", "calibre-web": "Media", ombi: "Media", mylar3: "Media", suwayomi: "Media", kapowarr: "Media", wizarr: "Media",
+  jellyfin: "Media", navidrome: "Media", photoprism: "Media", audiobookshelf: "Media", komga: "Media", kavita: "Media", stump: "Media", owncast: "Media", jellyseerr: "Media", metube: "Media", pinchflat: "Media", slskd: "Media", maloja: "Media", prowlarr: "Media", sonarr: "Media", radarr: "Media", lidarr: "Media", bazarr: "Media", qbittorrent: "Media", sabnzbd: "Media", tautulli: "Media", jellystat: "Media", "calibre-web": "Media", ombi: "Media", mylar3: "Media", suwayomi: "Media", kapowarr: "Media", wizarr: "Media", immich: "Media",
   filebrowser: "Files & sync", filestash: "Files & sync", copyparty: "Files & sync", dufs: "Files & sync", syncthing: "Files & sync", pairdrop: "Files & sync", "pingvin-share": "Files & sync", sftpgo: "Files & sync",
   trilium: "Notes & docs", memos: "Notes & docs", siyuan: "Notes & docs", "joplin-server": "Notes & docs", docmost: "Notes & docs", wikijs: "Notes & docs", hedgedoc: "Notes & docs",
-  linkding: "Bookmarks & RSS", shiori: "Bookmarks & RSS", linkwarden: "Bookmarks & RSS", readeck: "Bookmarks & RSS", miniflux: "Bookmarks & RSS", karakeep: "Bookmarks & RSS",
-  vikunja: "Productivity", planka: "Productivity", focalboard: "Productivity", donetick: "Productivity", beaverhabits: "Productivity", rallly: "Productivity", homebox: "Productivity", radicale: "Productivity", mealie: "Productivity", cefiro: "Productivity", teammapper: "Productivity", excalidraw: "Productivity", drawio: "Productivity", "owntracks-recorder": "Productivity", docuseal: "Productivity", littlelink: "Productivity", shlink: "Productivity", snappymail: "Productivity", ghost: "Productivity", "stirling-pdf": "Productivity", "paperless-ngx": "Productivity", kitchenowl: "Productivity", spoolman: "Productivity",
+  linkding: "Bookmarks & RSS", shiori: "Bookmarks & RSS", linkwarden: "Bookmarks & RSS", readeck: "Bookmarks & RSS", miniflux: "Bookmarks & RSS", karakeep: "Bookmarks & RSS", commafeed: "Bookmarks & RSS",
+  vikunja: "Productivity", planka: "Productivity", focalboard: "Productivity", donetick: "Productivity", beaverhabits: "Productivity", rallly: "Productivity", homebox: "Productivity", radicale: "Productivity", mealie: "Productivity", cefiro: "Productivity", teammapper: "Productivity", excalidraw: "Productivity", drawio: "Productivity", "owntracks-recorder": "Productivity", docuseal: "Productivity", littlelink: "Productivity", shlink: "Productivity", snappymail: "Productivity", ghost: "Productivity", "stirling-pdf": "Productivity", "paperless-ngx": "Productivity", kitchenowl: "Productivity", spoolman: "Productivity", tracktor: "Productivity", slash: "Productivity",
   homepage: "Dashboards", glance: "Dashboards", flame: "Dashboards", homarr: "Dashboards", dashy: "Dashboards",
   actual: "Finance", "firefly-iii": "Finance", ghostfolio: "Finance", kimai: "Finance",
   ntfy: "Notifications", gotify: "Notifications", apprise: "Notifications",
@@ -388,6 +388,10 @@ const RELATED = {
   kapowarr: ["komga", "kavita", "mylar3", "prowlarr", "qbittorrent", "sabnzbd"],
   rustpad: ["hedgedoc", "excalidraw", "code-server"],
   wizarr: ["jellyfin", "jellyseerr", "ombi", "tautulli"],
+  immich: ["photoprism", "syncthing", "filebrowser"],
+  commafeed: ["miniflux", "readeck", "karakeep"],
+  tracktor: ["homebox", "actual", "firefly-iii"],
+  slash: ["shlink", "linkding", "littlelink"],
 };
 
 // Build a symmetric adjacency (a→b implies b→a) from a one-directional map,
@@ -481,6 +485,9 @@ const ALTERNATIVES = {
   plantuml: ["kroki"],
   "ddns-updater": ["cloudflare-ddns"],
   kapowarr: ["mylar3"],
+  immich: ["photoprism"],
+  commafeed: ["miniflux"],
+  slash: ["shlink"],
 };
 
 function buildRelated(allIds) { return buildGraph(RELATED, allIds); }
@@ -562,6 +569,7 @@ const GITHUB_REPO = {
   languagetool: "languagetool-org/languagetool", openobserve: "openobserve/openobserve", mylar3: "mylar3/mylar3", sftpgo: "drakkan/sftpgo",
   suwayomi: "Suwayomi/Suwayomi-Server", watchyourlan: "aceberg/WatchYourLAN", baserow: "bram2w/baserow", plantuml: "plantuml/plantuml-server",
   "ddns-updater": "qdm12/ddns-updater", kapowarr: "Casvt/Kapowarr", rustpad: "ekzhang/rustpad", wizarr: "Wizarrrr/wizarr",
+  immich: "immich-app/immich", commafeed: "Athou/commafeed", tracktor: "javedh-dev/tracktor", slash: "yourselfhosted/slash",
 };
 
 function formatStars(n) {
