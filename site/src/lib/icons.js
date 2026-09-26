@@ -74,6 +74,8 @@ const BRAND = {
   languagetool: "languagetool",
   baserow: "baserow",
   immich: "immich",
+  transmission: "transmission",
+  pyroscope: "grafana",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
