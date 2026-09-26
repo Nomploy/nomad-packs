@@ -80,6 +80,7 @@ const BRAND = {
   flood: "flood",
   guacamole: "apacheguacamole",
   tempo: "grafana",
+  jenkins: "jenkins",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
