@@ -79,6 +79,7 @@ const BRAND = {
   deluge: "deluge",
   flood: "flood",
   guacamole: "apacheguacamole",
+  tempo: "grafana",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
