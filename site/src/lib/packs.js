@@ -105,18 +105,18 @@ const CATEGORIES = {
   postgres: "Databases", mariadb: "Databases", mysql: "Databases", redis: "Databases", clickhouse: "Databases",
   memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases", etcd: "Databases", dolt: "Databases", immudb: "Databases", libsql: "Databases", rqlite: "Databases", eventstore: "Databases", pgvector: "Databases", paradedb: "Databases",
   seaweedfs: "Object storage", minio: "Object storage", rustfs: "Object storage",
-  meilisearch: "Search", typesense: "Search", whoogle: "Search", searxng: "Search", manticore: "Search",
+  meilisearch: "Search", typesense: "Search", whoogle: "Search", searxng: "Search", manticore: "Search", quickwit: "Search",
   rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging", redpanda: "Messaging", soketi: "Messaging", mumble: "Messaging", conduit: "Messaging", teamspeak: "Messaging", mattermost: "Messaging", thelounge: "Messaging",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI", opencode: "AI", chroma: "AI", libretranslate: "AI", "whisper-asr": "AI", anythingllm: "AI", kokoro: "AI", "big-agi": "AI", openui: "AI", localai: "AI",
   monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability", netdata: "Observability", healthchecks: "Observability", dashdot: "Observability", cadvisor: "Observability", "uptime-kuma": "Observability", "node-exporter": "Observability", scrutiny: "Observability", openobserve: "Observability", karma: "Observability", pyroscope: "Observability", tempo: "Observability",
-  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking", flaresolverr: "Networking", "wg-easy": "Networking", nginx: "Networking", coturn: "Networking", watchyourlan: "Networking", "ddns-updater": "Networking", byparr: "Networking", redlib: "Networking", guacamole: "Networking",
+  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking", flaresolverr: "Networking", "wg-easy": "Networking", nginx: "Networking", coturn: "Networking", watchyourlan: "Networking", "ddns-updater": "Networking", byparr: "Networking", redlib: "Networking", guacamole: "Networking", coredns: "Networking",
   keycloak: "Identity", vaultwarden: "Identity", authentik: "Identity", "pocket-id": "Identity", lldap: "Identity", openfga: "Identity",
   openbao: "Secrets", "step-ca": "Secrets",
   gitea: "Dev tools", forgejo: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", redisinsight: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools", opengist: "Dev tools", wakapi: "Dev tools", kroki: "Dev tools", microbin: "Dev tools", jupyter: "Dev tools", gotenberg: "Dev tools", dbgate: "Dev tools", "swagger-ui": "Dev tools", semaphore: "Dev tools", postgrest: "Dev tools", wetty: "Dev tools", convertx: "Dev tools", languagetool: "Dev tools", plantuml: "Dev tools", rustpad: "Dev tools", "soft-serve": "Dev tools", "go-httpbin": "Dev tools",
   nocodb: "Low-code", directus: "Low-code", grist: "Low-code", pocketbase: "Low-code", baserow: "Low-code",
   n8n: "Automation", "node-red": "Automation", changedetection: "Automation", "home-assistant": "Automation", esphome: "Automation", zigbee2mqtt: "Automation", autobrr: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics", matomo: "Analytics",
-  jellyfin: "Media", navidrome: "Media", photoprism: "Media", audiobookshelf: "Media", komga: "Media", kavita: "Media", stump: "Media", owncast: "Media", jellyseerr: "Media", metube: "Media", pinchflat: "Media", slskd: "Media", maloja: "Media", prowlarr: "Media", sonarr: "Media", radarr: "Media", lidarr: "Media", bazarr: "Media", qbittorrent: "Media", sabnzbd: "Media", tautulli: "Media", jellystat: "Media", "calibre-web": "Media", ombi: "Media", mylar3: "Media", suwayomi: "Media", kapowarr: "Media", wizarr: "Media", immich: "Media", calibre: "Media", transmission: "Media", deluge: "Media", nzbget: "Media", flood: "Media", komf: "Media", jdownloader2: "Media",
+  jellyfin: "Media", navidrome: "Media", photoprism: "Media", audiobookshelf: "Media", komga: "Media", kavita: "Media", stump: "Media", owncast: "Media", jellyseerr: "Media", metube: "Media", pinchflat: "Media", slskd: "Media", maloja: "Media", prowlarr: "Media", sonarr: "Media", radarr: "Media", lidarr: "Media", bazarr: "Media", qbittorrent: "Media", sabnzbd: "Media", tautulli: "Media", jellystat: "Media", "calibre-web": "Media", ombi: "Media", mylar3: "Media", suwayomi: "Media", kapowarr: "Media", wizarr: "Media", immich: "Media", calibre: "Media", transmission: "Media", deluge: "Media", nzbget: "Media", flood: "Media", komf: "Media", jdownloader2: "Media", handbrake: "Media", ytptube: "Media",
   filebrowser: "Files & sync", filestash: "Files & sync", copyparty: "Files & sync", dufs: "Files & sync", syncthing: "Files & sync", pairdrop: "Files & sync", "pingvin-share": "Files & sync", sftpgo: "Files & sync", hoodik: "Files & sync", dumbdrop: "Files & sync",
   trilium: "Notes & docs", memos: "Notes & docs", siyuan: "Notes & docs", "joplin-server": "Notes & docs", docmost: "Notes & docs", wikijs: "Notes & docs", hedgedoc: "Notes & docs", silverbullet: "Notes & docs", dumbpad: "Notes & docs", etherpad: "Notes & docs",
   linkding: "Bookmarks & RSS", shiori: "Bookmarks & RSS", linkwarden: "Bookmarks & RSS", readeck: "Bookmarks & RSS", miniflux: "Bookmarks & RSS", karakeep: "Bookmarks & RSS", commafeed: "Bookmarks & RSS", rsshub: "Bookmarks & RSS",
@@ -425,6 +425,10 @@ const RELATED = {
   jdownloader2: ["metube", "pinchflat", "flood", "qbittorrent"],
   "go-httpbin": ["it-tools", "swagger-ui", "whoami"],
   tempo: ["grafana", "loki", "monitoring", "pyroscope", "victoriametrics"],
+  handbrake: ["jellyfin", "tdarr", "metube", "ytptube"],
+  coredns: ["adguardhome", "technitium", "traefik"],
+  quickwit: ["grafana", "openobserve", "victoria-logs", "loki"],
+  ytptube: ["metube", "pinchflat", "jellyfin", "navidrome"],
 };
 
 // Build a symmetric adjacency (a→b implies b→a) from a one-directional map,
@@ -541,6 +545,9 @@ const ALTERNATIVES = {
   guacamole: ["rustdesk"],
   jdownloader2: ["metube"],
   tempo: ["jaeger"],
+  coredns: ["technitium", "adguardhome"],
+  quickwit: ["openobserve", "manticore"],
+  ytptube: ["metube", "pinchflat"],
 };
 
 function buildRelated(allIds) { return buildGraph(RELATED, allIds); }
@@ -631,6 +638,7 @@ const GITHUB_REPO = {
   nzbget: "nzbgetcom/nzbget", redlib: "redlib-org/redlib", thelounge: "thelounge/thelounge", etherpad: "ether/etherpad-lite",
   localai: "mudler/LocalAI", flood: "jesec/flood", "soft-serve": "charmbracelet/soft-serve", guacamole: "apache/guacamole-client",
   komf: "Snd-R/komf", jdownloader2: "jlesage/docker-jdownloader-2", "go-httpbin": "mccutchen/go-httpbin", tempo: "grafana/tempo",
+  handbrake: "jlesage/docker-handbrake", coredns: "coredns/coredns", quickwit: "quickwit-oss/quickwit", ytptube: "arabcoders/ytptube",
 };
 
 function formatStars(n) {
