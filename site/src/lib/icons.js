@@ -77,6 +77,8 @@ const BRAND = {
   transmission: "transmission",
   pyroscope: "grafana",
   deluge: "deluge",
+  flood: "flood",
+  guacamole: "apacheguacamole",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
