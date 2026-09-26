@@ -64,7 +64,7 @@ const SAAS = [
   { slug: "irccloud", name: "IRCCloud", tagline: "Always-on web IRC client", packs: ["thelounge"] },
   { slug: "google-docs", name: "Google Docs", tagline: "Collaborative document editing", packs: ["etherpad", "hedgedoc", "rustpad", "docmost"] },
   { slug: "speedtest-net", name: "Speedtest.net", tagline: "Network speed test", packs: ["openspeedtest"] },
-  { slug: "datadog", name: "Datadog", tagline: "Infrastructure monitoring & profiling", packs: ["netdata", "grafana", "monitoring", "dashdot", "cadvisor", "node-exporter", "openobserve", "pyroscope"] },
+  { slug: "datadog", name: "Datadog", tagline: "Infrastructure monitoring & profiling", packs: ["netdata", "grafana", "monitoring", "dashdot", "cadvisor", "node-exporter", "openobserve", "pyroscope", "tempo"] },
   { slug: "sortly", name: "Sortly", tagline: "Home & asset inventory", packs: ["dumbassets", "homebox"] },
   { slug: "v0", name: "Vercel v0", tagline: "Generate UI from a prompt", packs: ["openui"] },
   { slug: "grammarly", name: "Grammarly", tagline: "Grammar & style checker", packs: ["languagetool"] },
