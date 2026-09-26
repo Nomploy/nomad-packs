@@ -76,6 +76,7 @@ const BRAND = {
   immich: "immich",
   transmission: "transmission",
   pyroscope: "grafana",
+  deluge: "deluge",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",

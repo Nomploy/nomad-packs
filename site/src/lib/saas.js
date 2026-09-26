@@ -80,7 +80,7 @@ const SAAS = [
   { slug: "looker", name: "Looker", tagline: "BI dashboards & analytics", packs: ["metabase", "grafana"] },
   { slug: "tableau", name: "Tableau", tagline: "Data visualization & BI", packs: ["metabase", "grafana"] },
   { slug: "pastebin", name: "Pastebin", tagline: "Share snippets & pastes", packs: ["microbin", "opengist"] },
-  { slug: "wetransfer", name: "WeTransfer", tagline: "File transfer & sharing", packs: ["pingvin-share", "pairdrop"] },
+  { slug: "wetransfer", name: "WeTransfer", tagline: "File transfer & sharing", packs: ["pingvin-share", "pairdrop", "dumbdrop"] },
   { slug: "bitly", name: "Bitly", tagline: "URL shortener with analytics", packs: ["shlink", "slash"] },
   { slug: "google-timeline", name: "Google Maps Timeline", tagline: "Personal location history", packs: ["owntracks-recorder"] },
   { slug: "google-translate", name: "Google Translate", tagline: "Machine translation", packs: ["libretranslate"] },
