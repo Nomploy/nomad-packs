@@ -108,8 +108,8 @@ const CATEGORIES = {
   meilisearch: "Search", typesense: "Search", whoogle: "Search", searxng: "Search", manticore: "Search",
   rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging", redpanda: "Messaging", soketi: "Messaging", mumble: "Messaging", conduit: "Messaging", teamspeak: "Messaging", mattermost: "Messaging",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI", opencode: "AI", chroma: "AI", libretranslate: "AI", "whisper-asr": "AI", anythingllm: "AI",
-  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability", netdata: "Observability", healthchecks: "Observability", dashdot: "Observability", cadvisor: "Observability", "uptime-kuma": "Observability", "node-exporter": "Observability", scrutiny: "Observability", openobserve: "Observability",
-  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking", flaresolverr: "Networking", "wg-easy": "Networking", nginx: "Networking", coturn: "Networking", watchyourlan: "Networking", "ddns-updater": "Networking",
+  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability", netdata: "Observability", healthchecks: "Observability", dashdot: "Observability", cadvisor: "Observability", "uptime-kuma": "Observability", "node-exporter": "Observability", scrutiny: "Observability", openobserve: "Observability", karma: "Observability",
+  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking", flaresolverr: "Networking", "wg-easy": "Networking", nginx: "Networking", coturn: "Networking", watchyourlan: "Networking", "ddns-updater": "Networking", byparr: "Networking",
   keycloak: "Identity", vaultwarden: "Identity", authentik: "Identity", "pocket-id": "Identity", lldap: "Identity", openfga: "Identity",
   openbao: "Secrets", "step-ca": "Secrets",
   gitea: "Dev tools", forgejo: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", redisinsight: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools", opengist: "Dev tools", wakapi: "Dev tools", kroki: "Dev tools", microbin: "Dev tools", jupyter: "Dev tools", gotenberg: "Dev tools", dbgate: "Dev tools", "swagger-ui": "Dev tools", semaphore: "Dev tools", postgrest: "Dev tools", wetty: "Dev tools", convertx: "Dev tools", languagetool: "Dev tools", plantuml: "Dev tools", rustpad: "Dev tools",
@@ -118,9 +118,9 @@ const CATEGORIES = {
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics", matomo: "Analytics",
   jellyfin: "Media", navidrome: "Media", photoprism: "Media", audiobookshelf: "Media", komga: "Media", kavita: "Media", stump: "Media", owncast: "Media", jellyseerr: "Media", metube: "Media", pinchflat: "Media", slskd: "Media", maloja: "Media", prowlarr: "Media", sonarr: "Media", radarr: "Media", lidarr: "Media", bazarr: "Media", qbittorrent: "Media", sabnzbd: "Media", tautulli: "Media", jellystat: "Media", "calibre-web": "Media", ombi: "Media", mylar3: "Media", suwayomi: "Media", kapowarr: "Media", wizarr: "Media", immich: "Media",
   filebrowser: "Files & sync", filestash: "Files & sync", copyparty: "Files & sync", dufs: "Files & sync", syncthing: "Files & sync", pairdrop: "Files & sync", "pingvin-share": "Files & sync", sftpgo: "Files & sync",
-  trilium: "Notes & docs", memos: "Notes & docs", siyuan: "Notes & docs", "joplin-server": "Notes & docs", docmost: "Notes & docs", wikijs: "Notes & docs", hedgedoc: "Notes & docs",
+  trilium: "Notes & docs", memos: "Notes & docs", siyuan: "Notes & docs", "joplin-server": "Notes & docs", docmost: "Notes & docs", wikijs: "Notes & docs", hedgedoc: "Notes & docs", silverbullet: "Notes & docs",
   linkding: "Bookmarks & RSS", shiori: "Bookmarks & RSS", linkwarden: "Bookmarks & RSS", readeck: "Bookmarks & RSS", miniflux: "Bookmarks & RSS", karakeep: "Bookmarks & RSS", commafeed: "Bookmarks & RSS",
-  vikunja: "Productivity", planka: "Productivity", focalboard: "Productivity", donetick: "Productivity", beaverhabits: "Productivity", rallly: "Productivity", homebox: "Productivity", radicale: "Productivity", mealie: "Productivity", cefiro: "Productivity", teammapper: "Productivity", excalidraw: "Productivity", drawio: "Productivity", "owntracks-recorder": "Productivity", docuseal: "Productivity", littlelink: "Productivity", shlink: "Productivity", snappymail: "Productivity", ghost: "Productivity", "stirling-pdf": "Productivity", "paperless-ngx": "Productivity", kitchenowl: "Productivity", spoolman: "Productivity", tracktor: "Productivity", slash: "Productivity",
+  vikunja: "Productivity", planka: "Productivity", focalboard: "Productivity", donetick: "Productivity", beaverhabits: "Productivity", rallly: "Productivity", homebox: "Productivity", radicale: "Productivity", mealie: "Productivity", cefiro: "Productivity", teammapper: "Productivity", excalidraw: "Productivity", drawio: "Productivity", "owntracks-recorder": "Productivity", docuseal: "Productivity", littlelink: "Productivity", shlink: "Productivity", snappymail: "Productivity", ghost: "Productivity", "stirling-pdf": "Productivity", "paperless-ngx": "Productivity", kitchenowl: "Productivity", spoolman: "Productivity", tracktor: "Productivity", slash: "Productivity", wishlist: "Productivity",
   homepage: "Dashboards", glance: "Dashboards", flame: "Dashboards", homarr: "Dashboards", dashy: "Dashboards",
   actual: "Finance", "firefly-iii": "Finance", ghostfolio: "Finance", kimai: "Finance",
   ntfy: "Notifications", gotify: "Notifications", apprise: "Notifications",
@@ -392,6 +392,10 @@ const RELATED = {
   commafeed: ["miniflux", "readeck", "karakeep"],
   tracktor: ["homebox", "actual", "firefly-iii"],
   slash: ["shlink", "linkding", "littlelink"],
+  silverbullet: ["trilium", "memos", "hedgedoc", "docmost"],
+  karma: ["alertmanager", "monitoring", "grafana"],
+  byparr: ["prowlarr", "flaresolverr", "sonarr", "radarr"],
+  wishlist: ["homebox", "mealie"],
 };
 
 // Build a symmetric adjacency (a→b implies b→a) from a one-directional map,
@@ -488,6 +492,8 @@ const ALTERNATIVES = {
   immich: ["photoprism"],
   commafeed: ["miniflux"],
   slash: ["shlink"],
+  silverbullet: ["trilium", "memos"],
+  byparr: ["flaresolverr"],
 };
 
 function buildRelated(allIds) { return buildGraph(RELATED, allIds); }
@@ -570,6 +576,7 @@ const GITHUB_REPO = {
   suwayomi: "Suwayomi/Suwayomi-Server", watchyourlan: "aceberg/WatchYourLAN", baserow: "bram2w/baserow", plantuml: "plantuml/plantuml-server",
   "ddns-updater": "qdm12/ddns-updater", kapowarr: "Casvt/Kapowarr", rustpad: "ekzhang/rustpad", wizarr: "Wizarrrr/wizarr",
   immich: "immich-app/immich", commafeed: "Athou/commafeed", tracktor: "javedh-dev/tracktor", slash: "yourselfhosted/slash",
+  silverbullet: "silverbulletmd/silverbullet", karma: "prymitive/karma", byparr: "ThePhaseless/Byparr", wishlist: "cmintey/wishlist",
 };
 
 function formatStars(n) {

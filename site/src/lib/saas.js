@@ -3,7 +3,7 @@
 // pack ids are dropped at build time (see getSaasAlternatives), so it is safe to list
 // a pack here before it exists.
 const SAAS = [
-  { slug: "notion", name: "Notion", tagline: "Docs, wikis, and notes", packs: ["docmost", "wikijs", "trilium", "hedgedoc", "memos", "siyuan"] },
+  { slug: "notion", name: "Notion", tagline: "Docs, wikis, and notes", packs: ["docmost", "wikijs", "trilium", "hedgedoc", "memos", "siyuan", "silverbullet"] },
   { slug: "chatgpt", name: "ChatGPT", tagline: "Chat UI for LLMs", packs: ["open-webui", "lobe-chat", "anythingllm"] },
   { slug: "miro", name: "Miro / MindMeister", tagline: "Whiteboards & mind maps", packs: ["excalidraw", "drawio", "teammapper"] },
   { slug: "lucidchart", name: "Lucidchart", tagline: "Diagrams & flowcharts", packs: ["drawio", "excalidraw", "plantuml", "kroki"] },
@@ -52,6 +52,7 @@ const SAAS = [
   { slug: "pihole", name: "Pi-hole", tagline: "DNS ad-blocking", packs: ["adguardhome", "technitium"] },
   { slug: "fing", name: "Fing", tagline: "Network device scanner & monitor", packs: ["watchyourlan"] },
   { slug: "no-ip", name: "No-IP / DynDNS", tagline: "Dynamic DNS updating", packs: ["ddns-updater", "cloudflare-ddns"] },
+  { slug: "myregistry", name: "MyRegistry / Amazon Wish List", tagline: "Gift registry & wish lists", packs: ["wishlist"] },
   { slug: "pingdom", name: "Pingdom", tagline: "Uptime & status monitoring", packs: ["uptime-kuma", "gatus", "statping"] },
   { slug: "uptimerobot", name: "UptimeRobot", tagline: "Uptime monitoring", packs: ["uptime-kuma", "gatus"] },
   { slug: "cronitor", name: "Cronitor", tagline: "Cron & background-job monitoring", packs: ["healthchecks"] },
