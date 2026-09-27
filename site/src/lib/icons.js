@@ -124,6 +124,7 @@ const BRAND = {
   couchdb: "apachecouchdb",
   authentik: "authentik",
   actual: "actualbudget",
+  homebridge: "homebridge",
 };
 
 export const CATEGORY_COLORS = {
