@@ -46,6 +46,7 @@ const BRAND = {
   searxng: "searxng",
   minio: "minio",
   conduit: "matrix",
+  synapse: "matrix",
   "swagger-ui": "swagger",
   "joplin-server": "joplin",
   postgrest: "postgrest",
