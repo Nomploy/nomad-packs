@@ -114,16 +114,16 @@ const CATEGORIES = {
   openbao: "Secrets", "step-ca": "Secrets", "2fauth": "Secrets",
   gitea: "Dev tools", forgejo: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", redisinsight: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools", opengist: "Dev tools", wakapi: "Dev tools", kroki: "Dev tools", microbin: "Dev tools", jupyter: "Dev tools", gotenberg: "Dev tools", dbgate: "Dev tools", "swagger-ui": "Dev tools", semaphore: "Dev tools", postgrest: "Dev tools", wetty: "Dev tools", convertx: "Dev tools", languagetool: "Dev tools", plantuml: "Dev tools", rustpad: "Dev tools", "soft-serve": "Dev tools", "go-httpbin": "Dev tools", jenkins: "Dev tools", onedev: "Dev tools",
   nocodb: "Low-code", directus: "Low-code", grist: "Low-code", pocketbase: "Low-code", baserow: "Low-code", windmill: "Low-code", teable: "Low-code",
-  n8n: "Automation", "node-red": "Automation", changedetection: "Automation", "home-assistant": "Automation", esphome: "Automation", zigbee2mqtt: "Automation", autobrr: "Automation",
+  n8n: "Automation", "node-red": "Automation", changedetection: "Automation", "home-assistant": "Automation", esphome: "Automation", zigbee2mqtt: "Automation", autobrr: "Automation", frigate: "Automation", homebridge: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics", matomo: "Analytics",
-  jellyfin: "Media", navidrome: "Media", photoprism: "Media", audiobookshelf: "Media", komga: "Media", kavita: "Media", stump: "Media", owncast: "Media", jellyseerr: "Media", metube: "Media", pinchflat: "Media", slskd: "Media", maloja: "Media", prowlarr: "Media", sonarr: "Media", radarr: "Media", lidarr: "Media", bazarr: "Media", qbittorrent: "Media", sabnzbd: "Media", tautulli: "Media", jellystat: "Media", "calibre-web": "Media", ombi: "Media", mylar3: "Media", suwayomi: "Media", kapowarr: "Media", wizarr: "Media", immich: "Media", calibre: "Media", transmission: "Media", deluge: "Media", nzbget: "Media", flood: "Media", komf: "Media", jdownloader2: "Media", handbrake: "Media", ytptube: "Media", gonic: "Media", makemkv: "Media", lms: "Media", "calibre-web-automated": "Media", posterr: "Media", tunarr: "Media", ersatztv: "Media", streamystats: "Media", emby: "Media", plex: "Media",
+  jellyfin: "Media", navidrome: "Media", photoprism: "Media", audiobookshelf: "Media", komga: "Media", kavita: "Media", stump: "Media", owncast: "Media", jellyseerr: "Media", metube: "Media", pinchflat: "Media", slskd: "Media", maloja: "Media", prowlarr: "Media", sonarr: "Media", radarr: "Media", lidarr: "Media", bazarr: "Media", qbittorrent: "Media", sabnzbd: "Media", tautulli: "Media", jellystat: "Media", "calibre-web": "Media", ombi: "Media", mylar3: "Media", suwayomi: "Media", kapowarr: "Media", wizarr: "Media", immich: "Media", calibre: "Media", transmission: "Media", deluge: "Media", nzbget: "Media", flood: "Media", komf: "Media", jdownloader2: "Media", handbrake: "Media", ytptube: "Media", gonic: "Media", makemkv: "Media", lms: "Media", "calibre-web-automated": "Media", posterr: "Media", tunarr: "Media", ersatztv: "Media", streamystats: "Media", emby: "Media", plex: "Media", damselfly: "Media",
   filebrowser: "Files & sync", filestash: "Files & sync", copyparty: "Files & sync", dufs: "Files & sync", syncthing: "Files & sync", pairdrop: "Files & sync", "pingvin-share": "Files & sync", sftpgo: "Files & sync", hoodik: "Files & sync", dumbdrop: "Files & sync",
   trilium: "Notes & docs", memos: "Notes & docs", siyuan: "Notes & docs", "joplin-server": "Notes & docs", docmost: "Notes & docs", wikijs: "Notes & docs", hedgedoc: "Notes & docs", silverbullet: "Notes & docs", dumbpad: "Notes & docs", etherpad: "Notes & docs", blinko: "Notes & docs",
   linkding: "Bookmarks & RSS", shiori: "Bookmarks & RSS", linkwarden: "Bookmarks & RSS", readeck: "Bookmarks & RSS", miniflux: "Bookmarks & RSS", karakeep: "Bookmarks & RSS", commafeed: "Bookmarks & RSS", rsshub: "Bookmarks & RSS",
   vikunja: "Productivity", planka: "Productivity", focalboard: "Productivity", donetick: "Productivity", beaverhabits: "Productivity", rallly: "Productivity", homebox: "Productivity", radicale: "Productivity", mealie: "Productivity", cefiro: "Productivity", teammapper: "Productivity", excalidraw: "Productivity", drawio: "Productivity", wanderer: "Productivity", "owntracks-recorder": "Productivity", docuseal: "Productivity", littlelink: "Productivity", shlink: "Productivity", snappymail: "Productivity", ghost: "Productivity", "stirling-pdf": "Productivity", "paperless-ngx": "Productivity", kitchenowl: "Productivity", spoolman: "Productivity", tracktor: "Productivity", slash: "Productivity", wishlist: "Productivity", "snipe-it": "Productivity",
   homepage: "Dashboards", glance: "Dashboards", flame: "Dashboards", homarr: "Dashboards", dashy: "Dashboards", mafl: "Dashboards",
   actual: "Finance", "firefly-iii": "Finance", ghostfolio: "Finance", kimai: "Finance", dumbbudget: "Finance",
-  dumbassets: "Productivity", ryot: "Productivity",
+  dumbassets: "Productivity", ryot: "Productivity", dawarich: "Productivity",
   ntfy: "Notifications", gotify: "Notifications", apprise: "Notifications",
   backup: "Backup", "rest-server": "Backup", backrest: "Backup", duplicati: "Backup",
   fleet: "Device management",
@@ -453,6 +453,10 @@ const RELATED = {
   ryot: ["jellyfin", "audiobookshelf", "komga", "kavita"],
   emby: ["jellyfin", "plex", "jellyseerr", "tautulli"],
   plex: ["jellyfin", "emby", "jellyseerr", "tautulli", "ombi"],
+  dawarich: ["owntracks-recorder", "home-assistant", "immich"],
+  damselfly: ["immich", "photoprism", "filebrowser"],
+  frigate: ["home-assistant", "zigbee2mqtt", "esphome", "node-red"],
+  homebridge: ["home-assistant", "zigbee2mqtt", "esphome", "node-red"],
 };
 
 // Build a symmetric adjacency (a→b implies b→a) from a one-directional map,
@@ -587,6 +591,10 @@ const ALTERNATIVES = {
   blinko: ["memos", "trilium"],
   emby: ["jellyfin", "plex"],
   plex: ["jellyfin", "emby"],
+  dawarich: ["owntracks-recorder"],
+  damselfly: ["immich", "photoprism"],
+  frigate: ["home-assistant"],
+  homebridge: ["home-assistant"],
 };
 
 function buildRelated(allIds) { return buildGraph(RELATED, allIds); }
@@ -684,6 +692,7 @@ const GITHUB_REPO = {
   tunarr: "chrisbenincasa/tunarr", mafl: "hywax/mafl", "snipe-it": "snipe/snipe-it", windmill: "windmill-labs/windmill",
   synapse: "element-hq/synapse", teable: "teableio/teable", ersatztv: "ErsatzTV/ErsatzTV", streamystats: "fredrikburmester/streamystats",
   blinko: "blinkospace/blinko", ryot: "IgnisDa/ryot", emby: "MediaBrowser/Emby", plex: "plexinc/pms-docker",
+  dawarich: "Freika/dawarich", damselfly: "Webreaper/Damselfly", frigate: "blakeblackshear/frigate", homebridge: "homebridge/homebridge",
 };
 
 function formatStars(n) {
