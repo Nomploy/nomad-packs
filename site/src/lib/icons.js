@@ -125,6 +125,7 @@ const BRAND = {
   authentik: "authentik",
   actual: "actualbudget",
   homebridge: "homebridge",
+  listmonk: "listmonk",
 };
 
 export const CATEGORY_COLORS = {
