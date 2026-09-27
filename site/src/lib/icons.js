@@ -126,6 +126,7 @@ const BRAND = {
   actual: "actualbudget",
   homebridge: "homebridge",
   listmonk: "listmonk",
+  traccar: "traccar",
 };
 
 export const CATEGORY_COLORS = {
