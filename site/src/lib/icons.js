@@ -69,6 +69,8 @@ const BRAND = {
   tautulli: "tautulli",
   zigbee2mqtt: "zigbee2mqtt",
   "node-exporter": "prometheus",
+  "speedtest-exporter": "prometheus",
+  "calibre-web-automated": "calibreweb",
   duplicati: "duplicati",
   "calibre-web": "calibreweb",
   languagetool: "languagetool",
