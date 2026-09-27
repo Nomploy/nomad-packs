@@ -84,6 +84,8 @@ const BRAND = {
   guacamole: "apacheguacamole",
   tempo: "grafana",
   jenkins: "jenkins",
+  emby: "emby",
+  plex: "plex",
   drawio: "diagramsdotnet",
   "cloudflare-ddns": "cloudflare",
   cloudbeaver: "dbeaver",
