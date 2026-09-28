@@ -75,6 +75,11 @@ const jsonld = {
   </div>
   <p class="desc">{pack.description}</p>
 
+  <div class="deployrow">
+    <button class="deploy" id="deploybtn" data-pack={pack.id} data-registry="github.com/Nomploy/nomad-packs">Deploy to Nomploy →</button>
+    <button class="deploy-cfg" id="deploycfg" type="button">set panel…</button>
+  </div>
+
   <div class="addcmd">
     <div class="cmd" id="runcmd">{runCmd}</div>
     <button class="copy" data-copy="#runcmd">Copy</button>
@@ -276,6 +281,12 @@ const jsonld = {
   .links .report { color: var(--muted); }
   .links .report:hover { color: var(--accent); }
 
+  .deployrow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 4px 0 12px; }
+  .deploy { background: var(--accent); color: #fff; border: 0; border-radius: 8px; padding: 10px 18px; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .deploy:hover { filter: brightness(1.06); }
+  .deploy-cfg { background: none; border: 0; padding: 0; color: var(--muted); font-size: 12.5px; cursor: pointer; text-decoration: underline; }
+  .deploy-cfg:hover { color: var(--accent); }
+
   .facts { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0 0; }
   .fact { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); background: var(--chip); border: 1px solid var(--border); border-radius: 8px; padding: 4px 10px; }
   .fact.port { font-family: ui-monospace, monospace; }
@@ -353,4 +364,38 @@ const jsonld = {
       if (vempty) vempty.hidden = shown > 0;
     });
   }
+
+  // "Deploy to Nomploy": open the pack in the user's own panel. The panel URL is
+  // per-visitor (this registry is public), remembered in localStorage; first use
+  // prompts for it. Deep-links to /dashboard/deploy-pack?pack=…&registry=…
+  const PANEL_KEY = "nomploy_panel_url";
+  const getPanel = () => {
+    try { return localStorage.getItem(PANEL_KEY) || ""; } catch { return ""; }
+  };
+  const askPanel = () => {
+    const cur = getPanel();
+    const v = prompt("Your Nomploy panel URL (e.g. https://nomploy.example.com):", cur || "https://");
+    if (v == null) return cur;
+    const url = v.trim().replace(/\/+$/, "");
+    if (!/^https?:\/\/.+/.test(url)) {
+      if (v.trim()) alert("Please enter a full URL starting with http:// or https://");
+      return cur;
+    }
+    try { localStorage.setItem(PANEL_KEY, url); } catch {}
+    return url;
+  };
+  const db = document.getElementById("deploybtn");
+  if (db) {
+    db.addEventListener("click", () => {
+      let panel = getPanel();
+      if (!panel) panel = askPanel();
+      if (!panel) return;
+      const pack = db.dataset.pack;
+      const registry = db.dataset.registry;
+      const u = `${panel}/dashboard/deploy-pack?pack=${encodeURIComponent(pack)}&registry=${encodeURIComponent(registry)}`;
+      window.open(u, "_blank", "noopener");
+    });
+  }
+  const dc = document.getElementById("deploycfg");
+  if (dc) dc.addEventListener("click", () => askPanel());
 </script>
