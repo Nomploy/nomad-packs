@@ -130,6 +130,9 @@ const BRAND = {
   openhab: "openhab",
   mongodb: "mongodb",
   arangodb: "arangodb",
+  portainer: "portainer",
+  kafka: "apachekafka",
+  checkmk: "checkmk",
 };
 
 export const CATEGORY_COLORS = {

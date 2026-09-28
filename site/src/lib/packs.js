@@ -107,10 +107,10 @@ const CATEGORIES = {
   mongodb: "Databases", arangodb: "Databases",
   seaweedfs: "Object storage", minio: "Object storage", rustfs: "Object storage",
   meilisearch: "Search", typesense: "Search", whoogle: "Search", searxng: "Search", manticore: "Search", quickwit: "Search",
-  rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging", redpanda: "Messaging", soketi: "Messaging", mumble: "Messaging", conduit: "Messaging", teamspeak: "Messaging", mattermost: "Messaging", thelounge: "Messaging", synapse: "Messaging", centrifugo: "Messaging",
+  rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging", redpanda: "Messaging", soketi: "Messaging", mumble: "Messaging", conduit: "Messaging", teamspeak: "Messaging", mattermost: "Messaging", thelounge: "Messaging", synapse: "Messaging", centrifugo: "Messaging", kafka: "Messaging",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI", opencode: "AI", chroma: "AI", libretranslate: "AI", "whisper-asr": "AI", anythingllm: "AI", kokoro: "AI", "big-agi": "AI", openui: "AI", localai: "AI", infinity: "AI", librechat: "AI", sillytavern: "AI",
-  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability", netdata: "Observability", healthchecks: "Observability", dashdot: "Observability", cadvisor: "Observability", "uptime-kuma": "Observability", "node-exporter": "Observability", scrutiny: "Observability", openobserve: "Observability", karma: "Observability", pyroscope: "Observability", tempo: "Observability", "speedtest-exporter": "Observability", kener: "Observability",
-  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking", flaresolverr: "Networking", "wg-easy": "Networking", nginx: "Networking", coturn: "Networking", watchyourlan: "Networking", "ddns-updater": "Networking", byparr: "Networking", redlib: "Networking", guacamole: "Networking", coredns: "Networking", netalertx: "Networking", ntopng: "Networking", zoraxy: "Networking",
+  monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability", netdata: "Observability", healthchecks: "Observability", dashdot: "Observability", cadvisor: "Observability", "uptime-kuma": "Observability", "node-exporter": "Observability", scrutiny: "Observability", openobserve: "Observability", karma: "Observability", pyroscope: "Observability", tempo: "Observability", "speedtest-exporter": "Observability", kener: "Observability", checkmk: "Observability",
+  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking", flaresolverr: "Networking", "wg-easy": "Networking", nginx: "Networking", coturn: "Networking", watchyourlan: "Networking", "ddns-updater": "Networking", byparr: "Networking", redlib: "Networking", guacamole: "Networking", coredns: "Networking", netalertx: "Networking", ntopng: "Networking", zoraxy: "Networking", meshcentral: "Networking",
   keycloak: "Identity", vaultwarden: "Identity", authentik: "Identity", "pocket-id": "Identity", lldap: "Identity", openfga: "Identity", tinyauth: "Identity",
   openbao: "Secrets", "step-ca": "Secrets", "2fauth": "Secrets", infisical: "Secrets",
   gitea: "Dev tools", forgejo: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", redisinsight: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools", opengist: "Dev tools", wakapi: "Dev tools", kroki: "Dev tools", microbin: "Dev tools", jupyter: "Dev tools", gotenberg: "Dev tools", dbgate: "Dev tools", "swagger-ui": "Dev tools", semaphore: "Dev tools", postgrest: "Dev tools", wetty: "Dev tools", convertx: "Dev tools", languagetool: "Dev tools", plantuml: "Dev tools", rustpad: "Dev tools", "soft-serve": "Dev tools", "go-httpbin": "Dev tools", jenkins: "Dev tools", onedev: "Dev tools", privatebin: "Dev tools", remark42: "Dev tools", whodb: "Dev tools", gitness: "Dev tools", kestra: "Dev tools", wud: "Dev tools",
@@ -127,7 +127,7 @@ const CATEGORIES = {
   dumbassets: "Productivity", ryot: "Productivity", dawarich: "Productivity",
   ntfy: "Notifications", gotify: "Notifications", apprise: "Notifications",
   backup: "Backup", "rest-server": "Backup", backrest: "Backup", duplicati: "Backup",
-  fleet: "Device management",
+  fleet: "Device management", portainer: "Device management",
   webtop: "Dev tools",
 };
 
@@ -454,6 +454,10 @@ const RELATED = {
   ryot: ["jellyfin", "audiobookshelf", "komga", "kavita"],
   emby: ["jellyfin", "plex", "jellyseerr", "tautulli"],
   plex: ["jellyfin", "emby", "jellyseerr", "tautulli", "ombi"],
+  portainer: ["wud", "dozzle", "beszel", "homepage"],
+  kafka: ["redpanda", "nats", "rabbitmq", "emqx"],
+  checkmk: ["netdata", "monitoring", "grafana", "uptime-kuma", "beszel"],
+  meshcentral: ["rustdesk", "guacamole", "fleet", "netalertx"],
   arangodb: ["neo4j", "surrealdb", "mongodb", "couchdb"],
   wud: ["dozzle", "beszel", "homepage", "gatus"],
   zoraxy: ["nginx-proxy-manager", "caddy", "traefik", "nginx"],
@@ -616,6 +620,10 @@ const ALTERNATIVES = {
   blinko: ["memos", "trilium"],
   emby: ["jellyfin", "plex"],
   plex: ["jellyfin", "emby"],
+  portainer: ["wud", "dozzle"],
+  kafka: ["redpanda", "nats"],
+  checkmk: ["netdata", "monitoring"],
+  meshcentral: ["rustdesk", "guacamole"],
   arangodb: ["neo4j", "surrealdb"],
   zoraxy: ["nginx-proxy-manager", "caddy"],
   centrifugo: ["nats", "soketi"],
@@ -746,6 +754,7 @@ const GITHUB_REPO = {
   sillytavern: "SillyTavern/SillyTavern", domoticz: "domoticz/domoticz", twenty: "twentyhq/twenty", gitness: "harness/harness",
   kestra: "kestra-io/kestra", dagu: "dagu-org/dagu", ntopng: "ntop/ntopng", tinyauth: "steveiliop56/tinyauth",
   arangodb: "arangodb/arangodb", wud: "getwud/wud", zoraxy: "tobychui/zoraxy", centrifugo: "centrifugal/centrifugo",
+  portainer: "portainer/portainer", kafka: "apache/kafka", checkmk: "Checkmk/checkmk", meshcentral: "Ylianst/MeshCentral",
 };
 
 function formatStars(n) {
