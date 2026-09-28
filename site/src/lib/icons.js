@@ -135,6 +135,7 @@ const BRAND = {
   checkmk: "checkmk",
   solr: "apachesolr",
   coder: "coder",
+  cryptpad: "cryptpad",
 };
 
 export const CATEGORY_COLORS = {
