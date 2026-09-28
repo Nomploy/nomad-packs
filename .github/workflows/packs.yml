@@ -58,3 +58,37 @@ jobs:
         env:
           NOMAD_ADDR: http://127.0.0.1:4646
         run: bash scripts/validate-packs.sh
+
+  smoke-test:
+    # Boots the packs changed in this PR against a real Nomad dev agent (docker
+    # driver) and checks each actually comes up and stays running — a stronger
+    # signal than `nomad job validate`. It's informational: keep it out of the
+    # required checks while it beds in.
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Install nomad-pack and nomad
+        run: |
+          cd /tmp
+          curl -fsSL -o nomad-pack.zip "https://releases.hashicorp.com/nomad-pack/${NOMAD_PACK_VERSION}/nomad-pack_${NOMAD_PACK_VERSION}_linux_amd64.zip"
+          curl -fsSL -o nomad.zip "https://releases.hashicorp.com/nomad/${NOMAD_VERSION}/nomad_${NOMAD_VERSION}_linux_amd64.zip"
+          unzip -o nomad-pack.zip && unzip -o nomad.zip
+          sudo mv nomad-pack nomad /usr/local/bin/
+      - name: Start Nomad dev agent (with docker driver)
+        run: |
+          sudo nomad agent -dev -log-level=ERROR > /tmp/nomad.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4646/v1/agent/health >/dev/null 2>&1; then
+              echo "nomad agent ready"; exit 0
+            fi
+            sleep 1
+          done
+          echo "nomad agent did not become ready"; cat /tmp/nomad.log; exit 1
+      - name: Smoke-test changed packs
+        env:
+          NOMAD_ADDR: http://127.0.0.1:4646
+          BASE_REF: origin/${{ github.event.pull_request.base.ref || 'master' }}
+        run: bash scripts/smoke-test.sh
