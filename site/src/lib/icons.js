@@ -129,6 +129,7 @@ const BRAND = {
   traccar: "traccar",
   openhab: "openhab",
   mongodb: "mongodb",
+  arangodb: "arangodb",
 };
 
 export const CATEGORY_COLORS = {
