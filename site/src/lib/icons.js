@@ -127,6 +127,8 @@ const BRAND = {
   homebridge: "homebridge",
   listmonk: "listmonk",
   traccar: "traccar",
+  openhab: "openhab",
+  mongodb: "mongodb",
 };
 
 export const CATEGORY_COLORS = {
