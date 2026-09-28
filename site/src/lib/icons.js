@@ -133,6 +133,8 @@ const BRAND = {
   portainer: "portainer",
   kafka: "apachekafka",
   checkmk: "checkmk",
+  solr: "apachesolr",
+  coder: "coder",
 };
 
 export const CATEGORY_COLORS = {
