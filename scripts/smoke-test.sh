@@ -27,6 +27,11 @@ BOOT_TIMEOUT="${BOOT_TIMEOUT:-150}"
 tmp="$(mktemp -d)"
 fail=0
 
+# When HEALTH_OUT is set, append a "<id>\t<status>\t<detail>" line per pack
+# (status = pass | failed | skipped) so a later step can publish a health badge.
+HEALTH_OUT="${HEALTH_OUT:-}"
+record() { [ -n "$HEALTH_OUT" ] && printf '%s\t%s\t%s\n' "$1" "$2" "${3:-}" >>"$HEALTH_OUT"; return 0; }
+
 # Packs that cannot boot healthily in a bare CI dev agent (need real hardware,
 # a specific host NIC/USB device, a public IP, or external state). Skipped with a
 # printed reason rather than failed.
@@ -70,20 +75,20 @@ first_port() {
 for id in "${ids[@]}"; do
   case "$id" in _*) continue ;; esac
   if [ ! -d "$root/packs/$id" ]; then echo "• $id: no such pack dir, skipping"; continue; fi
-  if [ -n "${SKIP[$id]:-}" ]; then echo "⊘ $id: skipped (${SKIP[$id]})"; continue; fi
+  if [ -n "${SKIP[$id]:-}" ]; then echo "⊘ $id: skipped (${SKIP[$id]})"; record "$id" skipped "${SKIP[$id]}"; continue; fi
 
   echo "──────── $id ────────"
   if ! nomad-pack render "$root/packs/$id" >"$tmp/$id.raw" 2>"$tmp/$id.err"; then
-    echo "✗ $id: render failed"; sed 's/^/    /' "$tmp/$id.err"; fail=1; continue
+    echo "✗ $id: render failed"; sed 's/^/    /' "$tmp/$id.err"; record "$id" failed "render failed"; fail=1; continue
   fi
   sed -n '/^job /,$p' "$tmp/$id.raw" >"$tmp/$id.nomad"
   job="$(awk -F'"' '/^job /{print $2; exit}' "$tmp/$id.nomad")"
-  if [ -z "$job" ]; then echo "✗ $id: could not parse job name"; fail=1; continue; fi
+  if [ -z "$job" ]; then echo "✗ $id: could not parse job name"; record "$id" failed "no job name"; fail=1; continue; fi
 
   # Ensure a clean slate, then run.
   nomad job stop -purge "$job" >/dev/null 2>&1 || true
   if ! nomad job run -detach "$tmp/$id.nomad" >"$tmp/$id.run" 2>&1; then
-    echo "✗ $id: nomad job run rejected the job"; sed 's/^/    /' "$tmp/$id.run"; fail=1
+    echo "✗ $id: nomad job run rejected the job"; sed 's/^/    /' "$tmp/$id.run"; record "$id" failed "job rejected"; fail=1
     nomad job stop -purge "$job" >/dev/null 2>&1 || true; continue
   fi
 
@@ -98,7 +103,7 @@ for id in "${ids[@]}"; do
     sleep 3
   done
   if [ "$ok" != 1 ]; then
-    echo "✗ $id: allocation never reached running within ${BOOT_TIMEOUT}s"
+    echo "✗ $id: allocation never reached running within ${BOOT_TIMEOUT}s"; record "$id" failed "never reached running"
     nomad job status "$job" 2>&1 | sed 's/^/    /' | head -30
     nomad job stop -purge "$job" >/dev/null 2>&1 || true; fail=1; continue
   fi
@@ -110,12 +115,12 @@ for id in "${ids[@]}"; do
   statuses="$(nomad job allocs -t '{{range .}}{{.ClientStatus}} {{end}}' "$job" 2>/dev/null)"
   r1="$(nomad alloc status "$alloc" 2>/dev/null | awk -F= '/Restarts\/Interval/{gsub(/ /,"",$2);print $2}' | cut -d/ -f1)"
   if [[ "$statuses" != *running* ]]; then
-    echo "✗ $id: allocation did not stay running (status: $statuses)"
+    echo "✗ $id: allocation did not stay running (status: $statuses)"; record "$id" failed "did not stay running"
     nomad alloc logs -stderr "$alloc" 2>/dev/null | tail -25 | sed 's/^/    /'
     nomad job stop -purge "$job" >/dev/null 2>&1 || true; fail=1; continue
   fi
   if [ -n "${r0:-}" ] && [ -n "${r1:-}" ] && [ "$r1" -gt "$r0" ] 2>/dev/null; then
-    echo "✗ $id: container is crash-looping (restarts $r0 → $r1)"
+    echo "✗ $id: container is crash-looping (restarts $r0 → $r1)"; record "$id" failed "crash-looping"
     nomad alloc logs -stderr "$alloc" 2>/dev/null | tail -25 | sed 's/^/    /'
     nomad job stop -purge "$job" >/dev/null 2>&1 || true; fail=1; continue
   fi
@@ -131,7 +136,7 @@ for id in "${ids[@]}"; do
       [ -n "$code" ] && [ "$code" != "000" ] && probe="HTTPS $code on :$port" || probe="no HTTP response on :$port (running anyway)"
     fi
   fi
-  echo "✓ $id: booted and held running ${SETTLE_SECONDS}s — $probe"
+  echo "✓ $id: booted and held running ${SETTLE_SECONDS}s — $probe"; record "$id" pass "$probe"
   nomad job stop -purge "$job" >/dev/null 2>&1 || true
 done
 
