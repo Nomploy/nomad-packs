@@ -105,6 +105,11 @@ for id in "${ids[@]}"; do
   if [ "$ok" != 1 ]; then
     echo "✗ $id: allocation never reached running within ${BOOT_TIMEOUT}s"; record "$id" failed "never reached running"
     nomad job status "$job" 2>&1 | sed 's/^/    /' | head -30
+    la="$(nomad job allocs -t '{{range .}}{{.ID}} {{end}}' "$job" 2>/dev/null | awk '{print $1}')"
+    if [ -n "$la" ]; then
+      echo "    --- alloc $la stderr ---"; nomad alloc logs -stderr "$la" 2>/dev/null | tail -30 | sed 's/^/    /'
+      echo "    --- alloc $la stdout ---"; nomad alloc logs "$la" 2>/dev/null | tail -15 | sed 's/^/    /'
+    fi
     nomad job stop -purge "$job" >/dev/null 2>&1 || true; fail=1; continue
   fi
 
