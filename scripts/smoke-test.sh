@@ -107,8 +107,12 @@ for id in "${ids[@]}"; do
     nomad job status "$job" 2>&1 | sed 's/^/    /' | head -30
     la="$(nomad job allocs -t '{{range .}}{{.ID}} {{end}}' "$job" 2>/dev/null | awk '{print $1}')"
     if [ -n "$la" ]; then
-      echo "    --- alloc $la stderr ---"; nomad alloc logs -stderr "$la" 2>/dev/null | tail -30 | sed 's/^/    /'
-      echo "    --- alloc $la stdout ---"; nomad alloc logs "$la" 2>/dev/null | tail -15 | sed 's/^/    /'
+      echo "    --- alloc $la status (task events / exit codes) ---"
+      nomad alloc status "$la" 2>/dev/null | sed 's/^/    /' | head -80
+      for t in "$id" init-perms init-config; do
+        logs="$(nomad alloc logs -stderr "$la" "$t" 2>/dev/null | tail -25)"
+        [ -n "$logs" ] && { echo "    --- task $t stderr ---"; echo "$logs" | sed 's/^/    /'; }
+      done
     fi
     nomad job stop -purge "$job" >/dev/null 2>&1 || true; fail=1; continue
   fi
