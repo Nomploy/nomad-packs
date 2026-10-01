@@ -92,6 +92,8 @@ const SAAS = [
   { slug: "cloudconvert", name: "CloudConvert", tagline: "Online file conversion", packs: ["convertx", "stirling-pdf", "gotenberg"] },
   { slug: "elasticsearch", name: "Elasticsearch", tagline: "Full-text search & log storage", packs: ["manticore", "meilisearch", "typesense", "solr", "openobserve", "paradedb", "quickwit"] },
   { slug: "firebase", name: "Firebase", tagline: "Backend-as-a-service", packs: ["pocketbase", "directus"] },
+  { slug: "planetscale", name: "PlanetScale / Neon", tagline: "Managed relational database", packs: ["gel", "postgres", "cockroachdb"] },
+  { slug: "proton-mail", name: "Proton Mail / Fastmail", tagline: "Private mail server", packs: ["stalwart"] },
   { slug: "pusher", name: "Pusher / Ably / PubNub", tagline: "Realtime messaging API", packs: ["centrifugo", "soketi"] },
   { slug: "confluent", name: "Confluent Cloud / AWS MSK", tagline: "Managed Kafka event streaming", packs: ["kafka", "redpanda"] },
   { slug: "pinecone", name: "Pinecone", tagline: "Vector database for AI", packs: ["chroma", "qdrant", "weaviate", "pgvector"] },
