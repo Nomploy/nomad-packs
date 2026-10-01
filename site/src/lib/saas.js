@@ -10,7 +10,7 @@ const SAAS = [
   { slug: "confluence", name: "Confluence", tagline: "Team wiki & knowledge base", packs: ["wikijs", "docmost", "hedgedoc"] },
   { slug: "trello", name: "Trello", tagline: "Kanban boards", packs: ["planka", "vikunja", "focalboard"] },
   { slug: "jira", name: "Jira", tagline: "Issue & project tracking", packs: ["vikunja", "planka"] },
-  { slug: "todoist", name: "Todoist", tagline: "To-dos & task lists", packs: ["vikunja", "donetick"] },
+  { slug: "todoist", name: "Todoist", tagline: "To-dos & task lists", packs: ["vikunja", "tududi", "donetick"] },
   { slug: "linktree", name: "Linktree", tagline: "Link-in-bio page", packs: ["littlelink"] },
   { slug: "habitica", name: "Habitica / Streaks", tagline: "Habit tracking", packs: ["beaverhabits"] },
   { slug: "doodle", name: "Doodle", tagline: "Meeting scheduling polls", packs: ["rallly"] },
