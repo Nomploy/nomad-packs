@@ -122,7 +122,7 @@ const CATEGORIES = {
   filebrowser: "Files & sync", filestash: "Files & sync", copyparty: "Files & sync", dufs: "Files & sync", syncthing: "Files & sync", pairdrop: "Files & sync", "pingvin-share": "Files & sync", sftpgo: "Files & sync", hoodik: "Files & sync", dumbdrop: "Files & sync",
   trilium: "Notes & docs", memos: "Notes & docs", siyuan: "Notes & docs", "joplin-server": "Notes & docs", docmost: "Notes & docs", wikijs: "Notes & docs", hedgedoc: "Notes & docs", silverbullet: "Notes & docs", dumbpad: "Notes & docs", etherpad: "Notes & docs", blinko: "Notes & docs", cryptpad: "Notes & docs",
   linkding: "Bookmarks & RSS", shiori: "Bookmarks & RSS", linkwarden: "Bookmarks & RSS", readeck: "Bookmarks & RSS", miniflux: "Bookmarks & RSS", karakeep: "Bookmarks & RSS", commafeed: "Bookmarks & RSS", rsshub: "Bookmarks & RSS", archivebox: "Bookmarks & RSS",
-  vikunja: "Productivity", planka: "Productivity", focalboard: "Productivity", donetick: "Productivity", beaverhabits: "Productivity", rallly: "Productivity", homebox: "Productivity", radicale: "Productivity", mealie: "Productivity", cefiro: "Productivity", teammapper: "Productivity", excalidraw: "Productivity", drawio: "Productivity", wanderer: "Productivity", "owntracks-recorder": "Productivity", docuseal: "Productivity", littlelink: "Productivity", shlink: "Productivity", snappymail: "Productivity", ghost: "Productivity", "stirling-pdf": "Productivity", "paperless-ngx": "Productivity", kitchenowl: "Productivity", spoolman: "Productivity", tracktor: "Productivity", slash: "Productivity", wishlist: "Productivity", "snipe-it": "Productivity", listmonk: "Productivity", traccar: "Productivity", twenty: "Productivity", kutt: "Productivity",
+  vikunja: "Productivity", planka: "Productivity", focalboard: "Productivity", donetick: "Productivity", beaverhabits: "Productivity", rallly: "Productivity", homebox: "Productivity", radicale: "Productivity", mealie: "Productivity", cefiro: "Productivity", teammapper: "Productivity", excalidraw: "Productivity", drawio: "Productivity", wanderer: "Productivity", "owntracks-recorder": "Productivity", docuseal: "Productivity", littlelink: "Productivity", shlink: "Productivity", snappymail: "Productivity", ghost: "Productivity", "stirling-pdf": "Productivity", "paperless-ngx": "Productivity", kitchenowl: "Productivity", spoolman: "Productivity", tracktor: "Productivity", slash: "Productivity", wishlist: "Productivity", "snipe-it": "Productivity", listmonk: "Productivity", traccar: "Productivity", twenty: "Productivity", kutt: "Productivity", tududi: "Productivity",
   homepage: "Dashboards", glance: "Dashboards", flame: "Dashboards", homarr: "Dashboards", dashy: "Dashboards", mafl: "Dashboards", homer: "Dashboards",
   actual: "Finance", "firefly-iii": "Finance", ghostfolio: "Finance", kimai: "Finance", dumbbudget: "Finance",
   dumbassets: "Productivity", ryot: "Productivity", dawarich: "Productivity",
@@ -499,6 +499,7 @@ const RELATED = {
   listmonk: ["ghost", "ntfy", "docuseal"],
   kener: ["uptime-kuma", "gatus", "statping", "healthchecks"],
   privatebin: ["microbin", "opengist", "cyberchef", "it-tools"],
+  tududi: ["vikunja", "planka", "donetick", "focalboard"],
   dawarich: ["owntracks-recorder", "home-assistant", "immich"],
   damselfly: ["immich", "photoprism", "filebrowser"],
   frigate: ["home-assistant", "zigbee2mqtt", "esphome", "node-red"],
@@ -678,6 +679,7 @@ const ALTERNATIVES = {
   netalertx: ["watchyourlan"],
   kener: ["uptime-kuma", "gatus", "statping"],
   privatebin: ["microbin", "opengist"],
+  tududi: ["vikunja", "donetick"],
   dawarich: ["owntracks-recorder"],
   damselfly: ["immich", "photoprism"],
   frigate: ["home-assistant"],
@@ -791,6 +793,7 @@ const GITHUB_REPO = {
   homer: "bastienwirtz/homer", "web-check": "Lissy93/web-check", invidious: "iv-org/invidious", anonymousoverflow: "httpjamesm/AnonymousOverflow",
   archivebox: "ArchiveBox/ArchiveBox", podfetch: "SamTV12345/PodFetch", libremdb: "zyachel/libremdb", ackee: "electerious/Ackee",
   ejabberd: "processone/ejabberd", kutt: "thedevs-network/kutt", cryptpad: "cryptpad/cryptpad", bytestash: "jordan-dalby/ByteStash",
+  tududi: "chrisvel/tududi",
 };
 
 function formatStars(n) {
