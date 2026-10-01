@@ -37,19 +37,6 @@ function gitDates() {
   return _gitDates;
 }
 
-// Smoke-test boot results per pack, published by CI to site/src/data/health.json
-// ({ "<id>": { status: "pass"|"failed"|"skipped", detail, at } }). Empty when the
-// smoke-test hasn't run for a pack yet; the build never breaks on a missing file.
-let _health;
-function health() {
-  if (_health) return _health;
-  try {
-    _health = JSON.parse(readIf(join(REPO_ROOT, "site/src/data/health.json")) || "{}");
-  } catch {
-    _health = {};
-  }
-  return _health;
-}
 
 // Last commit date at which each pack's container image default was changed (added
 // or bumped). One `git log -p` pass over the variables.hcl files, matching added
@@ -839,7 +826,6 @@ export async function getPacks() {
   if (cache) return cache;
   const dates = gitDates();
   const imgBumped = imageBumpDates();
-  const hc = health();
   const packs = readdirSync(PACKS_DIR)
     .filter((d) => statSync(join(PACKS_DIR, d)).isDirectory())
     .map((d) => {
@@ -872,7 +858,6 @@ export async function getPacks() {
         imageBumped: imgBumped[d] || null,
         added: dates.added[d] || null,
         updated: dates.updated[d] || null,
-        health: hc[d] || null,
         related: [],
         alternatives: [],
         icon: icon.compact,
