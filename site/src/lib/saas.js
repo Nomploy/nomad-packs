@@ -8,7 +8,7 @@ const SAAS = [
   { slug: "miro", name: "Miro / MindMeister", tagline: "Whiteboards & mind maps", packs: ["excalidraw", "drawio", "teammapper"] },
   { slug: "lucidchart", name: "Lucidchart", tagline: "Diagrams & flowcharts", packs: ["drawio", "excalidraw", "plantuml", "kroki"] },
   { slug: "confluence", name: "Confluence", tagline: "Team wiki & knowledge base", packs: ["wikijs", "docmost", "hedgedoc"] },
-  { slug: "trello", name: "Trello", tagline: "Kanban boards", packs: ["planka", "vikunja", "focalboard"] },
+  { slug: "trello", name: "Trello", tagline: "Kanban boards", packs: ["planka", "vikunja", "focalboard", "wekan"] },
   { slug: "jira", name: "Jira", tagline: "Issue & project tracking", packs: ["vikunja", "planka"] },
   { slug: "todoist", name: "Todoist", tagline: "To-dos & task lists", packs: ["vikunja", "tududi", "donetick"] },
   { slug: "linktree", name: "Linktree", tagline: "Link-in-bio page", packs: ["littlelink"] },
