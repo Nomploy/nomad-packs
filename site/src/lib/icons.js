@@ -136,6 +136,7 @@ const BRAND = {
   solr: "apachesolr",
   coder: "coder",
   cryptpad: "cryptpad",
+  dgraph: "dgraph",
 };
 
 export const CATEGORY_COLORS = {
