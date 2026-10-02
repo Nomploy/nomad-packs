@@ -137,6 +137,8 @@ const BRAND = {
   coder: "coder",
   cryptpad: "cryptpad",
   dgraph: "dgraph",
+  pulsar: "apachepulsar",
+  cassandra: "apachecassandra",
 };
 
 export const CATEGORY_COLORS = {
