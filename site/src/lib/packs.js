@@ -105,10 +105,10 @@ const CATEGORY_ORDER = [
 const CATEGORIES = {
   postgres: "Databases", mariadb: "Databases", mysql: "Databases", redis: "Databases", clickhouse: "Databases",
   memcached: "Databases", ferretdb: "Databases", timescaledb: "Databases", surrealdb: "Databases", neo4j: "Databases", valkey: "Databases", couchdb: "Databases", dragonfly: "Databases", cockroachdb: "Databases", questdb: "Databases", etcd: "Databases", dolt: "Databases", immudb: "Databases", libsql: "Databases", rqlite: "Databases", eventstore: "Databases", pgvector: "Databases", paradedb: "Databases", garnet: "Databases",
-  mongodb: "Databases", arangodb: "Databases", gel: "Databases", dgraph: "Databases",
+  mongodb: "Databases", arangodb: "Databases", gel: "Databases", dgraph: "Databases", cassandra: "Databases",
   seaweedfs: "Object storage", minio: "Object storage", rustfs: "Object storage",
   meilisearch: "Search", typesense: "Search", whoogle: "Search", searxng: "Search", manticore: "Search", quickwit: "Search", solr: "Search",
-  rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging", redpanda: "Messaging", soketi: "Messaging", mumble: "Messaging", conduit: "Messaging", teamspeak: "Messaging", mattermost: "Messaging", thelounge: "Messaging", synapse: "Messaging", centrifugo: "Messaging", kafka: "Messaging", ejabberd: "Messaging", stalwart: "Messaging", activemq: "Messaging", vernemq: "Messaging",
+  rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging", redpanda: "Messaging", soketi: "Messaging", mumble: "Messaging", conduit: "Messaging", teamspeak: "Messaging", mattermost: "Messaging", thelounge: "Messaging", synapse: "Messaging", centrifugo: "Messaging", kafka: "Messaging", ejabberd: "Messaging", stalwart: "Messaging", activemq: "Messaging", vernemq: "Messaging", pulsar: "Messaging",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI", opencode: "AI", chroma: "AI", libretranslate: "AI", "whisper-asr": "AI", anythingllm: "AI", kokoro: "AI", "big-agi": "AI", openui: "AI", localai: "AI", infinity: "AI", librechat: "AI", sillytavern: "AI",
   monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability", netdata: "Observability", healthchecks: "Observability", dashdot: "Observability", cadvisor: "Observability", "uptime-kuma": "Observability", "node-exporter": "Observability", scrutiny: "Observability", openobserve: "Observability", karma: "Observability", pyroscope: "Observability", tempo: "Observability", "speedtest-exporter": "Observability", kener: "Observability", checkmk: "Observability",
   cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking", flaresolverr: "Networking", "wg-easy": "Networking", nginx: "Networking", coturn: "Networking", watchyourlan: "Networking", "ddns-updater": "Networking", byparr: "Networking", redlib: "Networking", guacamole: "Networking", coredns: "Networking", netalertx: "Networking", ntopng: "Networking", zoraxy: "Networking", meshcentral: "Networking", anonymousoverflow: "Networking", libremdb: "Networking",
@@ -502,6 +502,8 @@ const RELATED = {
   tududi: ["vikunja", "planka", "donetick", "focalboard"],
   gel: ["surrealdb", "neo4j", "pocketbase", "arangodb", "postgres"],
   dgraph: ["neo4j", "arangodb", "surrealdb", "gel"],
+  cassandra: ["clickhouse", "questdb", "mongodb", "surrealdb"],
+  pulsar: ["kafka", "redpanda", "rabbitmq", "nats", "activemq"],
   wekan: ["planka", "vikunja", "focalboard", "tududi"],
   activemq: ["rabbitmq", "nats", "emqx", "kafka", "redpanda"],
   vernemq: ["mosquitto", "emqx", "nats", "activemq"],
@@ -690,6 +692,8 @@ const ALTERNATIVES = {
   tududi: ["vikunja", "donetick"],
   gel: ["surrealdb", "pocketbase"],
   dgraph: ["neo4j", "arangodb"],
+  cassandra: ["clickhouse", "questdb"],
+  pulsar: ["kafka", "redpanda"],
   wekan: ["planka", "vikunja"],
   activemq: ["rabbitmq", "nats"],
   vernemq: ["mosquitto", "emqx"],
@@ -813,6 +817,7 @@ const GITHUB_REPO = {
   gel: "geldata/gel", stalwart: "stalwartlabs/stalwart",
   activemq: "apache/activemq-artemis", vernemq: "vernemq/vernemq", zitadel: "zitadel/zitadel",
   dgraph: "hypermodeinc/dgraph", wekan: "wekan/wekan",
+  pulsar: "apache/pulsar", cassandra: "apache/cassandra",
 };
 
 function formatStars(n) {
