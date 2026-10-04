@@ -64,6 +64,8 @@ const jsonld = {
         <div class="phead">
           {p.icon.kind === "brand" ? (
             <div class="logo" style={`color:${p.icon.hex}`} set:html={p.iconSvg} />
+          ) : p.icon.kind === "custom" ? (
+            <div class="logo custom" set:html={p.iconSvg} />
           ) : (
             <div class="logo mono" style={`background:${p.icon.color}`}>{p.icon.text}</div>
           )}

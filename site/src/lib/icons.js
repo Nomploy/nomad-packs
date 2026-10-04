@@ -161,9 +161,23 @@ export const CATEGORY_COLORS = {
   Other: "#64748B",
 };
 
+// pack id -> a self-contained, multi-color inline SVG logo (its own colors and
+// background), for projects that have a real logo but no simple-icons glyph.
+const CUSTOM = {
+  goliash:
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Goliash"><rect width="96" height="96" rx="22" fill="#1b2a6b"/><g transform="translate(17 17)"><rect x="0" y="0" width="18" height="18" rx="4.5" fill="#8aa4ff"/><rect x="22" y="0" width="18" height="18" rx="4.5" fill="#8aa4ff" opacity=".55"/><rect x="44" y="0" width="18" height="18" rx="4.5" fill="#8aa4ff" opacity=".3"/><rect x="0" y="22" width="18" height="18" rx="4.5" fill="#8aa4ff" opacity=".55"/><rect x="22" y="22" width="18" height="18" rx="4.5" fill="#8aa4ff"/><rect x="44" y="22" width="18" height="18" rx="4.5" fill="#ffb347"/><rect x="0" y="44" width="18" height="18" rx="4.5" fill="#8aa4ff" opacity=".3"/><rect x="22" y="44" width="18" height="18" rx="4.5" fill="#8aa4ff" opacity=".55"/><rect x="44" y="44" width="18" height="18" rx="4.5" fill="#8aa4ff"/></g></svg>',
+};
+
 // Returns { compact, svg } — `compact` is small + JSON-safe for the API,
 // `svg` is an inline SVG string used by the site (omitted from the API).
 export function resolveIcon(id, name, category) {
+  const custom = CUSTOM[id];
+  if (custom) {
+    // A data-URI src travels in the (JSON) compact icon so API/panel consumers
+    // can render it as an <img>; the site inlines `svg` directly for crispness.
+    const src = "data:image/svg+xml," + encodeURIComponent(custom);
+    return { compact: { kind: "custom", src }, svg: custom };
+  }
   const slug = BRAND[id];
   const brand = slug ? BY_SLUG[slug] : null;
   if (brand) {

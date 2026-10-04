@@ -65,6 +65,8 @@ const jsonld = {
   <div class="head">
     {pack.icon.kind === "brand" ? (
       <div class="logo logo-lg" style={`color:${pack.icon.hex}`} set:html={pack.iconSvg} />
+    ) : pack.icon.kind === "custom" ? (
+      <div class="logo logo-lg custom" set:html={pack.iconSvg} />
     ) : (
       <div class="logo logo-lg mono" style={`background:${pack.icon.color}`}>{pack.icon.text}</div>
     )}
