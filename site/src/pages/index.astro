@@ -170,6 +170,26 @@ const addCmd = `nomad-pack registry add nomploy ${REGISTRY_URL}`;
   .foot .arrow { margin-left: auto; }
   .empty { color: var(--muted); padding: 40px 0; text-align: center; }
   .count { color: var(--muted); font-size: 13px; }
+
+  /* On phones the 20-plus category chips (and the facet row) wrap into many
+     rows and, because .controls is sticky, swallow the whole viewport — even
+     while searching. Keep each as a single horizontal-scroll strip instead. */
+  @media (max-width: 640px) {
+    .controls { padding: 10px 0; gap: 8px; }
+    .chips, .facets {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      width: 100%;
+      margin: 0 -16px; /* bleed to the screen edges so chips can scroll fully */
+      padding: 0 16px 2px;
+      scroll-snap-type: x proximity;
+    }
+    .chips::-webkit-scrollbar, .facets::-webkit-scrollbar { display: none; }
+    .chip, .facet { flex: 0 0 auto; white-space: nowrap; scroll-snap-align: start; }
+    .facet-label { flex: 0 0 auto; }
+  }
 </style>
 
 <script>
