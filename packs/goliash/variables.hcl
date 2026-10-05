@@ -23,9 +23,15 @@ variable "image" {
 }
 
 variable "port" {
-  description = "Host port for the web UI, API and agent endpoint."
+  description = "Host port for the web UI, API and agent endpoint. Ignored when canary > 0 (a dynamic port is used so a canary can co-locate)."
   type        = number
   default     = 8070
+}
+
+variable "canary" {
+  description = "Canary count for zero-downtime rolls. Requires database_url (Postgres) — on the SQLite volume path it is ignored. When > 0 the job uses a dynamic port (so the canary co-locates) and set public_url, since the service is reached via Traefik, not a fixed port. 0 = default single-alloc replace."
+  type        = number
+  default     = 0
 }
 
 variable "public_url" {

@@ -14,11 +14,23 @@ job "[[ var "job_name" . ]]" {
   group "[[ var "job_name" . ]]" {
     count = 1
 
-    # No canary update stanza: goliash is host-networked on a static port, so a
-    # canary is forced onto a different node, and nomploy's pack ingress
-    # (Consul tags + Traefik consulCatalog) has a cutover gap across a node move
-    # → a brief 404 window. Canary there is a net downtime regression, so keep
-    # Nomad's default single-alloc replace. (Verified live 2026-10-05.)
+    [[- if and (gt (var "canary" .) 0) (ne (var "database_url" .) "") ]]
+    # Zero-downtime canary — only with Postgres (stateless, so two allocs can't
+    # corrupt a shared volume). Pairs with the dynamic port below so the canary
+    # can co-locate on the same node (no static-port conflict / forced node
+    # move), keeping Traefik's health-aware cutover clean. Needs public_url set.
+    update {
+      max_parallel     = 1
+      canary           = [[ var "canary" . ]]
+      auto_promote     = true
+      auto_revert      = true
+      min_healthy_time = "10s"
+      healthy_deadline = "3m"
+    }
+    [[- else ]]
+    # Default single-alloc replace (brief restart). Set canary>0 WITH database_url
+    # for zero-downtime rolls; on the SQLite path a canary would risk the volume.
+    [[- end ]]
 
     network {
       mode = "host"
@@ -28,7 +40,12 @@ job "[[ var "job_name" . ]]" {
       }
       [[- end ]]
       port "http" {
+        [[- if and (gt (var "canary" .) 0) (ne (var "database_url" .) "") ]]
+        # Dynamic: Nomad picks a free host port so a canary co-locates; reachable
+        # via Traefik/Consul (the domain), not a fixed port.
+        [[- else ]]
         static = [[ var "port" . ]]
+        [[- end ]]
       }
     }
 
@@ -70,7 +87,11 @@ job "[[ var "job_name" . ]]" {
       }
 
       env {
+        [[- if and (gt (var "canary" .) 0) (ne (var "database_url" .) "") ]]
+        GOLIASH_LISTEN         = ":$${NOMAD_PORT_http}"
+        [[- else ]]
         GOLIASH_LISTEN         = ":[[ var "port" . ]]"
+        [[- end ]]
         GOLIASH_BOOTSTRAP_FILE = "/local/bootstrap.yaml"
         [[- if ne (var "database_url" .) "" ]]
         GOLIASH_DATABASE_URL = "[[ var "database_url" . ]]"

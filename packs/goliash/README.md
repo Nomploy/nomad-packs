@@ -33,6 +33,7 @@ Then open the task logs: the first start logs a one-time sign-in link for `owner
 | `database_url` | `""` | PostgreSQL DSN. Set it to run stateless on Postgres (no volume). Empty = SQLite. |
 | `data_volume` | `goliash_data` | `/data` — SQLite database and secret key. Ignored with `database_url`. |
 | `dns_servers` | `["10.10.0.1"]` | Container DNS, so it resolves `*.service.consul` (e.g. a managed DB by name). `[]` = host resolver. |
+| `canary` | `0` | Canary count for zero-downtime rolls. Needs `database_url` (Postgres); uses a dynamic port. `0` = replace. |
 | `image` | `ghcr.io/pipozzz/goliash:0.5.0` | Image. Pin a tag in production. |
 | `resources` | `{ cpu = 200, memory = 256 }` | Task resources. |
 
@@ -44,9 +45,11 @@ Then open the task logs: the first start logs a one-time sign-in link for `owner
   since the auto-generated key lives on the SQLite volume. On nomploy you can use a managed Postgres by its
   **Consul name** (`postgres://user:pass@<db>.service.consul:5432/db`) because `dns_servers` defaults to the
   hub dnsmasq (`10.10.0.1`), which resolves `*.service.consul`; a raw node IP works too and needs no DNS.
-- **Deploys** use Nomad's default single-alloc replace (brief restart). No canary: the host static port forces a
-  canary onto another node, and pack ingress (Consul tags + Traefik `consulCatalog`) has a cutover gap across a
-  node move, so a canary is a net downtime regression here rather than zero-downtime.
+- **Deploys.** Default is Nomad's single-alloc replace (brief restart). For **zero-downtime** set `canary` > 0
+  **with `database_url`** (Postgres): the job then uses a **dynamic port** so the canary co-locates on the same
+  node (no static-port conflict / forced node move) and Traefik's health-aware `consulCatalog` shifts traffic to
+  the new alloc before the old drains. Requires `public_url` (the service is reached via the domain, not a fixed
+  port). Canary is ignored on the SQLite path (a canary there would risk the node-local volume).
 - **ACLs.** With Nomad ACLs on, create a read-only token and pass it as `nomad_token`:
   `nomad acl policy apply goliash-read - <<<'namespace "*" { capabilities = ["read-job"] }'` then
   `nomad acl token create -name goliash -policy goliash-read`.
