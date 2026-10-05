@@ -71,6 +71,22 @@ const builderHref = `${base}stack/?packs=${stack.packs.join(",")}`;
   <p class="links"><a href={builderHref}>Open in Stack builder →</a></p>
 
   <div class="section-title">Deploy</div>
+  <div class="deployrow">
+    <button class="deploy" id="deploybtn" data-packs={stack.packs.join(",")} data-stack={stack.id} data-registry="github.com/Nomploy/nomad-packs">Deploy stack to Nomploy →</button>
+    <button class="deploy-cfg" id="deploycfg" type="button">set panel…</button>
+  </div>
+  {stack.profiles && stack.profiles.length > 0 && (
+    <div class="profiles">
+      <span class="plabel">Profiles</span>
+      {stack.profiles.map((pr) => (
+        <div class="profrow">
+          <button class="deploy ghost" data-packs={pr.packs.join(",")} data-stack={`${stack.id}:${pr.id}`} data-registry="github.com/Nomploy/nomad-packs">Deploy “{pr.name}” →</button>
+          <span class="prpacks">{pr.packs.join(" · ")}</span>
+        </div>
+      ))}
+    </div>
+  )}
+  <p class="olhint">…or copy the commands and run them yourself:</p>
   <div class="addcmd">
     <pre class="cmd" id="cmds">{cmds}</pre>
     <button class="copy" data-copy="#cmds">Copy</button>
@@ -152,6 +168,18 @@ const builderHref = `${base}stack/?packs=${stack.packs.join(",")}`;
   .addcmd { display: flex; gap: 8px; align-items: flex-start; }
   .cmd { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-size: 12.5px; overflow: auto; white-space: pre; font-family: ui-monospace, monospace; margin: 0; flex: 1; }
 
+  .deployrow { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin: 4px 0 10px; }
+  .deploy { background: var(--accent); color: #fff; border: 0; border-radius: 8px; padding: 10px 18px; font-size: 14px; font-weight: 700; cursor: pointer; }
+  .deploy:hover { filter: brightness(1.06); }
+  .deploy.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); font-weight: 600; padding: 7px 14px; font-size: 13px; }
+  .deploy-cfg { background: none; border: 0; padding: 0; color: var(--muted); font-size: 12.5px; cursor: pointer; text-decoration: underline; }
+  .deploy-cfg:hover { color: var(--accent); }
+  .profiles { margin: 2px 0 10px; }
+  .profiles .plabel { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); }
+  .profrow { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin: 6px 0; }
+  .prpacks { font-size: 12px; color: var(--muted); font-family: ui-monospace, monospace; }
+  .olhint { color: var(--muted); font-size: 12.5px; margin: 10px 0 6px; }
+
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
   .pcard { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; box-shadow: var(--shadow); color: inherit; display: flex; flex-direction: column; transition: transform .08s ease, border-color .12s ease; }
   .pcard:hover { transform: translateY(-2px); border-color: var(--accent); text-decoration: none; }
@@ -193,4 +221,39 @@ const builderHref = `${base}stack/?packs=${stack.packs.join(",")}`;
       } catch (e) {}
     });
   });
+
+  // "Deploy stack to Nomploy": open the whole stack (or a profile's pack set) in
+  // the user's own panel. Panel URL is per-visitor (public registry), remembered
+  // in localStorage; first use prompts for it. Deep-links to
+  // /dashboard/deploy-stack?packs=…&registry=…&stack=…
+  const PANEL_KEY = "nomploy_panel_url";
+  const getPanel = () => {
+    try { return localStorage.getItem(PANEL_KEY) || ""; } catch (e) { return ""; }
+  };
+  const askPanel = () => {
+    const cur = getPanel();
+    const v = prompt("Your Nomploy panel URL (e.g. https://nomploy.example.com):", cur || "https://");
+    if (v == null) return cur;
+    const url = v.trim().replace(/\/+$/, "");
+    if (!/^https?:\/\/.+/.test(url)) {
+      if (v.trim()) alert("Please enter a full URL starting with http:// or https://");
+      return cur;
+    }
+    try { localStorage.setItem(PANEL_KEY, url); } catch (e) {}
+    return url;
+  };
+  document.querySelectorAll(".deploy[data-packs]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      let panel = getPanel();
+      if (!panel) panel = askPanel();
+      if (!panel) return;
+      const packs = btn.dataset.packs;
+      const registry = btn.dataset.registry;
+      const stack = btn.dataset.stack || "";
+      const u = `${panel}/dashboard/deploy-stack?packs=${encodeURIComponent(packs)}&registry=${encodeURIComponent(registry)}${stack ? `&stack=${encodeURIComponent(stack)}` : ""}`;
+      window.open(u, "_blank", "noopener");
+    });
+  });
+  const dc = document.getElementById("deploycfg");
+  if (dc) dc.addEventListener("click", () => askPanel());
 </script>
