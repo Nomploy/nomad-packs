@@ -119,10 +119,10 @@ const CATEGORIES = {
   n8n: "Automation", "node-red": "Automation", changedetection: "Automation", "home-assistant": "Automation", esphome: "Automation", zigbee2mqtt: "Automation", autobrr: "Automation", frigate: "Automation", homebridge: "Automation", scrypted: "Automation", openhab: "Automation", domoticz: "Automation", dagu: "Automation", huginn: "Automation", automatisch: "Automation",
   metabase: "Analytics", umami: "Analytics", plausible: "Analytics", matomo: "Analytics", ackee: "Analytics",
   jellyfin: "Media", navidrome: "Media", photoprism: "Media", audiobookshelf: "Media", komga: "Media", kavita: "Media", stump: "Media", owncast: "Media", jellyseerr: "Media", metube: "Media", pinchflat: "Media", slskd: "Media", maloja: "Media", prowlarr: "Media", sonarr: "Media", radarr: "Media", lidarr: "Media", bazarr: "Media", qbittorrent: "Media", sabnzbd: "Media", tautulli: "Media", jellystat: "Media", "calibre-web": "Media", ombi: "Media", mylar3: "Media", suwayomi: "Media", kapowarr: "Media", wizarr: "Media", immich: "Media", calibre: "Media", transmission: "Media", deluge: "Media", nzbget: "Media", flood: "Media", komf: "Media", jdownloader2: "Media", handbrake: "Media", ytptube: "Media", gonic: "Media", makemkv: "Media", lms: "Media", "calibre-web-automated": "Media", posterr: "Media", tunarr: "Media", ersatztv: "Media", streamystats: "Media", emby: "Media", plex: "Media", damselfly: "Media", photoview: "Media", invidious: "Media", podfetch: "Media", fileflows: "Media", romm: "Media",
-  filebrowser: "Files & sync", filestash: "Files & sync", copyparty: "Files & sync", dufs: "Files & sync", syncthing: "Files & sync", pairdrop: "Files & sync", "pingvin-share": "Files & sync", sftpgo: "Files & sync", hoodik: "Files & sync", dumbdrop: "Files & sync",
+  filebrowser: "Files & sync", filestash: "Files & sync", copyparty: "Files & sync", dufs: "Files & sync", syncthing: "Files & sync", pairdrop: "Files & sync", "pingvin-share": "Files & sync", sftpgo: "Files & sync", hoodik: "Files & sync", dumbdrop: "Files & sync", gokapi: "Files & sync",
   trilium: "Notes & docs", memos: "Notes & docs", siyuan: "Notes & docs", "joplin-server": "Notes & docs", docmost: "Notes & docs", wikijs: "Notes & docs", hedgedoc: "Notes & docs", silverbullet: "Notes & docs", dumbpad: "Notes & docs", etherpad: "Notes & docs", blinko: "Notes & docs", cryptpad: "Notes & docs",
   linkding: "Bookmarks & RSS", shiori: "Bookmarks & RSS", linkwarden: "Bookmarks & RSS", readeck: "Bookmarks & RSS", miniflux: "Bookmarks & RSS", karakeep: "Bookmarks & RSS", commafeed: "Bookmarks & RSS", rsshub: "Bookmarks & RSS", archivebox: "Bookmarks & RSS",
-  vikunja: "Productivity", planka: "Productivity", focalboard: "Productivity", donetick: "Productivity", beaverhabits: "Productivity", rallly: "Productivity", homebox: "Productivity", radicale: "Productivity", mealie: "Productivity", cefiro: "Productivity", teammapper: "Productivity", excalidraw: "Productivity", drawio: "Productivity", wanderer: "Productivity", "owntracks-recorder": "Productivity", docuseal: "Productivity", littlelink: "Productivity", shlink: "Productivity", snappymail: "Productivity", ghost: "Productivity", "stirling-pdf": "Productivity", "paperless-ngx": "Productivity", kitchenowl: "Productivity", spoolman: "Productivity", tracktor: "Productivity", slash: "Productivity", wishlist: "Productivity", "snipe-it": "Productivity", listmonk: "Productivity", traccar: "Productivity", twenty: "Productivity", kutt: "Productivity", tududi: "Productivity", wekan: "Productivity", documenso: "Productivity",
+  vikunja: "Productivity", planka: "Productivity", focalboard: "Productivity", donetick: "Productivity", beaverhabits: "Productivity", rallly: "Productivity", homebox: "Productivity", radicale: "Productivity", mealie: "Productivity", cefiro: "Productivity", teammapper: "Productivity", excalidraw: "Productivity", drawio: "Productivity", wanderer: "Productivity", "owntracks-recorder": "Productivity", docuseal: "Productivity", littlelink: "Productivity", shlink: "Productivity", snappymail: "Productivity", ghost: "Productivity", "stirling-pdf": "Productivity", "paperless-ngx": "Productivity", kitchenowl: "Productivity", spoolman: "Productivity", tracktor: "Productivity", slash: "Productivity", wishlist: "Productivity", "snipe-it": "Productivity", listmonk: "Productivity", traccar: "Productivity", twenty: "Productivity", kutt: "Productivity", tududi: "Productivity", wekan: "Productivity", documenso: "Productivity", trek: "Productivity",
   homepage: "Dashboards", glance: "Dashboards", flame: "Dashboards", homarr: "Dashboards", dashy: "Dashboards", mafl: "Dashboards", homer: "Dashboards",
   actual: "Finance", "firefly-iii": "Finance", ghostfolio: "Finance", kimai: "Finance", dumbbudget: "Finance",
   dumbassets: "Productivity", ryot: "Productivity", dawarich: "Productivity",
@@ -513,6 +513,8 @@ const RELATED = {
   "omni-tools": ["it-tools", "cyberchef", "stirling-pdf"],
   termix: ["guacamole", "rustdesk", "meshcentral", "wetty"],
   khoj: ["ollama", "open-webui", "anythingllm", "librechat"],
+  trek: ["wanderer", "owntracks-recorder", "vikunja"],
+  gokapi: ["pingvin-share", "dumbdrop", "filebrowser", "copyparty"],
   pulsar: ["kafka", "redpanda", "rabbitmq", "nats", "activemq"],
   wekan: ["planka", "vikunja", "focalboard", "tududi"],
   activemq: ["rabbitmq", "nats", "emqx", "kafka", "redpanda"],
@@ -836,6 +838,7 @@ const GITHUB_REPO = {
   langfuse: "langfuse/langfuse", documenso: "documenso/documenso",
   automatisch: "automatisch/automatisch", romm: "rommapp/romm", "omni-tools": "iib0011/omni-tools",
   termix: "LukeGus/Termix", khoj: "khoj-ai/khoj",
+  trek: "liketrek/TREK", gokapi: "Forceu/Gokapi",
 };
 
 function formatStars(n) {
