@@ -14,6 +14,21 @@ job "[[ var "job_name" . ]]" {
   group "[[ var "job_name" . ]]" {
     count = 1
 
+    [[- if ne (var "database_url" .) "" ]]
+    # Zero-downtime canary — only on Postgres (stateless). On the SQLite path a
+    # canary lands on another node (host static port), seeds a fresh empty
+    # volume, and auto_promote would then kill the alloc holding the data — so
+    # the volume path keeps Nomad's default stop-and-replace instead.
+    update {
+      max_parallel     = 1
+      canary           = 1
+      auto_promote     = true
+      auto_revert      = true
+      min_healthy_time = "10s"
+      healthy_deadline = "3m"
+    }
+    [[- end ]]
+
     network {
       mode = "host"
       [[- if (var "dns_servers" .) ]]

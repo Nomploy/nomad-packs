@@ -44,6 +44,8 @@ Then open the task logs: the first start logs a one-time sign-in link for `owner
   since the auto-generated key lives on the SQLite volume. On nomploy you can use a managed Postgres by its
   **Consul name** (`postgres://user:pass@<db>.service.consul:5432/db`) because `dns_servers` defaults to the
   hub dnsmasq (`10.10.0.1`), which resolves `*.service.consul`; a raw node IP works too and needs no DNS.
+  On Postgres the job also gets a **canary `update`** block (zero-downtime rolls); the SQLite path keeps
+  Nomad's default stop-and-replace, since a canary would seed a fresh volume and lose the old one on promote.
 - **ACLs.** With Nomad ACLs on, create a read-only token and pass it as `nomad_token`:
   `nomad acl policy apply goliash-read - <<<'namespace "*" { capabilities = ["read-job"] }'` then
   `nomad acl token create -name goliash -policy goliash-read`.
