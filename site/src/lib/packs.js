@@ -111,7 +111,7 @@ const CATEGORIES = {
   rabbitmq: "Messaging", nats: "Messaging", mosquitto: "Messaging", emqx: "Messaging", redpanda: "Messaging", soketi: "Messaging", mumble: "Messaging", conduit: "Messaging", teamspeak: "Messaging", mattermost: "Messaging", thelounge: "Messaging", synapse: "Messaging", centrifugo: "Messaging", kafka: "Messaging", ejabberd: "Messaging", stalwart: "Messaging", activemq: "Messaging", vernemq: "Messaging", pulsar: "Messaging",
   ollama: "AI", qdrant: "AI", "open-webui": "AI", weaviate: "AI", flowise: "AI", "lobe-chat": "AI", litellm: "AI", hermes: "AI", opencode: "AI", chroma: "AI", libretranslate: "AI", "whisper-asr": "AI", anythingllm: "AI", kokoro: "AI", "big-agi": "AI", openui: "AI", localai: "AI", infinity: "AI", librechat: "AI", sillytavern: "AI", langfuse: "AI", khoj: "AI",
   monitoring: "Observability", loki: "Observability", grafana: "Observability", dozzle: "Observability", alertmanager: "Observability", victoriametrics: "Observability", jaeger: "Observability", gatus: "Observability", pushgateway: "Observability", "victoria-logs": "Observability", influxdb: "Observability", "blackbox-exporter": "Observability", "postgres-exporter": "Observability", "redis-exporter": "Observability", "mysqld-exporter": "Observability", glances: "Observability", beszel: "Observability", statping: "Observability", netdata: "Observability", healthchecks: "Observability", dashdot: "Observability", cadvisor: "Observability", "uptime-kuma": "Observability", "node-exporter": "Observability", scrutiny: "Observability", openobserve: "Observability", karma: "Observability", pyroscope: "Observability", tempo: "Observability", "speedtest-exporter": "Observability", kener: "Observability", checkmk: "Observability", goliash: "Observability",
-  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking", flaresolverr: "Networking", "wg-easy": "Networking", nginx: "Networking", coturn: "Networking", watchyourlan: "Networking", "ddns-updater": "Networking", byparr: "Networking", redlib: "Networking", guacamole: "Networking", coredns: "Networking", netalertx: "Networking", ntopng: "Networking", zoraxy: "Networking", meshcentral: "Networking", anonymousoverflow: "Networking", libremdb: "Networking", neko: "Networking", termix: "Networking",
+  cloudflared: "Networking", whoami: "Networking", adguardhome: "Networking", caddy: "Networking", rustdesk: "Networking", headscale: "Networking", consul: "Networking", "nginx-proxy-manager": "Networking", "cloudflare-ddns": "Networking", openspeedtest: "Networking", technitium: "Networking", traefik: "Networking", flaresolverr: "Networking", "wg-easy": "Networking", nginx: "Networking", coturn: "Networking", watchyourlan: "Networking", "ddns-updater": "Networking", byparr: "Networking", redlib: "Networking", guacamole: "Networking", coredns: "Networking", netalertx: "Networking", ntopng: "Networking", zoraxy: "Networking", meshcentral: "Networking", anonymousoverflow: "Networking", libremdb: "Networking", neko: "Networking", termix: "Networking", blocky: "Networking",
   keycloak: "Identity", vaultwarden: "Identity", authentik: "Identity", "pocket-id": "Identity", lldap: "Identity", openfga: "Identity", tinyauth: "Identity", zitadel: "Identity",
   openbao: "Secrets", "step-ca": "Secrets", "2fauth": "Secrets", infisical: "Secrets", certimate: "Secrets",
   gitea: "Dev tools", forgejo: "Dev tools", zot: "Dev tools", adminer: "Dev tools", "it-tools": "Dev tools", "omni-tools": "Dev tools", "code-server": "Dev tools", cyberchef: "Dev tools", mailpit: "Dev tools", pgadmin: "Dev tools", redisinsight: "Dev tools", verdaccio: "Dev tools", pgweb: "Dev tools", cloudbeaver: "Dev tools", opengist: "Dev tools", wakapi: "Dev tools", kroki: "Dev tools", microbin: "Dev tools", jupyter: "Dev tools", gotenberg: "Dev tools", dbgate: "Dev tools", "swagger-ui": "Dev tools", semaphore: "Dev tools", postgrest: "Dev tools", wetty: "Dev tools", convertx: "Dev tools", languagetool: "Dev tools", plantuml: "Dev tools", rustpad: "Dev tools", "soft-serve": "Dev tools", "go-httpbin": "Dev tools", jenkins: "Dev tools", onedev: "Dev tools", privatebin: "Dev tools", remark42: "Dev tools", whodb: "Dev tools", gitness: "Dev tools", kestra: "Dev tools", wud: "Dev tools", coder: "Dev tools", "web-check": "Dev tools", bytestash: "Dev tools", gogs: "Dev tools",
@@ -128,7 +128,7 @@ const CATEGORIES = {
   dumbassets: "Productivity", ryot: "Productivity", dawarich: "Productivity",
   ntfy: "Notifications", gotify: "Notifications", apprise: "Notifications",
   backup: "Backup", "rest-server": "Backup", backrest: "Backup", duplicati: "Backup",
-  fleet: "Device management", portainer: "Device management",
+  fleet: "Device management", portainer: "Device management", arcane: "Device management",
   webtop: "Dev tools",
 };
 
@@ -518,6 +518,8 @@ const RELATED = {
   kaneo: ["planka", "focalboard", "vikunja", "wekan"],
   feishin: ["navidrome", "jellyfin", "gonic", "lms"],
   certimate: ["step-ca", "caddy", "traefik", "nginx-proxy-manager"],
+  arcane: ["portainer", "fleet", "dozzle", "cadvisor"],
+  blocky: ["adguardhome", "technitium", "coredns", "nginx-proxy-manager"],
   pulsar: ["kafka", "redpanda", "rabbitmq", "nats", "activemq"],
   wekan: ["planka", "vikunja", "focalboard", "tududi"],
   activemq: ["rabbitmq", "nats", "emqx", "kafka", "redpanda"],
@@ -843,6 +845,7 @@ const GITHUB_REPO = {
   termix: "LukeGus/Termix", khoj: "khoj-ai/khoj",
   trek: "liketrek/TREK", gokapi: "Forceu/Gokapi",
   kaneo: "usekaneo/kaneo", feishin: "jeffvli/feishin", certimate: "certimate-go/certimate",
+  arcane: "getarcaneapp/arcane", blocky: "0xERR0R/blocky",
 };
 
 function formatStars(n) {
