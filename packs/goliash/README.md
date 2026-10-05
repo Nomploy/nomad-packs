@@ -32,6 +32,7 @@ Then open the task logs: the first start logs a one-time sign-in link for `owner
 | `github_token` | `""` | Optional, for release notes lookups. |
 | `database_url` | `""` | PostgreSQL DSN. Set it to run stateless on Postgres (no volume). Empty = SQLite. |
 | `data_volume` | `goliash_data` | `/data` — SQLite database and secret key. Ignored with `database_url`. |
+| `dns_servers` | `["10.10.0.1"]` | Container DNS, so it resolves `*.service.consul` (e.g. a managed DB by name). `[]` = host resolver. |
 | `image` | `ghcr.io/pipozzz/goliash:0.5.0` | Image. Pin a tag in production. |
 | `resources` | `{ cpu = 200, memory = 256 }` | Task resources. |
 
@@ -39,8 +40,10 @@ Then open the task logs: the first start logs a one-time sign-in link for `owner
 
 - **Storage.** Default is SQLite on a node-local volume (`count = 1`); pin the job with `constraints` so a
   reschedule keeps its data. To run **stateless on PostgreSQL** (survives rescheduling, no volume), set
-  `database_url` to a DSN like `postgres://user:pass@host:5432/goliash` reachable from the node — then also set
-  `secret_key` (`openssl rand -base64 32`), since the auto-generated key lives on the SQLite volume.
+  `database_url` to a DSN reachable from the node — then also set `secret_key` (`openssl rand -base64 32`),
+  since the auto-generated key lives on the SQLite volume. On nomploy you can use a managed Postgres by its
+  **Consul name** (`postgres://user:pass@<db>.service.consul:5432/db`) because `dns_servers` defaults to the
+  hub dnsmasq (`10.10.0.1`), which resolves `*.service.consul`; a raw node IP works too and needs no DNS.
 - **ACLs.** With Nomad ACLs on, create a read-only token and pass it as `nomad_token`:
   `nomad acl policy apply goliash-read - <<<'namespace "*" { capabilities = ["read-job"] }'` then
   `nomad acl token create -name goliash -policy goliash-read`.

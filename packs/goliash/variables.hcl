@@ -88,6 +88,12 @@ variable "data_volume" {
   default     = "goliash_data"
 }
 
+variable "dns_servers" {
+  description = "DNS servers for the container, so it can resolve *.service.consul (e.g. a managed Postgres by its Consul name). On nomploy each server node runs a dnsmasq on its WireGuard IP that forwards *.service.consul to Consul and everything else upstream — the hub is 10.10.0.1. List all server IPs for failover, or set [] to disable (use the host resolver)."
+  type        = list(string)
+  default     = ["10.10.0.1"]
+}
+
 variable "constraints" {
   description = "Constraints to pin the job to the node holding the data volume."
   type = list(object({

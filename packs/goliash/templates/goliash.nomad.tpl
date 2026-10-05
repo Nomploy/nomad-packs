@@ -16,6 +16,11 @@ job "[[ var "job_name" . ]]" {
 
     network {
       mode = "host"
+      [[- if (var "dns_servers" .) ]]
+      dns {
+        servers = [[ var "dns_servers" . | toStringList ]]
+      }
+      [[- end ]]
       port "http" {
         static = [[ var "port" . ]]
       }
