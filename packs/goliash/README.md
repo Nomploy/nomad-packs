@@ -30,14 +30,17 @@ Then open the task logs: the first start logs a one-time sign-in link for `owner
 | `nomad_token` | `""` | ACL token with `read-job`, when ACLs are on. |
 | `secret_key` | `""` | Encrypts channel secrets. Empty = generated on the volume. |
 | `github_token` | `""` | Optional, for release notes lookups. |
-| `data_volume` | `goliash_data` | `/data` — SQLite database and secret key. |
+| `database_url` | `""` | PostgreSQL DSN. Set it to run stateless on Postgres (no volume). Empty = SQLite. |
+| `data_volume` | `goliash_data` | `/data` — SQLite database and secret key. Ignored with `database_url`. |
 | `image` | `ghcr.io/pipozzz/goliash:0.5.0` | Image. Pin a tag in production. |
 | `resources` | `{ cpu = 200, memory = 256 }` | Task resources. |
 
 ## Notes
 
-- **Single node.** State is SQLite on a local volume: `count = 1`; pin the job with `constraints`. For more,
-  point `GOLIASH_DATABASE_URL` at PostgreSQL (see the docs).
+- **Storage.** Default is SQLite on a node-local volume (`count = 1`); pin the job with `constraints` so a
+  reschedule keeps its data. To run **stateless on PostgreSQL** (survives rescheduling, no volume), set
+  `database_url` to a DSN like `postgres://user:pass@host:5432/goliash` reachable from the node — then also set
+  `secret_key` (`openssl rand -base64 32`), since the auto-generated key lives on the SQLite volume.
 - **ACLs.** With Nomad ACLs on, create a read-only token and pass it as `nomad_token`:
   `nomad acl policy apply goliash-read - <<<'namespace "*" { capabilities = ["read-job"] }'` then
   `nomad acl token create -name goliash -policy goliash-read`.

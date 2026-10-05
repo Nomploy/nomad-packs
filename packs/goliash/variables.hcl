@@ -76,8 +76,14 @@ variable "github_token" {
   default     = ""
 }
 
+variable "database_url" {
+  description = "PostgreSQL DSN (postgres://user:pass@host:5432/db). Set this to run stateless on Postgres instead of SQLite; when set, no /data volume is mounted. Empty = SQLite on the data volume."
+  type        = string
+  default     = ""
+}
+
 variable "data_volume" {
-  description = "Named volume for the SQLite database and the secret key (/data)."
+  description = "Named volume for the SQLite database and the secret key (/data). Ignored when database_url is set."
   type        = string
   default     = "goliash_data"
 }

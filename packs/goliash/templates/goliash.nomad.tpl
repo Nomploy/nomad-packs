@@ -49,16 +49,21 @@ job "[[ var "job_name" . ]]" {
         network_mode = "host"
         ports        = ["http"]
         args         = ["serve"]
+        [[- if eq (var "database_url" .) "" ]]
         mount {
           type   = "volume"
           target = "/data"
           source = "[[ var "data_volume" . ]]"
         }
+        [[- end ]]
       }
 
       env {
         GOLIASH_LISTEN         = ":[[ var "port" . ]]"
         GOLIASH_BOOTSTRAP_FILE = "/local/bootstrap.yaml"
+        [[- if ne (var "database_url" .) "" ]]
+        GOLIASH_DATABASE_URL = "[[ var "database_url" . ]]"
+        [[- end ]]
         [[- if ne (var "public_url" .) "" ]]
         GOLIASH_PUBLIC_URL = "[[ var "public_url" . ]]"
         [[- else ]]
