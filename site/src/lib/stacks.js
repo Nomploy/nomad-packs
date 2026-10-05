@@ -1,6 +1,10 @@
 // Curated "common stacks" — batteries-included bundles of packs that work well
 // together on one node. Each is verified conflict-free (no overlapping host ports)
 // by the same facts.ports data the Stack Builder uses.
+//
+// A stack may optionally carry `profiles` — named variants that deploy a
+// different set of packs (e.g. a minimal vs. a full dev setup). `packs` stays
+// the default/recommended set; each profile is `{ id, name, packs: [...] }`.
 export const STACKS = [
   {
     id: "observability",
@@ -49,6 +53,14 @@ export const STACKS = [
     description:
       "A self-hosted dev backbone: Gitea for Git hosting, zot as an OCI container registry, Verdaccio as a private npm registry, and code-server for VS Code in the browser.",
     packs: ["gitea", "zot", "verdaccio", "code-server"],
+    profiles: [
+      { id: "minimal", name: "Minimal", packs: ["gitea", "code-server"] },
+      {
+        id: "full",
+        name: "Full",
+        packs: ["gitea", "zot", "verdaccio", "code-server"],
+      },
+    ],
   },
   {
     id: "home-automation",
