@@ -22,7 +22,8 @@ Then open the task logs: the first start logs a one-time sign-in link for `owner
 | Variable | Default | Description |
 | --- | --- | --- |
 | `port` | `8070` | UI, API and agent endpoint. |
-| `public_url` | `""` | Address people use. Empty = `http://<node-ip>:<port>`. |
+| `public_url` | `""` | Address people use. Empty = `http://<node-ip>:<port>`. Browser push needs an `https` origin here. |
+| `push_subject` | `""` | VAPID subject for browser push. Empty = `mailto:<owner_email>` (set automatically, so push works out of the box). |
 | `owner_email` | `admin@example.com` | First owner; a sign-in link is logged until they sign in. |
 | `environment` | `prod` | Environment the Nomad cluster belongs to. |
 | `watch_nomad` | `true` | Watch this Nomad cluster without an agent. |
@@ -53,6 +54,13 @@ Then open the task logs: the first start logs a one-time sign-in link for `owner
 - **ACLs.** With Nomad ACLs on, create a read-only token and pass it as `nomad_token`:
   `nomad acl policy apply goliash-read - <<<'namespace "*" { capabilities = ["read-job"] }'` then
   `nomad acl token create -name goliash -policy goliash-read`.
+- **Push notifications.** For browser push to work:
+  1. A VAPID subject must be set — this pack sets `GOLIASH_PUSH_SUBJECT` automatically to `mailto:<owner_email>`
+     (override with `push_subject`). An https `public_url` on its own is **not** enough; the subject is the piece
+     that was missing. Serve Goliash over **https** too (push needs a secure origin).
+  2. Press **"Notify this browser"** in the app **opened from the iPhone Home Screen** (installed as a PWA), not
+     in a normal Safari tab — in a plain Safari tab the subscription is never created.
+  3. The push channel also needs an **alert rule with events**. Without a rule only **"Send test"** fires.
 - **Mapping.** Add `goliash.service` to a job's `meta` to name its service; everything else waits in the Inbox.
 - **Backups.** Back up the volume: the database and `goliash.key`, which channel secrets need.
 - **TLS.** Plain HTTP; put it behind Traefik with TLS before exposing it.

@@ -11,3 +11,8 @@ Workloads labelled with goliash.service in job meta map to services by themselve
 [[ end ]]
 The SQLite database and the secret key live on the [[ var "data_volume" . ]] volume (/data) — back both up, and
 pin the job to that node with the constraints variable. Put it behind TLS before exposing it.
+
+Browser push: a VAPID subject is set automatically (GOLIASH_PUSH_SUBJECT=mailto:[[ var "owner_email" . ]]);
+override it with push_subject. Serve Goliash over https. On iPhone press "Notify this browser" in the app opened
+from the Home Screen (PWA), not a Safari tab. Push also needs an alert rule with events — without one only
+"Send test" fires.

@@ -101,6 +101,11 @@ job "[[ var "job_name" . ]]" {
         [[- else ]]
         GOLIASH_PUBLIC_URL = "http://$${attr.unique.network.ip-address}:[[ var "port" . ]]"
         [[- end ]]
+        [[- if ne (var "push_subject" .) "" ]]
+        GOLIASH_PUSH_SUBJECT = "[[ var "push_subject" . ]]"
+        [[- else ]]
+        GOLIASH_PUSH_SUBJECT = "mailto:[[ var "owner_email" . ]]"
+        [[- end ]]
         [[- if ne (var "secret_key" .) "" ]]
         GOLIASH_SECRET_KEY = "[[ var "secret_key" . ]]"
         [[- end ]]

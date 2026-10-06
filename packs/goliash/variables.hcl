@@ -35,7 +35,13 @@ variable "canary" {
 }
 
 variable "public_url" {
-  description = "The address people use, e.g. https://goliash.example.com. Sign-in links and cookies depend on it. Empty = http://<node-ip>:<port>."
+  description = "The address people use, e.g. https://goliash.example.com. Sign-in links and cookies depend on it. Empty = http://<node-ip>:<port>. Browser push needs this to be an https origin (the push subject is handled by push_subject)."
+  type        = string
+  default     = ""
+}
+
+variable "push_subject" {
+  description = "VAPID subject for browser push notifications, as a mailto: address (e.g. mailto:you@example.com). Required for push to work (an https public_url alone is not enough). Empty = mailto:<owner_email>, so push works out of the box."
   type        = string
   default     = ""
 }
