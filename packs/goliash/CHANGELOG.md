@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.11.0
+
+- Replace `metrics_port` (number) with `metrics_enabled` (bool). Goliash serves `/metrics` on its own service
+  port, which is **dynamic** when `canary > 0`, so a fixed port was wrong. The tag now emits
+  `nomploy.metrics.port=${NOMAD_PORT_http}` (Nomad interpolates the actual port), so scraping works on both the
+  static and the canary/dynamic-port paths.
+
 ## 0.10.0
 
 - Add `metrics_auth_profile`: names an OTel scrape auth profile (defined in nomploy → Observability) so the

@@ -53,13 +53,14 @@ job "[[ var "job_name" . ]]" {
       name     = "[[ var "job_name" . ]]"
       provider = "nomad"
       port     = "http"
-      [[- if gt (var "metrics_port" .) 0 ]]
+      [[- if var "metrics_enabled" . ]]
       # Opt-in metrics scraping: nomploy's deploy flips this service to the
       # Consul provider and preserves these tags, so the built-in OTel Collector
-      # discovers and scrapes /metrics on this port (with the named auth
-      # profile's credential, when set).
+      # discovers and scrapes /metrics. $${NOMAD_PORT_http} resolves to the
+      # service's actual port (dynamic when canary > 0), so the collector always
+      # hits the right port — with the named auth profile's credential, when set.
       tags = [
-        "nomploy.metrics.port=[[ var "metrics_port" . ]]",
+        "nomploy.metrics.port=$${NOMAD_PORT_http}",
         [[- if ne (var "metrics_auth_profile" .) "" ]]
         "nomploy.metrics.auth=[[ var "metrics_auth_profile" . ]]",
         [[- end ]]

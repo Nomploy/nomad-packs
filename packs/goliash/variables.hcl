@@ -34,14 +34,14 @@ variable "canary" {
   default     = 0
 }
 
-variable "metrics_port" {
-  description = "Port Goliash serves Prometheus /metrics on. When > 0, the service is tagged nomploy.metrics.port=<port> so nomploy's built-in OpenTelemetry Collector scrapes it. Goliash serves /metrics on the same port as the UI/API, so this normally equals `port`. 0 = not scraped."
-  type        = number
-  default     = 0
+variable "metrics_enabled" {
+  description = "Expose Goliash's Prometheus /metrics to nomploy's built-in OpenTelemetry Collector. Goliash serves /metrics on its own service port (which is dynamic when canary > 0), so the service is tagged nomploy.metrics.port=<actual port> via Nomad interpolation — no fixed port to set. false = not scraped."
+  type        = bool
+  default     = false
 }
 
 variable "metrics_auth_profile" {
-  description = "Name of an OTel scrape auth profile (defined in nomploy → Settings → Web Server → Observability, or the Observability sidebar) to scrape /metrics behind auth. Adds the tag nomploy.metrics.auth=<name> so the collector uses that profile's credential (Goliash's /metrics is Bearer). Empty = default (no-auth) scrape job. Requires metrics_port > 0."
+  description = "Name of an OTel scrape auth profile (defined in nomploy → Observability) to scrape /metrics behind auth. Adds the tag nomploy.metrics.auth=<name> so the collector uses that profile's credential. Goliash's /metrics needs a `glsh_api_` Bearer token, so create a Bearer profile with that token and name it here. Empty = default (no-auth) scrape job. Requires metrics_enabled = true."
   type        = string
   default     = ""
 }
