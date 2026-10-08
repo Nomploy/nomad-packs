@@ -40,6 +40,12 @@ variable "metrics_port" {
   default     = 0
 }
 
+variable "metrics_auth_profile" {
+  description = "Name of an OTel scrape auth profile (defined in nomploy → Settings → Web Server → Observability, or the Observability sidebar) to scrape /metrics behind auth. Adds the tag nomploy.metrics.auth=<name> so the collector uses that profile's credential (Goliash's /metrics is Bearer). Empty = default (no-auth) scrape job. Requires metrics_port > 0."
+  type        = string
+  default     = ""
+}
+
 variable "public_url" {
   description = "The address people use, e.g. https://goliash.example.com. Sign-in links and cookies depend on it. Empty = http://<node-ip>:<port>. Browser push needs this to be an https origin (the push subject is handled by push_subject)."
   type        = string

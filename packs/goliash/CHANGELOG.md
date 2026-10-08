@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.0
+
+- Add `metrics_auth_profile`: names an OTel scrape auth profile (defined in nomploy → Observability) so the
+  collector scrapes Goliash's Bearer-protected `/metrics` with that profile's credential. Adds the tag
+  `nomploy.metrics.auth=<name>`. Requires `metrics_port > 0`.
+
 ## 0.9.0
 
 - Add `metrics_port`: when > 0, tag the service `nomploy.metrics.port=<port>` so nomploy's built-in
