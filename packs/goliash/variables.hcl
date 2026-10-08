@@ -34,6 +34,12 @@ variable "canary" {
   default     = 0
 }
 
+variable "metrics_port" {
+  description = "Port Goliash serves Prometheus /metrics on. When > 0, the service is tagged nomploy.metrics.port=<port> so nomploy's built-in OpenTelemetry Collector scrapes it. Goliash serves /metrics on the same port as the UI/API, so this normally equals `port`. 0 = not scraped."
+  type        = number
+  default     = 0
+}
+
 variable "public_url" {
   description = "The address people use, e.g. https://goliash.example.com. Sign-in links and cookies depend on it. Empty = http://<node-ip>:<port>. Browser push needs this to be an https origin (the push subject is handled by push_subject)."
   type        = string

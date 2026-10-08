@@ -53,6 +53,12 @@ job "[[ var "job_name" . ]]" {
       name     = "[[ var "job_name" . ]]"
       provider = "nomad"
       port     = "http"
+      [[- if gt (var "metrics_port" .) 0 ]]
+      # Opt-in metrics scraping: nomploy's deploy flips this service to the
+      # Consul provider and preserves this tag, so the built-in OTel Collector
+      # discovers and scrapes /metrics on this port.
+      tags = ["nomploy.metrics.port=[[ var "metrics_port" . ]]"]
+      [[- end ]]
 
       check {
         type     = "http"
