@@ -117,6 +117,9 @@ job "[[ var "job_name" . ]]" {
         SITE_URL           = "[[ var "site_url" . ]]"
         ALLOW_SIGNUP       = "[[ var "allow_signup" . ]]"
         AUTH_PASSWORD      = "[[ var "password_auth" . ]]"
+        [[- range $k, $v := var "extra_env" . ]]
+        [[ $k ]] = "[[ $v ]]"
+        [[- end ]]
       }
 
       resources {
