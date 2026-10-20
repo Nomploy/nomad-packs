@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+- Add `bundled_db` (default true) and `database_url`. Set `bundled_db = false` to
+  connect to an external / managed PostgreSQL via `database_url` — the bundled
+  postgres and wait-db tasks and the db port are then omitted.
+
 ## 0.1.1
 
 - Fix: the `wait-db` prestart task now runs with `network_mode = "host"` so it

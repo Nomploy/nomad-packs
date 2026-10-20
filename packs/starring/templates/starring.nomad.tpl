@@ -19,9 +19,11 @@ job "[[ var "job_name" . ]]" {
       port "http" {
         static = [[ var "port" . ]]
       }
+      [[- if var "bundled_db" . ]]
       port "db" {
         static = [[ var "db_port" . ]]
       }
+      [[- end ]]
     }
 
     service {
@@ -37,6 +39,7 @@ job "[[ var "job_name" . ]]" {
       mode     = "delay"
     }
 
+    [[- if var "bundled_db" . ]]
     task "postgres" {
       driver = "docker"
 
@@ -92,6 +95,7 @@ job "[[ var "job_name" . ]]" {
         memory = 16
       }
     }
+    [[- end ]]
 
     task "starring" {
       driver = "docker"
@@ -107,7 +111,7 @@ job "[[ var "job_name" . ]]" {
         NODE_ENV           = "production"
         HOST               = "0.0.0.0"
         PORT               = "[[ var "port" . ]]"
-        DATABASE_URL       = "postgres://starring:[[ var "db_password" . ]]@127.0.0.1:[[ var "db_port" . ]]/starring"
+        DATABASE_URL       = "[[ if var "bundled_db" . ]]postgres://starring:[[ var "db_password" . ]]@127.0.0.1:[[ var "db_port" . ]]/starring[[ else ]][[ var "database_url" . ]][[ end ]]"
         BETTER_AUTH_URL    = "[[ if ne (var "better_auth_url" .) "" ]][[ var "better_auth_url" . ]][[ else ]]http://localhost:[[ var "port" . ]][[ end ]]"
         BETTER_AUTH_SECRET = "[[ var "better_auth_secret" . ]]"
         SITE_URL           = "[[ var "site_url" . ]]"
