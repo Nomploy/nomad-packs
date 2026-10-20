@@ -23,9 +23,21 @@ variable "image" {
 }
 
 variable "postgres_image" {
-  description = "The PostgreSQL image for the bundled database (Starring targets PostgreSQL 17)."
+  description = "The PostgreSQL image for the bundled database (Starring targets PostgreSQL 17). Only used when bundled_db = true."
   type        = string
   default     = "postgres:17-alpine"
+}
+
+variable "bundled_db" {
+  description = "Run a bundled PostgreSQL inside this job (true), or connect to an external / managed database via database_url (false). With false, no postgres/wait-db tasks and no db port are generated."
+  type        = bool
+  default     = true
+}
+
+variable "database_url" {
+  description = "External PostgreSQL connection string, used when bundled_db = false. e.g. postgres://user:pass@host:5432/starring."
+  type        = string
+  default     = ""
 }
 
 variable "port" {

@@ -10,7 +10,9 @@ persistent volume. The app task is gated on the database accepting connections
 | Variable | Default | Description |
 |---|---|---|
 | `image` | `ghcr.io/pipozzz/starring:latest` | App image (pin a version in production). |
-| `postgres_image` | `postgres:17-alpine` | Bundled PostgreSQL image. |
+| `postgres_image` | `postgres:17-alpine` | Bundled PostgreSQL image (when `bundled_db`). |
+| `bundled_db` | `true` | Run a bundled PostgreSQL. Set `false` to use an external / managed DB via `database_url`. |
+| `database_url` | `""` | External PostgreSQL connection string (when `bundled_db = false`). |
 | `port` | `4321` | Host port for the web app. |
 | `db_port` | `5432` | Host port for the co-located PostgreSQL. |
 | `db_password` | `starring` | **Change this.** PostgreSQL password. |
