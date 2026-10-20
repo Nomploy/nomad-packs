@@ -81,9 +81,10 @@ job "[[ var "job_name" . ]]" {
       }
 
       config {
-        image   = "busybox:1.37"
-        command = "sh"
-        args    = ["-c", "for i in $(seq 1 180); do nc -w 2 127.0.0.1 [[ var "db_port" . ]] </dev/null >/dev/null 2>&1 && exit 0; echo waiting for postgres; sleep 1; done; echo 'timed out waiting for postgres'; exit 1"]
+        image        = "busybox:1.37"
+        network_mode = "host"
+        command      = "sh"
+        args         = ["-c", "for i in $(seq 1 180); do nc -w 2 127.0.0.1 [[ var "db_port" . ]] </dev/null >/dev/null 2>&1 && exit 0; echo waiting for postgres; sleep 1; done; echo 'timed out waiting for postgres'; exit 1"]
       }
 
       resources {
