@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+- Add `extra_env` (map of name → value) merged into the app task's environment,
+  for SMTP (SMTP_HOST/PORT/USER/PASS/FROM) and any other settings without a
+  dedicated variable.
+
 ## 0.1.2
 
 - Add `bundled_db` (default true) and `database_url`. Set `bundled_db = false` to

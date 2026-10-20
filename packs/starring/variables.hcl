@@ -40,6 +40,12 @@ variable "database_url" {
   default     = ""
 }
 
+variable "extra_env" {
+  description = "Extra environment variables for the app task, as a name → value map. Use for SMTP (e.g. SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_FROM) and any other app settings. Only add keys NOT already set by a dedicated variable above (duplicate env keys are an HCL error)."
+  type        = map(string)
+  default     = {}
+}
+
 variable "port" {
   description = "Host port for the Starring web app (PORT)."
   type        = number
