@@ -21,25 +21,25 @@ variable "datacenters" {
 variable "tls_image" {
   description = "osctrl-tls image (the osquery TLS endpoint). Pin a tag in production."
   type        = string
-  default     = "jmpsec/osctrl-tls:0.6.2"
+  default     = "jmpsec/osctrl-tls:latest"
 }
 
 variable "api_image" {
   description = "osctrl-api image (the REST/JWT API the admin UI talks to). Pin a tag in production."
   type        = string
-  default     = "jmpsec/osctrl-api:0.6.2"
+  default     = "jmpsec/osctrl-api:latest"
 }
 
 variable "frontend_image" {
   description = "osctrl-frontend image (nginx serving the React admin SPA + /api proxy). Pin a tag in production."
   type        = string
-  default     = "jmpsec/osctrl-frontend:0.6.2"
+  default     = "jmpsec/osctrl-frontend:latest"
 }
 
 variable "cli_image" {
   description = "osctrl-cli image, used by the init task to create the environment and admin user. Pin a tag in production."
   type        = string
-  default     = "jmpsec/osctrl-cli:0.6.2"
+  default     = "jmpsec/osctrl-cli:latest"
 }
 
 variable "postgres_image" {
