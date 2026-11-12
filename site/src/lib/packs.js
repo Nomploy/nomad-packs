@@ -128,7 +128,7 @@ const CATEGORIES = {
   dumbassets: "Productivity", ryot: "Productivity", dawarich: "Productivity",
   ntfy: "Notifications", gotify: "Notifications", apprise: "Notifications", "bark-server": "Notifications",
   backup: "Backup", "rest-server": "Backup", backrest: "Backup", duplicati: "Backup",
-  fleet: "Device management", portainer: "Device management", arcane: "Device management",
+  fleet: "Device management", portainer: "Device management", arcane: "Device management", osctrl: "Device management",
   webtop: "Dev tools",
 };
 
@@ -748,6 +748,7 @@ const GITHUB_REPO = {
   gitea: "go-gitea/gitea", zot: "project-zot/zot", adminer: "vrana/adminer",
   n8n: "n8n-io/n8n", metabase: "metabase/metabase", "uptime-kuma": "louislam/uptime-kuma",
   fleet: "fleetdm/fleet", backup: "restic/restic", meilisearch: "meilisearch/meilisearch",
+  osctrl: "jmpsec/osctrl",
   umami: "umami-software/umami", ntfy: "binwiederhier/ntfy", dozzle: "amir20/dozzle",
   "it-tools": "CorentinTh/it-tools", memcached: "memcached/memcached", "code-server": "coder/code-server",
   excalidraw: "excalidraw/excalidraw", cyberchef: "gchq/CyberChef", plausible: "plausible/analytics",
