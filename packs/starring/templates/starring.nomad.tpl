@@ -14,14 +14,21 @@ job "[[ var "job_name" . ]]" {
   group "[[ var "job_name" . ]]" {
     count = 1
 
+    # Bridge networking with dynamically-assigned host ports: two allocs of this
+    # group can run on the SAME node at once (canary / rolling update), because
+    # Nomad picks a free host port per alloc instead of pinning a fixed one. A
+    # static host port made the canary unschedulable (port already held by the
+    # running alloc) -> rollout never completed -> deploys never re-pulled the
+    # image. Tasks in a group share one network namespace, so the app still
+    # reaches the bundled DB over 127.0.0.1.
     network {
-      mode = "host"
+      mode = "bridge"
       port "http" {
-        static = [[ var "port" . ]]
+        to = [[ var "port" . ]]
       }
       [[- if var "bundled_db" . ]]
       port "db" {
-        static = [[ var "db_port" . ]]
+        to = [[ var "db_port" . ]]
       }
       [[- end ]]
     }
@@ -49,9 +56,8 @@ job "[[ var "job_name" . ]]" {
       }
 
       config {
-        image        = "[[ var "postgres_image" . ]]"
-        network_mode = "host"
-        ports        = ["db"]
+        image = "[[ var "postgres_image" . ]]"
+        ports = ["db"]
 
         mount {
           type   = "volume"
@@ -84,9 +90,8 @@ job "[[ var "job_name" . ]]" {
       }
 
       config {
-        image        = "busybox:1.37"
-        network_mode = "host"
-        command      = "sh"
+        image   = "busybox:1.37"
+        command = "sh"
         args         = ["-c", "for i in $(seq 1 180); do nc -w 2 127.0.0.1 [[ var "db_port" . ]] </dev/null >/dev/null 2>&1 && exit 0; echo waiting for postgres; sleep 1; done; echo 'timed out waiting for postgres'; exit 1"]
       }
 
@@ -101,9 +106,8 @@ job "[[ var "job_name" . ]]" {
       driver = "docker"
 
       config {
-        image        = "[[ var "image" . ]]"
-        network_mode = "host"
-        ports        = ["http"]
+        image = "[[ var "image" . ]]"
+        ports = ["http"]
       }
 
       env {
